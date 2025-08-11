@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Copy, Check, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import PostcardPreview from "@/components/PostcardPreview";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 // Simple SEO helpers for SPA
 function useSEO({
@@ -191,13 +192,22 @@ const Index = () => {
                               Write the default message for your thank you postcards.
                             </DialogDescription>
                           </DialogHeader>
-                          <div className="space-y-3">
-                            <Label htmlFor="postcard-message">Message</Label>
-                            <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
-                            <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
-                              Save Message
-                            </Button>
-                          </div>
+                          <Tabs defaultValue="front" className="mt-2">
+                            <TabsList>
+                              <TabsTrigger value="front">Front</TabsTrigger>
+                              <TabsTrigger value="back">Back</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="front" className="space-y-3 pt-4">
+                              <p className="text-sm text-muted-foreground">Front design options coming soon.</p>
+                            </TabsContent>
+                            <TabsContent value="back" className="space-y-3 pt-4">
+                              <Label htmlFor="postcard-message">Message</Label>
+                              <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+                              <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
+                                Save Message
+                              </Button>
+                            </TabsContent>
+                          </Tabs>
                         </DialogContent>
                       </Dialog>
                     )}
