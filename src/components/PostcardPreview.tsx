@@ -20,8 +20,8 @@ function FrontCanvas() {
 
   return (
     <div
-       className="relative"
-       style={{ width: bleedW, height: bleedH, backgroundColor: "hsl(0, 0%, 100%)" }}
+      className="relative"
+      style={{ width: bleedW, height: bleedH }}
       aria-label="Front postcard technical preview"
     >
       {/* Corner label */}
@@ -72,7 +72,7 @@ function BackCanvas() {
   return (
     <div
       className="relative"
-      style={{ width: bleedW, height: bleedH, backgroundColor: "hsl(0, 0%, 100%)" }}
+      style={{ width: bleedW, height: bleedH }}
       aria-label="Back postcard technical preview"
     >
       {/* Corner label */}
@@ -92,7 +92,7 @@ function BackCanvas() {
 
       {/* Mailing area (bottom-right) */}
       <div
-        className="absolute rounded-sm bg-transparent p-2 text-foreground/80 relative"
+        className="absolute rounded-sm bg-accent/40 p-2 text-foreground/80 relative"
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
 >
         {/* Committee details (top-left, smaller) */}
