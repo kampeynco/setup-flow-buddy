@@ -20,8 +20,8 @@ function FrontCanvas() {
 
   return (
     <div
-      className="relative bg-background"
-      style={{ width: bleedW, height: bleedH }}
+       className="relative"
+       style={{ width: bleedW, height: bleedH, backgroundColor: "hsl(0, 0%, 100%)" }}
       aria-label="Front postcard technical preview"
     >
       {/* Corner label */}
@@ -71,8 +71,8 @@ function BackCanvas() {
 
   return (
     <div
-      className="relative bg-background"
-      style={{ width: bleedW, height: bleedH }}
+      className="relative"
+      style={{ width: bleedW, height: bleedH, backgroundColor: "hsl(0, 0%, 100%)" }}
       aria-label="Back postcard technical preview"
     >
       {/* Corner label */}
