@@ -122,10 +122,10 @@ export default function Home() {
             <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link to="/app" className="hidden sm:inline-block">
+            <Link to="/dashboard" className="hidden sm:inline-block">
               <Button variant="ghost" className={scrolled ? "" : "text-primary-foreground"}>Login</Button>
             </Link>
-            <Link to="/app">
+            <Link to="/dashboard">
               <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Try for Free</Button>
             </Link>
           </div>
@@ -155,7 +155,7 @@ export default function Home() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link to="/app"><Button size="lg">Try for Free Today</Button></Link>
+                <Link to="/dashboard"><Button size="lg">Try for Free Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function Home() {
                   <li>• Standard class mail (up to 10 business days)</li>
                   <li>• All core features</li>
                 </ul>
-                <Link to="/app"><Button className="w-full">Choose Free</Button></Link>
+                <Link to="/dashboard"><Button className="w-full">Choose Free</Button></Link>
               </CardContent>
             </Card>
             <Card className="border-primary">
@@ -257,7 +257,7 @@ export default function Home() {
                   <li>• First class mail (~3 business days)</li>
                   <li>• Priority support</li>
                 </ul>
-                <Link to="/app"><Button className="w-full">Choose Pro</Button></Link>
+                <Link to="/dashboard"><Button className="w-full">Choose Pro</Button></Link>
               </CardContent>
             </Card>
           </div>
@@ -294,7 +294,7 @@ export default function Home() {
           <div>© {new Date().getFullYear()} Thank Donors</div>
           <div className="flex items-center gap-4">
             <a href="#pricing" className="hover:opacity-80">Pricing</a>
-            <Link to="/app" className="hover:opacity-80">Open dashboard</Link>
+            <Link to="/dashboard" className="hover:opacity-80">Open dashboard</Link>
           </div>
         </div>
       </footer>
