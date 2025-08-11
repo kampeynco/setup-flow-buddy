@@ -207,7 +207,7 @@ const Index = () => {
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[960px]">
+                        <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
                           <DialogHeader className="sr-only">
                             <DialogTitle>Preview Thank You Postcard</DialogTitle>
                             <DialogDescription>6×9 template preview</DialogDescription>
