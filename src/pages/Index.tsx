@@ -102,7 +102,7 @@ const Index = () => {
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between bg-slate-50">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
@@ -128,7 +128,7 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 grid gap-8 md:grid-cols-12">
-        <aside className="md:col-span-5 lg:col-span-4">
+        <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-[#e4e7eb]">
           <nav aria-label="Setup steps" className="bg-transparent">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
               {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
@@ -168,10 +168,6 @@ const Index = () => {
                             <DialogDescription>This will be used as the return address for undeliverable postcards.</DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 md:grid-cols-2">
-                            <div className="space-y-2 md:col-span-2">
-                              <Label>Legal Committee Name</Label>
-                              <Input placeholder="Friends of Jane Doe" />
-                            </div>
                             <div className="space-y-2">
                               <Label>Street</Label>
                               <Input placeholder="123 Main St" />
