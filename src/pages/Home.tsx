@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,17 +101,10 @@ export default function Home() {
     },
   });
 
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card" : "bg-hero"}`}>
+      <header className="sticky top-0 z-50 bg-primary border-b">
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
           <Link to="/" className="font-semibold">Thank Donors</Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
