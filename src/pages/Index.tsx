@@ -101,7 +101,7 @@ const Index = () => {
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+      <header className="sticky top-0 z-10 bg-white border-b">
         <div className="mx-auto max-w-[1024px] px-4 py-3 flex items-center justify-between bg-white">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
