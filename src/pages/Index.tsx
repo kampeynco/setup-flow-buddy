@@ -184,8 +184,8 @@ const Index = () => {
     reader.readAsDataURL(file);
   };
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-50 bg-background border-b">
-        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-background">
+      <header className="sticky top-0 z-50 bg-card border-b">
+        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-card">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
