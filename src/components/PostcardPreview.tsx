@@ -102,7 +102,7 @@ function BackCanvas() {
           <div>City, ST 12345</div>
         </div>
         {/* Mailing barcode (above donor details, left-aligned, no overlap) */}
-        <div className="absolute left-2 right-12 bottom-12">
+        <div className="absolute left-2 right-12 top-12">
           <img
             src="/lovable-uploads/7d41e453-11de-4cbc-8330-837205bd314a.png"
             alt="Mailing barcode example"
@@ -119,7 +119,7 @@ function BackCanvas() {
         </div>
         {/* Postage indicia (top-right inside mailing area) */}
         <div
-          className="absolute top-2 right-2 border border-foreground rounded-sm bg-transparent px-2 py-1 text-[8px] leading-none text-foreground/80 flex items-center justify-center"
+          className="absolute top-2 right-2 border border-foreground rounded-sm bg-transparent px-2 py-1 text-[7px] leading-none text-foreground/80 flex items-center justify-center text-center"
           style={{ width: 0.9375 * INCH_PX, height: 0.75 * INCH_PX }}
         >
           Postage Indicia
