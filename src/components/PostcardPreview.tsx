@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Slider } from "@/components/ui/slider";
+
 
 
 
@@ -134,7 +134,7 @@ function BackCanvas() {
 
 export default function PostcardPreview() {
   const [tab, setTab] = useState<"front" | "back">("front");
-  const [zoom, setZoom] = useState(1); // 1x = 100%
+  const zoom = 2; // 2x = 200%
 
   const scale = useMemo(() => `scale(${zoom})`, [zoom]);
 
@@ -150,19 +150,6 @@ export default function PostcardPreview() {
           </TabsList>
         </Tabs>
 
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground w-14">Zoom</span>
-          <div className="w-40">
-            <Slider
-              value={[zoom * 100]}
-              min={50}
-              max={200}
-              step={5}
-              onValueChange={(v) => setZoom((v?.[0] ?? 100) / 100)}
-            />
-          </div>
-          <span className="text-sm tabular-nums w-12 text-right">{Math.round(zoom * 100)}%</span>
-        </div>
       </div>
 
       {/* Preview area */}
