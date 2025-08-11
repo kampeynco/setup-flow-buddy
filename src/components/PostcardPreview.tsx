@@ -101,8 +101,8 @@ function BackCanvas() {
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
-        {/* Donor details (bottom-center, left-aligned, no wrap) */}
-        <div className="absolute left-1/2 bottom-3 -translate-x-1/2 text-left text-[9px] leading-none whitespace-nowrap">
+        {/* Donor details (bottom-left, left-aligned, no wrap) */}
+        <div className="absolute left-2 bottom-3 text-left text-[9px] leading-none whitespace-nowrap">
           <div>
             <div>Donor Full Name</div>
             <div>456 Donor Avenue</div>
@@ -112,7 +112,7 @@ function BackCanvas() {
         {/* Postage indicia (top-right inside mailing area) */}
         <div
           className="absolute top-2 right-2 border border-foreground rounded-sm bg-background/60 px-2 py-1 text-[8px] leading-none text-foreground/80 flex items-center justify-center"
-          style={{ width: 1.25 * INCH_PX, height: 1 * INCH_PX }}
+          style={{ width: 0.9375 * INCH_PX, height: 0.75 * INCH_PX }}
         >
           Postage Indicia
         </div>
