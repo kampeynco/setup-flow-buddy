@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -72,7 +73,8 @@ function CopyField({
 }
 const steps = [
   { id: 1, title: "Add Committee Details", cta: "Add Details", note: undefined },
-  { id: 2, title: "Preview Thank You Card", cta: "Preview Card", note: undefined }
+  { id: 2, title: "Add Postcard Message", cta: "Add Message", note: undefined },
+  { id: 3, title: "Preview Thank You Card", cta: "Preview Card", note: undefined }
 ];
 const Index = () => {
   useSEO({
@@ -177,6 +179,29 @@ const Index = () => {
                     )}
 
                     {s.id === 2 && (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm">{s.cta}</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Add Postcard Message</DialogTitle>
+                            <DialogDescription>
+                              Write the default message for your thank you postcards.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-3">
+                            <Label htmlFor="postcard-message">Message</Label>
+                            <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+                            <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
+                              Save Message
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    )}
+
+                    {s.id === 3 && (
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
