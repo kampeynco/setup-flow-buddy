@@ -102,11 +102,11 @@ function BackCanvas() {
           <div>City, ST 12345</div>
         </div>
         {/* Mailing barcode (above donor details, left-aligned, no overlap) */}
-        <div className="absolute left-2 right-12 top-10">
+        <div className="absolute left-2 right-2 top-10">
           <img
             src="/lovable-uploads/7d41e453-11de-4cbc-8330-837205bd314a.png"
             alt="Mailing barcode example"
-            className="h-[20px] w-auto object-contain opacity-90"
+            className="w-full h-auto object-contain opacity-90"
           />
         </div>
         {/* Donor details (bottom-left, left-aligned, no wrap) */}
