@@ -445,10 +445,11 @@ const Index = () => {
                                         <div className="rounded-md border bg-card p-3">
                                           {signatureMode === "type" ? (
                                             <div
-                                              className="max-w-full truncate"
+                                              className="max-w-full truncate flex items-center h-14"
                                               style={{
                                                 fontFamily: typedFont,
                                                 fontSize: typedSize,
+                                                lineHeight: 1,
                                               }}
                                             >
                                               {typedSignature}
