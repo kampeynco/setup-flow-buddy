@@ -208,7 +208,7 @@ const Index = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button className="bg-card text-primary hover:bg-card/90">Upgrade</Button>
+          <Button className="bg-card text-primary hover:bg-card/90">Get Free Month</Button>
         </div>
       </header>
 
