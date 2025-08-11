@@ -35,7 +35,7 @@ function FrontCanvas() {
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm bg-primary/20"
+        className="absolute rounded-sm bg-card"
         style={{ inset: safeInset }}
       />
 
