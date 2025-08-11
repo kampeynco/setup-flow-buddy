@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Copy, Check, Eye, EyeOff, ChevronDown } from "lucide-react";
+import { Copy, Check, Eye, EyeOff, ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import PostcardPreview from "@/components/PostcardPreview";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -103,10 +103,11 @@ const Index = () => {
   const [typedSize, setTypedSize] = useState(32);
   const [uploadedSignature, setUploadedSignature] = useState<string | null>(null);
   const [signaturePreview, setSignaturePreview] = useState<string | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const CANVAS_W = 480;
   const CANVAS_H = 160;
-
   const initCanvas = () => {
     const c = drawCanvasRef.current;
     if (!c) return;
@@ -173,6 +174,7 @@ const Index = () => {
   const handleUpload = (e: any) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploadedFileName(file.name);
     const reader = new FileReader();
     reader.onload = () => {
       const data = reader.result as string;
@@ -323,6 +325,8 @@ const Index = () => {
                                               setSignatureMode(next);
                                               setSignaturePreview(null);
                                               setUploadedSignature(null);
+                                              setUploadedFileName(null);
+                                              if (uploadInputRef.current) uploadInputRef.current.value = "";
                                               if (next !== "draw") {
                                                 clearCanvas();
                                               }
@@ -395,14 +399,46 @@ const Index = () => {
 
                                         {signatureMode === "upload" && (
                                           <div className="space-y-3">
-                                            <div className="flex items-center gap-4">
+                                            <div className="flex items-center gap-4 min-w-0">
                                               <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
-                                              <Input id="signature-upload" type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="max-w-xs" />
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                              <Button type="button" variant="secondary" onClick={() => { setUploadedSignature(null); setSignaturePreview(null); }}>
-                                                Remove upload
-                                              </Button>
+                                              <div className="flex items-center gap-2 min-w-0">
+                                                <Input
+                                                  id="signature-upload"
+                                                  type="file"
+                                                  accept="image/png,image/jpeg"
+                                                  onChange={handleUpload}
+                                                  className="max-w-xs"
+                                                  ref={uploadInputRef}
+                                                />
+                                                {uploadedFileName && (
+                                                  <div className="flex items-center gap-1 min-w-0">
+                                                    <span
+                                                      className="truncate text-sm text-muted-foreground max-w-[200px]"
+                                                      title={uploadedFileName}
+                                                    >
+                                                      {uploadedFileName}
+                                                    </span>
+                                                    <Button
+                                                      type="button"
+                                                      variant="ghost"
+                                                      size="icon"
+                                                      aria-label="Remove uploaded file"
+                                                      title="Remove uploaded file"
+                                                      onClick={() => {
+                                                        setUploadedSignature(null);
+                                                        setSignaturePreview(null);
+                                                        setUploadedFileName(null);
+                                                        if (uploadInputRef.current) {
+                                                          uploadInputRef.current.value = "";
+                                                          uploadInputRef.current.focus();
+                                                        }
+                                                      }}
+                                                    >
+                                                      <X className="h-4 w-4" />
+                                                    </Button>
+                                                  </div>
+                                                )}
+                                              </div>
                                             </div>
                                           </div>
                                         )}
@@ -423,7 +459,7 @@ const Index = () => {
                                               {typedSignature}
                                             </div>
                                           ) : signaturePreview ? (
-                                            <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
+                                            <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
                                           ) : (
                                             <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
                                           )}
