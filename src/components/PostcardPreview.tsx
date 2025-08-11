@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
 
 
-import { toast } from "sonner";
+
+
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
 
@@ -169,11 +169,6 @@ export default function PostcardPreview() {
         
       </div>
 
-      {/* Actions */}
-      <div className="mt-4 flex items-center justify-between">
-        <div className="text-xs text-muted-foreground">6×9 in postcard technical template</div>
-        <Button onClick={() => toast("Generating PDF template… (demo)")}>Generate PDF Template</Button>
-      </div>
     </div>
   );
 }
