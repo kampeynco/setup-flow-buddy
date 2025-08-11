@@ -245,7 +245,7 @@ const Index = () => {
                   {showSecrets ? <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span> : <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>}
                 </Button>
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm text-muted-foreground text-center">
                 Our system will receive ActBlue donation data from your account within 48 hours. If you have alerts enabled, we will send email alerts when postcards are sent.
               </p>
             </CardContent>
