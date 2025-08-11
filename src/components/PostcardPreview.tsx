@@ -139,7 +139,7 @@ export default function PostcardPreview() {
   const scale = useMemo(() => `scale(${zoom})`, [zoom]);
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col h-full">
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
@@ -166,7 +166,7 @@ export default function PostcardPreview() {
       </div>
 
       {/* Preview area */}
-      <div className="mt-4 rounded-md border bg-muted p-4 min-h-[60vh]">
+      <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
         <div className="flex items-center justify-center overflow-auto">
           <div
             className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
