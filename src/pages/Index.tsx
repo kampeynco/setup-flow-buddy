@@ -128,7 +128,7 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 grid gap-8 md:grid-cols-12">
-        <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-[#e4e7eb]">
+        <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-transparent">
           <nav aria-label="Setup steps" className="bg-[#f7fafc]">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
               {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
@@ -237,13 +237,11 @@ const Index = () => {
                 </ol>
               </article>
 
-              {showSecrets && (
-                <div className="grid gap-4">
-                  <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" />
-                  <CopyField id="username" label="Username" value={username} />
-                  <CopyField id="password" label="Password" value={password} type="password" />
-                </div>
-              )}
+              <div className="grid gap-4">
+                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" hidden={!showSecrets} />
+                <CopyField id="username" label="Username" value={username} hidden={!showSecrets} />
+                <CopyField id="password" label="Password" value={password} type="password" hidden={!showSecrets} />
+              </div>
 
               <div className="flex items-center gap-3">
                 <Button onClick={() => setShowSecrets(s => !s)}>
