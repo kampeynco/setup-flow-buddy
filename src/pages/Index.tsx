@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Copy, Check, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
+import PostcardPreview from "@/components/PostcardPreview";
 
 // Simple SEO helpers for SPA
 function useSEO({
@@ -206,19 +207,12 @@ const Index = () => {
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
+                        <DialogContent className="sm:max-w-[960px]">
+                          <DialogHeader className="sr-only">
                             <DialogTitle>Preview Thank You Postcard</DialogTitle>
-                            <DialogDescription>
-                              A quick preview of your postcard layout. (Demo)
-                            </DialogDescription>
+                            <DialogDescription>6×9 template preview</DialogDescription>
                           </DialogHeader>
-                          <div className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
-                            Postcard preview coming soon.
-                          </div>
-                          <Button onClick={() => toast.success("Preview generated (demo)")}>
-                            Generate Preview
-                          </Button>
+                          <PostcardPreview />
                         </DialogContent>
                       </Dialog>
                     )}
