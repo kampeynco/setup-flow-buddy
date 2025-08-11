@@ -199,7 +199,7 @@ const Index = () => {
                                 <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
                               </div>
                               <div className="flex items-center gap-4">
-                                <Label htmlFor="front-bg-color" className="w-48">Front background color (hex)</Label>
+                                <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
                                 <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
                               </div>
                             </TabsContent>
