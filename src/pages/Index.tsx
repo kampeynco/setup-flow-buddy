@@ -168,6 +168,10 @@ const Index = () => {
                             <DialogDescription>This will be used as the return address for undeliverable postcards.</DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2 md:col-span-2">
+                              <Label>Legal Committee Name</Label>
+                              <Input placeholder="Friends of Jane Doe" />
+                            </div>
                             <div className="space-y-2">
                               <Label>Street</Label>
                               <Input placeholder="123 Main St" />
