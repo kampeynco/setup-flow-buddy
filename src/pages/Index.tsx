@@ -246,7 +246,7 @@ const Index = () => {
                 </Button>
               </div>
               <p className="mt-2 text-sm text-muted-foreground text-center">
-                Our system will receive ActBlue donation data from your account within 48 hours. If you have alerts enabled, we will send email alerts when postcards are sent.
+                Our system will receive your ActBlue donation data within 48 hours. If you have alerts enabled, we will send email alerts when postcards are sent.
               </p>
             </CardContent>
           </Card>
