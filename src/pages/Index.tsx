@@ -284,7 +284,7 @@ const Index = () => {
                                   Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                                 </DialogDescription>
                               </DialogHeader>
-                              <Tabs defaultValue="front" className="mt-2">
+                              <Tabs defaultValue="front" className="mt-2 pb-24">
                                 <TabsList>
                                   <TabsTrigger value="front">Front</TabsTrigger>
                                   <TabsTrigger value="back">Back</TabsTrigger>
@@ -468,7 +468,7 @@ const Index = () => {
                                   </div>
                                 </TabsContent>
                               </Tabs>
-                              <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
+                              <div className="sticky bottom-0 -mx-6 -mb-6 border-t border-border bg-card px-6 py-3 flex items-center justify-end z-50">
                                 <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
                               </div>
                             </DialogContent>
