@@ -127,8 +127,8 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1024px] px-4 py-8 grid gap-12 md:grid-cols-12">
-        <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-transparent">
+      <main className="mx-auto max-w-[1024px] px-4 py-8 grid gap-12 md:grid-cols-[488px_1fr]">
+        <aside className="bg-[s] bg-transparent">
           <nav aria-label="Setup steps" className="bg-[#f7fafc]">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
               {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
@@ -218,7 +218,7 @@ const Index = () => {
           </nav>
         </aside>
 
-        <section id="actblue" className="md:col-span-7 lg:col-span-8">
+        <section id="actblue">
           <Card className="shadow-sm w-full md:w-[484px] md:min-h-[454px]">
             <CardHeader>
               <h1 className="text-2xl font-semibold">Add ActBlue account</h1>
