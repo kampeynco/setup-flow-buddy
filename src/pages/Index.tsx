@@ -275,7 +275,7 @@ const Index = () => {
                             <DialogTrigger asChild>
                               <Button size="sm">{s.cta}</Button>
                             </DialogTrigger>
-                            <DialogContent>
+                        <DialogContent className="max-h-[85vh] overflow-auto">
                               <DialogHeader>
                                 <DialogTitle>Design Postcard</DialogTitle>
                                 <DialogDescription>
@@ -355,14 +355,14 @@ const Index = () => {
 
                                         {signatureMode === "type" && (
                                           <div className="space-y-3">
-                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label htmlFor="typed-signature" className="sm:w-48">Signature text</Label>
-                                              <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="flex-1" />
+                                            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label htmlFor="typed-signature" className="sm:w-48 shrink-0">Signature text</Label>
+                                              <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="w-full sm:flex-1 min-w-0 max-w-full" />
                                             </div>
-                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label className="sm:w-48">Font</Label>
+                                             <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label className="sm:w-48 shrink-0">Font</Label>
                                               <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
-                                                <SelectTrigger className="w-[200px]"><SelectValue placeholder="Choose font" /></SelectTrigger>
+                                                <SelectTrigger className="w-full sm:w-[200px] min-w-0"><SelectValue placeholder="Choose font" /></SelectTrigger>
                                                 <SelectContent>
                                                   <SelectItem value="cursive">Cursive</SelectItem>
                                                   <SelectItem value="serif">Serif</SelectItem>
@@ -370,9 +370,9 @@ const Index = () => {
                                                 </SelectContent>
                                               </Select>
                                             </div>
-                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label className="sm:w-48">Size</Label>
-                                              <div className="sm:w-[240px]">
+                                             <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label className="sm:w-48 shrink-0">Size</Label>
+                                              <div className="w-full sm:w=[240px] min-w-0">
                                                 <Slider value={[typedSize]} min={16} max={96} step={1} onValueChange={(v) => setTypedSize(v[0])} />
                                               </div>
                                               <span className="text-sm text-muted-foreground">{typedSize}px</span>
