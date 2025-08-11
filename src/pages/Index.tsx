@@ -184,11 +184,11 @@ const Index = () => {
     reader.readAsDataURL(file);
   };
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-50 bg-card border-b">
-        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-card">
+      <header className="sticky top-0 z-50 bg-primary border-b">
+        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 bg-card text-primary hover:bg-card/90">
                 <Avatar className="h-6 w-6">
                   <AvatarFallback>L</AvatarFallback>
                 </Avatar>
@@ -206,7 +206,7 @@ const Index = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button>Send Thanks</Button>
+          <Button className="bg-card text-primary hover:bg-card/90">Send Thanks</Button>
         </div>
       </header>
 
