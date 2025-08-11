@@ -82,12 +82,7 @@ const steps = [{
   note: undefined
 }, {
   id: 3,
-  title: "Add ActBlue account",
-  cta: "Open",
-  note: undefined
-}, {
-  id: 4,
-  title: "Preview Thank You Postcard",
+  title: "Preview Postcard",
   cta: "Preview",
   note: undefined
 }];
@@ -197,11 +192,7 @@ const Index = () => {
                         </DialogContent>
                       </Dialog>}
 
-                    {s.id === 3 && <a href="#actblue" className="inline-flex">
-                        
-                      </a>}
-
-                    {s.id === 4 && <Dialog>
+                    {s.id === 3 && <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
