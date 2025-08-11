@@ -35,7 +35,7 @@ function FrontCanvas() {
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm bg-card"
+        className="absolute rounded-sm border border-background/80 bg-card"
         style={{ inset: safeInset }}
       />
 
@@ -86,7 +86,7 @@ function BackCanvas() {
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm bg-card"
+        className="absolute rounded-sm border border-background/80 bg-card"
         style={{ inset: safeInset }}
       />
 
