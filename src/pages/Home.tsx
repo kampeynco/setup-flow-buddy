@@ -92,7 +92,7 @@ export default function Home() {
               name: 'How fast is delivery?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Free uses Standard Class (up to 10 business days). Pro uses First Class (about 3 business days).'
+                text: 'Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).'
               }
             }
           ]
@@ -282,7 +282,7 @@ export default function Home() {
             <AccordionItem value="item-3">
               <AccordionTrigger>How fast is delivery?</AccordionTrigger>
               <AccordionContent>
-                Free uses Standard Class (up to 10 business days). Pro uses First Class (~3 business days).
+                Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
               </AccordionContent>
             </AccordionItem>
           </Accordion>
