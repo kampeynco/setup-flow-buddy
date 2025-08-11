@@ -70,22 +70,10 @@ function CopyField({
       </div>
     </div>;
 }
-const steps = [{
-  id: 1,
-  title: "Upload Committee Logo",
-  cta: "Upload Logo",
-  note: undefined
-}, {
-  id: 2,
-  title: "Add Committee Address",
-  cta: "Add Address",
-  note: undefined
-}, {
-  id: 3,
-  title: "Preview Thank You Card",
-  cta: "Preview Card",
-  note: undefined
-}];
+const steps = [
+  { id: 1, title: "Add Committee Details", cta: "Add Details", note: undefined },
+  { id: 2, title: "Preview Thank You Card", cta: "Preview Card", note: undefined }
+];
 const Index = () => {
   useSEO({
     title: "Setup Dashboard – Add ActBlue Account",
@@ -137,76 +125,78 @@ const Index = () => {
                     </div>
 
                     {/* Step dialogs */}
-                    {s.id === 1 && <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm">{s.cta}</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Upload Committee Logo</DialogTitle>
-                            <DialogDescription>Upload a square logo (PNG or SVG). Max 2MB.</DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <Input type="file" accept="image/png, image/svg+xml" />
-                            <Button onClick={() => toast.success("Logo uploaded (demo)")}>Save</Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>}
-
-                    {s.id === 2 && <Dialog>
+                    {s.id === 1 && (
+                      <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
                             <DialogTitle>Add Committee Address</DialogTitle>
-                            <DialogDescription>This will be used as the return address for undeliverable postcards.</DialogDescription>
+                            <DialogDescription>
+                              This will be used as the return address for undeliverable postcards.
+                            </DialogDescription>
                           </DialogHeader>
-                          <div className="grid gap-4 md:grid-cols-2">
-                            <div className="space-y-2 md:col-span-2">
-                              <Label>Legal Committee Name</Label>
-                              <Input placeholder="Committee Name" />
-                            </div>
+                          <div className="space-y-4">
                             <div className="space-y-2">
-                              <Label>Street</Label>
-                              <Input placeholder="123 Main St" />
+                              <Label>Committee Logo</Label>
+                              <Input type="file" accept="image/png, image/svg+xml" />
                             </div>
-                            <div className="space-y-2">
-                              <Label>Unit</Label>
-                              <Input placeholder="Suite 100" />
+                            <div className="grid gap-4 md:grid-cols-2">
+                              <div className="space-y-2 md:col-span-2">
+                                <Label>Legal Committee Name</Label>
+                                <Input placeholder="Committee Name" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Street</Label>
+                                <Input placeholder="123 Main St" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Unit</Label>
+                                <Input placeholder="Suite 100" />
+                              </div>
+                              <div className="space-y-2 md:col-span-2">
+                                <Label>City</Label>
+                                <Input placeholder="Anytown" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>State</Label>
+                                <Input placeholder="CA" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>ZIP</Label>
+                                <Input placeholder="90210" />
+                              </div>
                             </div>
-                            <div className="space-y-2 md:col-span-2">
-                              <Label>City</Label>
-                              <Input placeholder="Anytown" />
-                            </div>
-                            <div className="space-y-2">
-                              <Label>State</Label>
-                              <Input placeholder="CA" />
-                            </div>
-                            <div className="space-y-2">
-                              <Label>ZIP</Label>
-                              <Input placeholder="90210" />
-                            </div>
+                            <Button onClick={() => toast.success("Address saved (demo)")}>
+                              Save Address
+                            </Button>
                           </div>
-                          <Button onClick={() => toast.success("Address saved (demo)")}>Save Address</Button>
                         </DialogContent>
-                      </Dialog>}
+                      </Dialog>
+                    )}
 
-                    {s.id === 3 && <Dialog>
+                    {s.id === 2 && (
+                      <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
                             <DialogTitle>Preview Thank You Postcard</DialogTitle>
-                            <DialogDescription>A quick preview of your postcard layout. (Demo)</DialogDescription>
+                            <DialogDescription>
+                              A quick preview of your postcard layout. (Demo)
+                            </DialogDescription>
                           </DialogHeader>
                           <div className="rounded-md border bg-card p-6 text-sm text-muted-foreground">
                             Postcard preview coming soon.
                           </div>
-                          <Button onClick={() => toast.success("Preview generated (demo)")}>Generate Preview</Button>
+                          <Button onClick={() => toast.success("Preview generated (demo)")}>
+                            Generate Preview
+                          </Button>
                         </DialogContent>
-                      </Dialog>}
+                      </Dialog>
+                    )}
                   </div>
                 </li>)}
             </ol>
