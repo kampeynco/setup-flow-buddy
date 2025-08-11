@@ -102,7 +102,7 @@ const Index = () => {
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between bg-white">
+        <div className="mx-auto max-w-[1024px] px-4 py-3 flex items-center justify-between bg-white">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
@@ -127,7 +127,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 grid gap-8 md:grid-cols-12">
+      <main className="mx-auto max-w-[1024px] px-4 py-8 grid gap-12 md:grid-cols-12">
         <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-transparent">
           <nav aria-label="Setup steps" className="bg-[#f7fafc]">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
