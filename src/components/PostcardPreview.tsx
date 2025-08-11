@@ -101,6 +101,14 @@ function BackCanvas() {
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
+        {/* Mailing barcode (above donor details) */}
+        <img
+          src="/lovable-uploads/ab430126-cae2-4851-91ff-fc4bbb6991d2.png"
+          alt="USPS Intelligent Mail barcode sample"
+          className="absolute left-2"
+          loading="lazy"
+          style={{ width: 2.5 * INCH_PX, bottom: 42 }}
+        />
         {/* Donor details (bottom-left, left-aligned, no wrap) */}
         <div className="absolute left-2 bottom-3 text-left text-[9px] leading-none whitespace-nowrap">
           <div>
@@ -111,7 +119,7 @@ function BackCanvas() {
         </div>
         {/* Postage indicia (top-right inside mailing area) */}
         <div
-          className="absolute top-2 right-2 border border-foreground rounded-sm bg-background/60 px-2 py-1 text-[8px] leading-none text-foreground/80 flex items-center justify-center"
+          className="absolute top-2 right-2 border border-foreground rounded-sm bg-transparent px-2 py-1 text-[8px] leading-none text-foreground/80 flex items-center justify-center"
           style={{ width: 0.9375 * INCH_PX, height: 0.75 * INCH_PX }}
         >
           Postage Indicia
