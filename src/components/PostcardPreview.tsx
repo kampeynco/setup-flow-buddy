@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { DialogClose } from "@/components/ui/dialog";
-import { X } from "lucide-react";
+
+
 import { toast } from "sonner";
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
@@ -178,16 +178,6 @@ export default function PostcardPreview() {
 
   return (
     <div className="relative">
-      {/* Close icon */}
-      <DialogClose asChild>
-        <button
-          type="button"
-          aria-label="Close"
-          className="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md border bg-background text-foreground shadow hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
-        >
-          <X className="h-4 w-4" />
-        </button>
-      </DialogClose>
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
