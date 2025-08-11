@@ -111,7 +111,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card" : "bg-transparent"}`}>
+      <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card" : "bg-hero"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
           <Link to="/" className="font-semibold">Thank Donors</Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -133,7 +133,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="border-b bg-hero -mt-14 pt-14">
+        <section className="border-b bg-hero">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Automate thank‑you postcards for your ActBlue donors</h1>
