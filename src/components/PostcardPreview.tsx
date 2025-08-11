@@ -28,17 +28,6 @@ function DimensionLabels() {
   );
 }
 
-function Legend() {
-  return (
-    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-muted-foreground">
-      <div className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-destructive" /> Bleed Area — Red</div>
-      <div className="flex items-center gap-2"><span className="h-3 w-3 rounded border border-foreground" /> Trim Size — Black Line</div>
-      <div className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-primary" /> Safe Zone — Green</div>
-      <div className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-accent" /> Mailing Area — Blue (Back)</div>
-      <div className="flex items-center gap-2"><span className="h-3 w-3 rounded border-2 border-dashed border-muted-foreground" /> Offsets — Dotted Lines</div>
-    </div>
-  );
-}
 
 function FrontCanvas() {
   const bleedW = 9.25 * INCH_PX;
@@ -55,9 +44,6 @@ function FrontCanvas() {
     >
       {/* Corner label */}
       <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground">Front</div>
-
-      {/* Bleed area */}
-      <div className="absolute inset-0 rounded-sm bg-destructive/20" />
 
       {/* Trim size */}
       <div
@@ -83,7 +69,7 @@ function BackCanvas() {
   const safeInsetFromTrim = 0.0625 * INCH_PX;
   const safeInset = trimInset + safeInsetFromTrim;
 
-  // Mailing area: 4" x 2.375" positioned top-right within trim area
+  // Mailing area: 4" x 2.375" positioned bottom-right within trim area
   const mailingW = 4 * INCH_PX;
   const mailingH = 2.375 * INCH_PX;
   const trimW = 9 * INCH_PX;
@@ -93,10 +79,10 @@ function BackCanvas() {
   const trimTop = trimInset;
 
   const mailingRightPadding = 0.375 * INCH_PX; // little padding from right edge within trim
-  const mailingTopPadding = 0.5 * INCH_PX; // padding from top within trim
+  const mailingBottomPadding = 0.5 * INCH_PX; // padding from bottom within trim
 
   const mailingLeft = trimLeft + (trimW - mailingW - mailingRightPadding);
-  const mailingTop = trimTop + mailingTopPadding;
+  const mailingTop = trimTop + (trimH - mailingH - mailingBottomPadding);
 
   // Offsets (dotted lines) around mailing area: 0.125" and 0.15"
   const offsetA = 0.125 * INCH_PX; // show on left side
@@ -111,9 +97,6 @@ function BackCanvas() {
       {/* Corner label */}
       <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground">Back</div>
 
-      {/* Bleed area */}
-      <div className="absolute inset-0 rounded-sm bg-destructive/20" />
-
       {/* Trim size */}
       <div
         className="absolute rounded-sm border-2 border-foreground"
@@ -126,7 +109,7 @@ function BackCanvas() {
         style={{ inset: safeInset }}
       />
 
-      {/* Mailing area (top-right) */}
+      {/* Mailing area (bottom-right) */}
       <div
         className="absolute rounded-sm bg-accent/40"
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
@@ -219,7 +202,7 @@ export default function PostcardPreview() {
             <BackCanvas />
           </div>
         </div>
-        <Legend />
+        
       </div>
 
       {/* Actions */}
