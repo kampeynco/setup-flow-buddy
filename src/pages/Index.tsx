@@ -142,10 +142,6 @@ const Index = () => {
                             </DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
-                            <div className="space-y-2">
-                              <Label>Committee Logo</Label>
-                              <Input type="file" accept="image/png, image/svg+xml" />
-                            </div>
                             <div className="grid gap-4 md:grid-cols-2">
                               <div className="space-y-2 md:col-span-2">
                                 <Label>Legal Committee Name</Label>
@@ -197,8 +193,15 @@ const Index = () => {
                               <TabsTrigger value="front">Front</TabsTrigger>
                               <TabsTrigger value="back">Back</TabsTrigger>
                             </TabsList>
-                            <TabsContent value="front" className="space-y-3 pt-4">
-                              <p className="text-sm text-muted-foreground">Front design options coming soon.</p>
+                            <TabsContent value="front" className="space-y-4 pt-4">
+                              <div className="space-y-2">
+                                <Label>Committee Logo</Label>
+                                <Input type="file" accept="image/png, image/svg+xml" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="front-bg-color">Front background color (hex)</Label>
+                                <Input id="front-bg-color" type="color" />
+                              </div>
                             </TabsContent>
                             <TabsContent value="back" className="space-y-3 pt-4">
                               <Label htmlFor="postcard-message">Message</Label>
