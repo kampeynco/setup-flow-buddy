@@ -82,7 +82,7 @@ const Index = () => {
     title: "Setup Dashboard – Add ActBlue Account",
     description: "Clean, responsive dashboard to configure your account and ActBlue webhook details."
   });
-  const [showSecrets, setShowSecrets] = useState(true);
+  const [showSecrets, setShowSecrets] = useState(false);
   const endpoint = useMemo(() => "https://actblue.thanksfromus.com/ht6d30z3d43yf9", []);
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
