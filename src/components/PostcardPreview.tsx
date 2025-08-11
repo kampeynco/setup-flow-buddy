@@ -96,13 +96,13 @@ function BackCanvas() {
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
       >
         {/* Committee details (top-left, smaller) */}
-        <div className="absolute top-2 left-2 text-[9px] text-muted-foreground text-left">
+        <div className="absolute top-2 left-2 text-[9px] text-muted-foreground text-left py-1 pr-2">
           <div>Placeholder Committee</div>
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
         {/* Donor details (center-left) */}
-        <div className="absolute left-2 top-1/2 -translate-y-1/2 text-left">
+        <div className="absolute left-2 -translate-y-1/2 text-left py-1" style={{ top: 'calc(50% + 10px)' }}>
           <div>
             <div>Donor Full Name</div>
             <div>456 Donor Avenue</div>
@@ -111,38 +111,6 @@ function BackCanvas() {
         </div>
       </div>
 
-      {/* Offset dotted lines with labels */}
-      {/* Left offset (0.125") */}
-      <div
-        className="absolute border-l-2 border-dashed border-muted-foreground"
-        style={{
-          left: mailingLeft - offsetA,
-          top: mailingTop - 6,
-          height: mailingH + 12,
-        }}
-      />
-      <span
-        className="absolute text-[10px] px-1 py-0.5 rounded bg-background border text-muted-foreground"
-        style={{ left: mailingLeft - offsetA - 18, top: mailingTop + mailingH / 2 - 8 }}
-      >
-        0.125"
-      </span>
-
-      {/* Top offset (0.15") */}
-      <div
-        className="absolute border-t-2 border-dashed border-muted-foreground"
-        style={{
-          left: mailingLeft - 6,
-          top: mailingTop - offsetB,
-          width: mailingW + 12,
-        }}
-      />
-      <span
-        className="absolute text-[10px] px-1 py-0.5 rounded bg-background border text-muted-foreground"
-        style={{ left: mailingLeft + mailingW / 2 - 16, top: mailingTop - offsetB - 18 }}
-      >
-        0.15"
-      </span>
 
       
     </div>
