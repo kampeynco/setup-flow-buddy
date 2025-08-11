@@ -9,24 +9,6 @@ import { toast } from "sonner";
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
 
-function DimensionLabels() {
-  return (
-    <div className="absolute inset-0 pointer-events-none select-none">
-      {/* Width labels (top center) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-7 flex items-center gap-2 text-xs">
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm">Bleed: 9.25"</span>
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm">Trim: 9"</span>
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm">Safe: 8.875"</span>
-      </div>
-      {/* Height labels (left center, vertical) */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-7 flex flex-col items-center gap-2 text-xs">
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm rotate-[-90deg] origin-center">Bleed: 6.25"</span>
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm rotate-[-90deg] origin-center">Trim: 6"</span>
-        <span className="px-1.5 py-0.5 rounded bg-background border text-foreground shadow-sm rotate-[-90deg] origin-center">Safe: 5.875"</span>
-      </div>
-    </div>
-  );
-}
 
 
 function FrontCanvas() {
@@ -57,7 +39,6 @@ function FrontCanvas() {
         style={{ inset: safeInset }}
       />
 
-      <DimensionLabels />
     </div>
   );
 }
@@ -111,9 +92,15 @@ function BackCanvas() {
 
       {/* Mailing area (bottom-right) */}
       <div
-        className="absolute rounded-sm bg-accent/40"
+        className="absolute rounded-sm bg-accent/40 p-2 text-[10px] leading-tight text-foreground/80 flex items-center justify-center text-center"
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
-      />
+      >
+        <div>
+          <div>Placeholder Committee</div>
+          <div>123 Main Street</div>
+          <div>City, ST 12345</div>
+        </div>
+      </div>
 
       {/* Offset dotted lines with labels */}
       {/* Left offset (0.125") */}
@@ -148,7 +135,7 @@ function BackCanvas() {
         0.15"
       </span>
 
-      <DimensionLabels />
+      
     </div>
   );
 }
