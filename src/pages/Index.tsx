@@ -277,14 +277,15 @@ const Index = () => {
                             <DialogTrigger asChild>
                               <Button size="sm">{s.cta}</Button>
                             </DialogTrigger>
-                        <DialogContent className="max-h-[85vh] overflow-auto">
+                        <DialogContent className="max-h-[85vh] flex flex-col">
                               <DialogHeader>
                                 <DialogTitle>Design Postcard</DialogTitle>
                                 <DialogDescription>
                                   Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                                 </DialogDescription>
                               </DialogHeader>
-                              <Tabs defaultValue="front" className="mt-2">
+                              <div className="flex-1 overflow-auto pb-24">
+                                <Tabs defaultValue="front" className="mt-2">
                                 <TabsList>
                                   <TabsTrigger value="front">Front</TabsTrigger>
                                   <TabsTrigger value="back">Back</TabsTrigger>
@@ -468,7 +469,8 @@ const Index = () => {
                                   </div>
                                 </TabsContent>
                               </Tabs>
-                              <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
+                              </div>
+                              <div className="sticky bottom-0 z-50 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
                                 <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
                               </div>
                             </DialogContent>
