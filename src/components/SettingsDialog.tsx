@@ -32,7 +32,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             <TabsTrigger value="billing">Billing</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="notifications" className="pt-4">
+          <TabsContent value="notifications" className="pt-4 min-h-[280px]">
             <div className="space-y-6">
               <div className="flex items-start justify-between gap-6">
                 <div className="space-y-1.5">
@@ -52,10 +52,10 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             </div>
           </TabsContent>
 
-          <TabsContent value="style" className="pt-4">
+          <TabsContent value="style" className="pt-4 min-h-[280px]">
             {/* intentionally left empty */}
           </TabsContent>
-          <TabsContent value="billing" className="pt-4">
+          <TabsContent value="billing" className="pt-4 min-h-[280px]">
             {/* intentionally left empty */}
           </TabsContent>
         </Tabs>
