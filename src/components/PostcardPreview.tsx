@@ -92,7 +92,7 @@ function BackCanvas() {
 
       {/* Mailing area (bottom-right) */}
       <div
-        className="absolute rounded-sm bg-accent/40 p-2 text-[10px] leading-tight text-foreground/80 flex items-center justify-center text-center"
+        className="absolute rounded-sm bg-accent/40 p-2 text-[10px] leading-tight text-foreground/80 flex items-center justify-center text-left"
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
       >
         <div>
