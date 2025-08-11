@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,10 @@ import { Copy, Check, Eye, EyeOff, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import PostcardPreview from "@/components/PostcardPreview";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Simple SEO helpers for SPA
 function useSEO({
@@ -87,6 +91,96 @@ const Index = () => {
   const endpoint = useMemo(() => "https://actblue.thanksfromus.com/ht6d30z3d43yf9", []);
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
+
+  // Signature editor state (Back tab)
+  const [includeSignature, setIncludeSignature] = useState(false);
+  const [signatureMode, setSignatureMode] = useState<"draw" | "type" | "upload" | null>(null);
+  const drawCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [penColor, setPenColor] = useState("#000000");
+  const [typedSignature, setTypedSignature] = useState("Your Name");
+  const [typedFont, setTypedFont] = useState<"cursive" | "serif" | "sans-serif">("cursive");
+  const [typedSize, setTypedSize] = useState(32);
+  const [uploadedSignature, setUploadedSignature] = useState<string | null>(null);
+  const [signaturePreview, setSignaturePreview] = useState<string | null>(null);
+
+  const CANVAS_W = 480;
+  const CANVAS_H = 160;
+
+  const initCanvas = () => {
+    const c = drawCanvasRef.current;
+    if (!c) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.floor(CANVAS_W * dpr);
+    c.height = Math.floor(CANVAS_H * dpr);
+    c.style.width = CANVAS_W + "px";
+    c.style.height = CANVAS_H + "px";
+    const ctx = c.getContext("2d");
+    if (ctx) {
+      ctx.scale(dpr, dpr);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = penColor;
+    }
+  };
+
+  useEffect(() => {
+    if (signatureMode === "draw") {
+      initCanvas();
+    }
+  }, [signatureMode]);
+
+  const handlePointer = (type: "down" | "move" | "up") => (e: any) => {
+    if (signatureMode !== "draw") return;
+    const c = drawCanvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    if (!ctx) return;
+    const rect = c.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (type === "down") {
+      setIsDrawing(true);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.strokeStyle = penColor;
+      ctx.lineWidth = 2;
+    } else if (type === "move" && isDrawing) {
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    } else if (type === "up") {
+      if (isDrawing) {
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.closePath();
+      }
+      setIsDrawing(false);
+      setSignaturePreview(c.toDataURL("image/png"));
+    }
+  };
+
+  const clearCanvas = () => {
+    const c = drawCanvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+    setSignaturePreview(null);
+  };
+
+  const handleUpload = (e: any) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const data = reader.result as string;
+      setUploadedSignature(data);
+      setSignaturePreview(data);
+    };
+    reader.readAsDataURL(file);
+  };
   return <div className="min-h-screen">
       <header className="sticky top-0 z-10 bg-white border-b">
         <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-white">
