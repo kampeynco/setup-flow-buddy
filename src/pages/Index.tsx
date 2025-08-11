@@ -101,8 +101,8 @@ const Index = () => {
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-background border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between bg-white">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
@@ -237,13 +237,11 @@ const Index = () => {
                 </ol>
               </article>
 
-{showSecrets && (
-                <div className="grid gap-4">
-                  <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" />
-                  <CopyField id="username" label="Username" value={username} />
-                  <CopyField id="password" label="Password" value={password} type="password" />
-                </div>
-              )}
+              <div className="grid gap-4">
+                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" hidden={!showSecrets} />
+                <CopyField id="username" label="Username" value={username} hidden={!showSecrets} />
+                <CopyField id="password" label="Password" value={password} type="password" hidden={!showSecrets} />
+              </div>
 
               <div className="flex items-center gap-3">
                 <Button onClick={() => setShowSecrets(s => !s)}>
