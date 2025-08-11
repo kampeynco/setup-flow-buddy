@@ -106,7 +106,7 @@ function BackCanvas() {
           <img
             src="/lovable-uploads/7d41e453-11de-4cbc-8330-837205bd314a.png"
             alt="Mailing barcode example"
-            className="w-full h-auto object-contain opacity-90"
+            className="w-full h-auto object-contain opacity-90 scale-y-75"
           />
         </div>
         {/* Donor details (bottom-left, left-aligned, no wrap) */}
