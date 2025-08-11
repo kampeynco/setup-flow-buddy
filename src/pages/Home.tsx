@@ -129,7 +129,8 @@ export default function Home() {
         <section className="border-b bg-hero">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Automate thank‑you postcards for your ActBlue donors</h1>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
+              <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Automate thank‑you postcards for your ActBlue donors</h1>
               <p className="mt-4 text-muted-foreground max-w-prose">
                 Connect ActBlue once. We’ll mail branded postcards to every new donor—using your committee details, message, and optional signature.
               </p>
