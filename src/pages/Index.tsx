@@ -80,7 +80,7 @@ function CopyField({
 const steps = [
   { id: 1, title: "Add Committee Details", cta: "Add Details", note: undefined },
   { id: 2, title: "Design Postcard Template", cta: "Design Card", note: undefined },
-  { id: 3, title: "Preview Postcard Template", cta: "View Card", note: undefined }
+  { id: 3, title: "Thank Donors", cta: "View Card", note: undefined }
 ];
 const Index = () => {
   useSEO({
@@ -300,6 +300,8 @@ const Index = () => {
                             <TabsContent value="back" className="space-y-4 pt-4">
                               <div className="space-y-2">
                                 <Label htmlFor="postcard-message">Message</Label>
+                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+
                                 <div className="flex items-center gap-2">
                                   <Checkbox
                                     id="add-signature"
@@ -415,8 +417,6 @@ const Index = () => {
                                     </div>
                                   </div>
                                 )}
-
-                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
                               </div>
                               <div>
                                 <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
