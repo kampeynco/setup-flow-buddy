@@ -308,7 +308,7 @@ const Index = () => {
                                       <Checkbox
                                         id="add-signature"
                                         checked={includeSignature}
-                                        onCheckedChange={(v) => setIncludeSignature(Boolean(v))}
+                                        onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
                                       />
                                       <Label htmlFor="add-signature">Add Signature</Label>
                                     </div>
@@ -385,14 +385,9 @@ const Index = () => {
                                              <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                                               <Label className="sm:w-48 shrink-0">Size</Label>
                                               <div className="w-full sm:w=[240px] min-w-0">
-                                                <Slider value={[typedSize]} min={16} max={96} step={1} onValueChange={(v) => setTypedSize(v[0])} />
+                                                <Slider value={[typedSize]} min={16} max={40} step={1} onValueChange={(v) => setTypedSize(v[0])} />
                                               </div>
                                               <span className="text-sm text-muted-foreground">{typedSize}px</span>
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                              <Button type="button" variant="secondary" onClick={() => { setTypedSignature(""); setTypedFont("cursive"); setTypedSize(32); }}>
-                                                Reset
-                                              </Button>
                                             </div>
                                           </div>
                                         )}
