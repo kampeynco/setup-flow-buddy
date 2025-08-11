@@ -94,7 +94,7 @@ function BackCanvas() {
       <div
         className="absolute rounded-sm bg-accent/40 p-2 text-foreground/80 relative"
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
-      >
+>
         {/* Committee details (top-left, smaller) */}
         <div className="absolute top-2 left-2 text-[9px] leading-none text-muted-foreground text-left py-1 pr-2">
           <div>Placeholder Committee</div>
@@ -108,6 +108,13 @@ function BackCanvas() {
             <div>456 Donor Avenue</div>
             <div>City, ST 67890</div>
           </div>
+        </div>
+        {/* Postage indicia (top-right inside mailing area) */}
+        <div
+          className="absolute top-2 right-2 border border-foreground rounded-sm bg-background/60 px-2 py-1 text-[8px] leading-none text-foreground/80 flex items-center justify-center"
+          style={{ width: 1.25 * INCH_PX, height: 1 * INCH_PX }}
+        >
+          Postage Indicia
         </div>
       </div>
 
