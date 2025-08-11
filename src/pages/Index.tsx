@@ -79,7 +79,7 @@ const steps = [{
   id: 2,
   title: "Add Committee Address",
   cta: "Add Address",
-  note: "this is the return address for undeliverable postcards"
+  note: undefined
 }, {
   id: 3,
   title: "Add ActBlue account",
@@ -168,6 +168,10 @@ const Index = () => {
                             <DialogDescription>This will be used as the return address for undeliverable postcards.</DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2 md:col-span-2">
+                              <Label>Legal Committee Name</Label>
+                              <Input placeholder="Committee Name" />
+                            </div>
                             <div className="space-y-2">
                               <Label>Street</Label>
                               <Input placeholder="123 Main St" />
