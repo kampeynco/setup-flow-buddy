@@ -82,8 +82,8 @@ const steps = [{
   note: undefined
 }, {
   id: 3,
-  title: "Preview Postcard",
-  cta: "Preview",
+  title: "Preview Thank You Card",
+  cta: "Preview Card",
   note: undefined
 }];
 const Index = () => {
