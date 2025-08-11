@@ -241,7 +241,7 @@ const Index = () => {
               )}
 
               <div className="flex items-center gap-3">
-                <Button onClick={() => setShowSecrets(s => !s)}>
+                <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
                   {showSecrets ? <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span> : <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>}
                 </Button>
               </div>
