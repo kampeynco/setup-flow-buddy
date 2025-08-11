@@ -223,7 +223,7 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">
                   Your ActBlue donors will be mailed thank you postcards for donations received under this account.
                 </p>
-                <ol className="list-decimal pl-5 space-y-2 text-sm">
+                <ol className="list-decimal pl-5 space-y-2 text-sm pt-8">
                   <li>Click Integrations on the left-hand sidebar.</li>
                   <li>Click Manage under the Webhooks section.</li>
                   <li>Click Request a New Webhook.</li>
