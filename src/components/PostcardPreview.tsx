@@ -166,7 +166,7 @@ export default function PostcardPreview() {
       </div>
 
       {/* Preview area */}
-      <div className="mt-4 rounded-md border bg-muted p-4">
+      <div className="mt-4 rounded-md border bg-muted p-4 min-h-[60vh]">
         <div className="flex items-center justify-center overflow-auto">
           <div
             className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
