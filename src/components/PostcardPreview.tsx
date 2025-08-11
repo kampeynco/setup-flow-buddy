@@ -101,8 +101,8 @@ function BackCanvas() {
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
-        {/* Donor details (center-left) */}
-        <div className="absolute left-2 -translate-y-1/2 text-left py-1" style={{ top: 'calc(50% + 10px)' }}>
+        {/* Donor details (center, left-aligned) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-left">
           <div>
             <div>Donor Full Name</div>
             <div>456 Donor Avenue</div>
