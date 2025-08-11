@@ -216,233 +216,235 @@ const Index = () => {
                   <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
                     {s.id}
                   </span>
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-1">
                       <p className="font-medium">{s.title}</p>
                       {s.note}
-                    </div>
 
-                    {/* Step dialogs */}
-                    {s.id === 1 && (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm">{s.cta}</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Add Committee Address</DialogTitle>
-                            <DialogDescription>
-                              This will be used as the return address for undeliverable postcards.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <div className="grid gap-4 md:grid-cols-2">
-                              <div className="space-y-2 md:col-span-2">
-                                <Label>Legal Committee Name</Label>
-                                <Input placeholder="Committee Name" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>Street</Label>
-                                <Input placeholder="123 Main St" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>Unit</Label>
-                                <Input placeholder="Suite 100" />
-                              </div>
-                              <div className="space-y-2 md:col-span-2">
-                                <Label>City</Label>
-                                <Input placeholder="Anytown" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>State</Label>
-                                <Input placeholder="CA" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>ZIP</Label>
-                                <Input placeholder="90210" />
-                              </div>
-                            </div>
-                            <Button onClick={() => toast.success("Address saved (demo)")}>
-                              Save Address
-                            </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    )}
-
-                    {s.id === 2 && (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm">{s.cta}</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Design Postcard</DialogTitle>
-                          <DialogDescription>
-                            Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
-                          </DialogDescription>
-                        </DialogHeader>
-                          <Tabs defaultValue="front" className="mt-2">
-                            <TabsList>
-                              <TabsTrigger value="front">Front</TabsTrigger>
-                              <TabsTrigger value="back">Back</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="front" className="space-y-4 pt-4">
-                              <div className="flex items-center gap-4">
-                                <Label className="w-48">Committee Logo</Label>
-                                <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
-                              </div>
-                              <div className="flex items-center gap-4">
-                                <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
-                                <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
-                              </div>
-                            </TabsContent>
-                            <TabsContent value="back" className="space-y-4 pt-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="postcard-message">Message</Label>
-                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
-
-                                <div className="flex items-center gap-2">
-                                  <Checkbox
-                                    id="add-signature"
-                                    checked={includeSignature}
-                                    onCheckedChange={(v) => setIncludeSignature(Boolean(v))}
-                                  />
-                                  <Label htmlFor="add-signature">Add Signature</Label>
-                                </div>
-
-                                {includeSignature && (
-                                  <div className="mt-2 space-y-4 rounded-md border p-4">
-                                    <div>
-                                      <Label className="mb-2 block">Signature method</Label>
-                                      <ToggleGroup
-                                        type="single"
-                                        value={signatureMode ?? undefined}
-                                        onValueChange={(val) => setSignatureMode((val as any) || null)}
-                                        className="flex flex-wrap gap-2"
-                                      >
-                                        <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
-                                          Draw Signature
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
-                                          Type Signature
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
-                                          Upload Signature
-                                        </ToggleGroupItem>
-                                      </ToggleGroup>
-                                    </div>
-
-                                    {signatureMode === "draw" && (
-                                      <div className="space-y-3">
-                                        <div className="flex items-center gap-4">
-                                          <Label htmlFor="pen-color" className="w-48">Pen color</Label>
-                                          <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
-                                          <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
-                                        </div>
-                                        <div className="rounded-md border bg-background p-2">
-                                          <canvas
-                                            ref={drawCanvasRef}
-                                            className="w-full max-w-full touch-none"
-                                            onPointerDown={handlePointer("down")}
-                                            onPointerMove={handlePointer("move")}
-                                            onPointerUp={handlePointer("up")}
-                                            onPointerLeave={handlePointer("up")}
-                                          />
-                                        </div>
-                                      </div>
-                                    )}
-
-                                    {signatureMode === "type" && (
-                                      <div className="space-y-3">
-                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label htmlFor="typed-signature" className="sm:w-48">Signature text</Label>
-                                          <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="flex-1" />
-                                        </div>
-                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label className="sm:w-48">Font</Label>
-                                          <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
-                                            <SelectTrigger className="w-[200px]"><SelectValue placeholder="Choose font" /></SelectTrigger>
-                                            <SelectContent>
-                                              <SelectItem value="cursive">Cursive</SelectItem>
-                                              <SelectItem value="serif">Serif</SelectItem>
-                                              <SelectItem value="sans-serif">Sans-serif</SelectItem>
-                                            </SelectContent>
-                                          </Select>
-                                        </div>
-                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label className="sm:w-48">Size</Label>
-                                          <div className="sm:w-[240px]">
-                                            <Slider value={[typedSize]} min={16} max={96} step={1} onValueChange={(v) => setTypedSize(v[0])} />
-                                          </div>
-                                          <span className="text-sm text-muted-foreground">{typedSize}px</span>
-                                        </div>
-                                      </div>
-                                    )}
-
-                                    {signatureMode === "upload" && (
-                                      <div className="space-y-3">
-                                        <div className="flex items-center gap-4">
-                                          <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
-                                          <Input id="signature-upload" type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="max-w-xs" />
-                                        </div>
-                                      </div>
-                                    )}
-
-                                    {/* Live preview */}
-                                    <div className="space-y-2">
-                                      <Label className="block">Signature preview</Label>
-                                      <div className="rounded-md border bg-card p-3">
-                                        {signatureMode === "type" ? (
-                                          <div
-                                            className="max-w-full truncate"
-                                            style={{
-                                              fontFamily: typedFont,
-                                              fontSize: typedSize,
-                                            }}
-                                          >
-                                            {typedSignature}
-                                          </div>
-                                        ) : signaturePreview ? (
-                                          <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
-                                        ) : (
-                                          <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
-                                        )}
-                                      </div>
-                                    </div>
-
-                                    <div className="flex flex-wrap items-center gap-3">
-                                      <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
-                                      <Button type="button" variant="secondary" onClick={() => setSignatureMode(null)}>Change Signature</Button>
-                                    </div>
+                      <div className="mt-3">
+                        {/* Step dialogs */}
+                        {s.id === 1 && (
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm">{s.cta}</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Add Committee Address</DialogTitle>
+                                <DialogDescription>
+                                  This will be used as the return address for undeliverable postcards.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <div className="grid gap-4 md:grid-cols-2">
+                                  <div className="space-y-2 md:col-span-2">
+                                    <Label>Legal Committee Name</Label>
+                                    <Input placeholder="Committee Name" />
                                   </div>
-                                )}
-                              </div>
-                              <div>
-                                <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
-                                  Save Message
+                                  <div className="space-y-2">
+                                    <Label>Street</Label>
+                                    <Input placeholder="123 Main St" />
+                                  </div>
+                                  <div className="space-y-2">
+                                    <Label>Unit</Label>
+                                    <Input placeholder="Suite 100" />
+                                  </div>
+                                  <div className="space-y-2 md:col-span-2">
+                                    <Label>City</Label>
+                                    <Input placeholder="Anytown" />
+                                  </div>
+                                  <div className="space-y-2">
+                                    <Label>State</Label>
+                                    <Input placeholder="CA" />
+                                  </div>
+                                  <div className="space-y-2">
+                                    <Label>ZIP</Label>
+                                    <Input placeholder="90210" />
+                                  </div>
+                                </div>
+                                <Button onClick={() => toast.success("Address saved (demo)")}>
+                                  Save Address
                                 </Button>
                               </div>
-                            </TabsContent>
-                          </Tabs>
-                        </DialogContent>
-                      </Dialog>
-                    )}
+                            </DialogContent>
+                          </Dialog>
+                        )}
 
-                    {s.id === 3 && (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button size="sm">{s.cta}</Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
-                          <DialogHeader className="sr-only">
-                            <DialogTitle>Preview Thank You Postcard</DialogTitle>
-                            <DialogDescription>6×9 template preview</DialogDescription>
-                          </DialogHeader>
-                          <PostcardPreview />
-                        </DialogContent>
-                      </Dialog>
-                    )}
+                        {s.id === 2 && (
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm">{s.cta}</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Design Postcard</DialogTitle>
+                                <DialogDescription>
+                                  Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <Tabs defaultValue="front" className="mt-2">
+                                <TabsList>
+                                  <TabsTrigger value="front">Front</TabsTrigger>
+                                  <TabsTrigger value="back">Back</TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="front" className="space-y-4 pt-4">
+                                  <div className="flex items-center gap-4">
+                                    <Label className="w-48">Committee Logo</Label>
+                                    <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
+                                  </div>
+                                  <div className="flex items-center gap-4">
+                                    <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
+                                    <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
+                                  </div>
+                                </TabsContent>
+                                <TabsContent value="back" className="space-y-4 pt-4">
+                                  <div className="space-y-2">
+                                    <Label htmlFor="postcard-message">Message</Label>
+                                    <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+
+                                    <div className="flex items-center gap-2">
+                                      <Checkbox
+                                        id="add-signature"
+                                        checked={includeSignature}
+                                        onCheckedChange={(v) => setIncludeSignature(Boolean(v))}
+                                      />
+                                      <Label htmlFor="add-signature">Add Signature</Label>
+                                    </div>
+
+                                    {includeSignature && (
+                                      <div className="mt-2 space-y-4 rounded-md border p-4">
+                                        <div>
+                                          <Label className="mb-2 block">Signature method</Label>
+                                          <ToggleGroup
+                                            type="single"
+                                            value={signatureMode ?? undefined}
+                                            onValueChange={(val) => setSignatureMode((val as any) || null)}
+                                            className="flex flex-wrap gap-2"
+                                          >
+                                            <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
+                                              Draw Signature
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
+                                              Type Signature
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
+                                              Upload Signature
+                                            </ToggleGroupItem>
+                                          </ToggleGroup>
+                                        </div>
+
+                                        {signatureMode === "draw" && (
+                                          <div className="space-y-3">
+                                            <div className="flex items-center gap-4">
+                                              <Label htmlFor="pen-color" className="w-48">Pen color</Label>
+                                              <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
+                                              <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
+                                            </div>
+                                            <div className="rounded-md border bg-background p-2">
+                                              <canvas
+                                                ref={drawCanvasRef}
+                                                className="w-full max-w-full touch-none"
+                                                onPointerDown={handlePointer("down")}
+                                                onPointerMove={handlePointer("move")}
+                                                onPointerUp={handlePointer("up")}
+                                                onPointerLeave={handlePointer("up")}
+                                              />
+                                            </div>
+                                          </div>
+                                        )}
+
+                                        {signatureMode === "type" && (
+                                          <div className="space-y-3">
+                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label htmlFor="typed-signature" className="sm:w-48">Signature text</Label>
+                                              <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="flex-1" />
+                                            </div>
+                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label className="sm:w-48">Font</Label>
+                                              <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
+                                                <SelectTrigger className="w-[200px]"><SelectValue placeholder="Choose font" /></SelectTrigger>
+                                                <SelectContent>
+                                                  <SelectItem value="cursive">Cursive</SelectItem>
+                                                  <SelectItem value="serif">Serif</SelectItem>
+                                                  <SelectItem value="sans-serif">Sans-serif</SelectItem>
+                                                </SelectContent>
+                                              </Select>
+                                            </div>
+                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                              <Label className="sm:w-48">Size</Label>
+                                              <div className="sm:w-[240px]">
+                                                <Slider value={[typedSize]} min={16} max={96} step={1} onValueChange={(v) => setTypedSize(v[0])} />
+                                              </div>
+                                              <span className="text-sm text-muted-foreground">{typedSize}px</span>
+                                            </div>
+                                          </div>
+                                        )}
+
+                                        {signatureMode === "upload" && (
+                                          <div className="space-y-3">
+                                            <div className="flex items-center gap-4">
+                                              <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
+                                              <Input id="signature-upload" type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="max-w-xs" />
+                                            </div>
+                                          </div>
+                                        )}
+
+                                        {/* Live preview */}
+                                        <div className="space-y-2">
+                                          <Label className="block">Signature preview</Label>
+                                          <div className="rounded-md border bg-card p-3">
+                                            {signatureMode === "type" ? (
+                                              <div
+                                                className="max-w-full truncate"
+                                                style={{
+                                                  fontFamily: typedFont,
+                                                  fontSize: typedSize,
+                                                }}
+                                              >
+                                                {typedSignature}
+                                              </div>
+                                            ) : signaturePreview ? (
+                                              <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
+                                            ) : (
+                                              <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
+                                            )}
+                                          </div>
+                                        </div>
+
+                                        <div className="flex flex-wrap items-center gap-3">
+                                          <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
+                                          <Button type="button" variant="secondary" onClick={() => setSignatureMode(null)}>Change Signature</Button>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
+                                      Save Message
+                                    </Button>
+                                  </div>
+                                </TabsContent>
+                              </Tabs>
+                            </DialogContent>
+                          </Dialog>
+                        )}
+
+                        {s.id === 3 && (
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm">{s.cta}</Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
+                              <DialogHeader className="sr-only">
+                                <DialogTitle>Preview Thank You Postcard</DialogTitle>
+                                <DialogDescription>6×9 template preview</DialogDescription>
+                              </DialogHeader>
+                              <PostcardPreview />
+                            </DialogContent>
+                          </Dialog>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </li>)}
             </ol>
