@@ -134,7 +134,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="border-b bg-hero">
+        <section className="border-b bg-primary/5">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
