@@ -463,19 +463,14 @@ const Index = () => {
                                       </div>
                                     )}
 
-                                        <div className="flex flex-wrap items-center gap-3">
-                                          <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
-                                        </div>
                                       </div>
                                     )}
                                   </div>
-                                  <div>
-                                    <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
-                                      Save Message
-                                    </Button>
-                                  </div>
                                 </TabsContent>
                               </Tabs>
+                              <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
+                                <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
+                              </div>
                             </DialogContent>
                           </Dialog>
                         )}
