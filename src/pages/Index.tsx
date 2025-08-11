@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SettingsDialog from "@/components/SettingsDialog";
 
 // Simple SEO helpers for SPA
 function useSEO({
@@ -88,6 +89,7 @@ const Index = () => {
     description: "Clean, responsive dashboard to configure your account and ActBlue webhook details."
   });
   const [showSecrets, setShowSecrets] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const endpoint = useMemo(() => "https://actblue.thanksfromus.com/ht6d30z3d43yf9", []);
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
@@ -200,7 +202,7 @@ const Index = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Log out</DropdownMenuItem>
             </DropdownMenuContent>
@@ -209,6 +211,8 @@ const Index = () => {
           <Button className="bg-card text-primary hover:bg-card/90">Send Thanks</Button>
         </div>
       </header>
+
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
 
       <main className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:pl-0 py-8 grid gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-[488px_1fr] md:justify-items-center lg:justify-items-stretch">
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
