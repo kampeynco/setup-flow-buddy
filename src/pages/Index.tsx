@@ -219,7 +219,7 @@ const Index = () => {
         </aside>
 
         <section id="actblue" className="md:col-span-7 lg:col-span-8">
-          <Card className="shadow-sm">
+          <Card className="shadow-sm w-full md:w-[35%]">
             <CardHeader>
               <h1 className="text-2xl font-semibold">Add ActBlue account</h1>
             </CardHeader>
