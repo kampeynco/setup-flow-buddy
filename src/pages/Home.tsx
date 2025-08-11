@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -101,9 +101,17 @@ export default function Home() {
     },
   });
 
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-primary/5 border-b">
+      <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card" : "bg-primary/5"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
           <Link to="/" className="font-semibold">Thank Donors</Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -114,10 +122,10 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/app" className="hidden sm:inline-block">
-              <Button variant="ghost">Open dashboard</Button>
+              <Button variant="ghost">Login</Button>
             </Link>
             <Link to="/app">
-              <Button>Get started free</Button>
+              <Button>Try for Free</Button>
             </Link>
           </div>
         </div>
@@ -145,7 +153,7 @@ export default function Home() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link to="/app"><Button size="lg">Start free</Button></Link>
+                <Link to="/app"><Button size="lg">Try for Free Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
             </div>
