@@ -314,7 +314,7 @@ const Index = () => {
                                     {includeSignature && (
                                       <div className="mt-2 space-y-4 rounded-md border p-4">
                                         <div>
-                                          <Label className="mb-2 block">Signature method</Label>
+                                          
                                           <ToggleGroup
                                             type="single"
                                             value={signatureMode ?? undefined}
