@@ -76,7 +76,7 @@ export default function Home() {
               name: 'Do I need to export data from ActBlue?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'No. Once connected, ActBlue sends donor details to Thank Donors automatically.'
+                text: 'No. Once connected, ActBlue sends donor details directly to us automatically.'
               }
             },
             {
@@ -84,7 +84,7 @@ export default function Home() {
               name: 'Can I add my committee logo and return address?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Yes—set your committee name, logo, return address, and postcard message in your dashboard.'
+                text: 'Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.'
               }
             },
             {
@@ -270,13 +270,13 @@ export default function Home() {
             <AccordionItem value="item-1">
               <AccordionTrigger>Do I need to export data from ActBlue?</AccordionTrigger>
               <AccordionContent>
-                No. Once connected, ActBlue sends donor details to Thank Donors automatically.
+                No. Once connected, ActBlue sends donor details directly to us automatically.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Can I add my committee logo and return address?</AccordionTrigger>
               <AccordionContent>
-                Yes—set your committee name, logo, return address, and postcard message in your dashboard.
+                Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
