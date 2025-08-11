@@ -102,7 +102,7 @@ function BackCanvas() {
           <div>City, ST 12345</div>
         </div>
         {/* Donor details (center) */}
-        <div className="absolute inset-0 flex items-center justify-center text-center">
+        <div className="absolute inset-0 flex items-center justify-start pl-2 text-left">
           <div>
             <div>Donor Full Name</div>
             <div>456 Donor Avenue</div>
