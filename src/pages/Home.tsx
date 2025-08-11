@@ -146,7 +146,7 @@ export default function Home() {
                 {[
                   'Direct ActBlue integration',
                   'Branded postcard template with your message',
-                  'Automatic mailing—no spreadsheets',
+                  'Automatic mailing, no spreadsheets',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-primary" />
