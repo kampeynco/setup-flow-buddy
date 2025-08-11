@@ -84,7 +84,7 @@ const steps = [{
   id: 3,
   title: "Add ActBlue account",
   cta: "Open",
-  note: "see left section"
+  note: undefined
 }, {
   id: 4,
   title: "Preview Thank You Postcard",
@@ -219,7 +219,7 @@ const Index = () => {
         </aside>
 
         <section id="actblue" className="md:col-span-7 lg:col-span-8">
-          <Card className="shadow-sm">
+          <Card className="shadow-sm w-full md:w-1/2">
             <CardHeader>
               <h1 className="text-2xl font-semibold">Add ActBlue account</h1>
             </CardHeader>
