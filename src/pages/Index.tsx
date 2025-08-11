@@ -194,21 +194,26 @@ const Index = () => {
                               <TabsTrigger value="back">Back</TabsTrigger>
                             </TabsList>
                             <TabsContent value="front" className="space-y-4 pt-4">
-                              <div className="space-y-2">
-                                <Label>Committee Logo</Label>
-                                <Input type="file" accept="image/png, image/svg+xml" />
+                              <div className="flex items-center gap-4">
+                                <Label className="w-48">Committee Logo</Label>
+                                <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
                               </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="front-bg-color">Front background color (hex)</Label>
-                                <Input id="front-bg-color" type="color" />
+                              <div className="flex items-center gap-4">
+                                <Label htmlFor="front-bg-color" className="w-48">Front background color (hex)</Label>
+                                <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
                               </div>
                             </TabsContent>
-                            <TabsContent value="back" className="space-y-3 pt-4">
-                              <Label htmlFor="postcard-message">Message</Label>
-                              <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
-                              <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
-                                Save Message
-                              </Button>
+                            <TabsContent value="back" className="space-y-4 pt-4">
+                              <div className="flex items-start gap-4">
+                                <Label htmlFor="postcard-message" className="w-48 pt-2">Message</Label>
+                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} className="flex-1" />
+                              </div>
+                              <div className="flex items-center gap-4">
+                                <div className="w-48" />
+                                <Button onClick={() => toast.success("Message saved (demo)")}>
+                                  Save Message
+                                </Button>
+                              </div>
                             </TabsContent>
                           </Tabs>
                         </DialogContent>
