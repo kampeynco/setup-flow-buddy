@@ -79,8 +79,8 @@ function CopyField({
 }
 const steps = [
   { id: 1, title: "Add Committee Details", cta: "Add Details", note: undefined },
-  { id: 2, title: "Design Postcard Template", cta: "Design Card", note: undefined },
-  { id: 3, title: "Thank Donors", cta: "View Card", note: undefined }
+  { id: 2, title: "Design Postcard", cta: "Design Card", note: undefined },
+  { id: 3, title: "Thank Donors", cta: "Preview Card", note: undefined }
 ];
 const Index = () => {
   useSEO({
@@ -277,7 +277,7 @@ const Index = () => {
                         </DialogTrigger>
                         <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Design Postcard Template</DialogTitle>
+                          <DialogTitle>Design Postcard</DialogTitle>
                           <DialogDescription>
                             Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                           </DialogDescription>
