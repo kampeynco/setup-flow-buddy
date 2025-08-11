@@ -104,21 +104,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-primary border-b">
+      <header className="sticky top-0 z-50 bg-primary border-b text-primary-foreground">
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
-          <Link to="/" className="font-semibold">Thank Donors</Link>
+          <Link to="/" className="font-playfair text-lg font-semibold">Thank Donors</Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#features" className="hover:opacity-80">Features</a>
-            <a href="#how" className="hover:opacity-80">How it works</a>
-            <a href="#pricing" className="hover:opacity-80">Pricing</a>
-            <a href="#faq" className="hover:opacity-80">FAQ</a>
+            <a href="#features" className="text-primary-foreground/90 hover:text-primary-foreground">Features</a>
+            <a href="#how" className="text-primary-foreground/90 hover:text-primary-foreground">How it works</a>
+            <a href="#pricing" className="text-primary-foreground/90 hover:text-primary-foreground">Pricing</a>
+            <a href="#faq" className="text-primary-foreground/90 hover:text-primary-foreground">FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/app" className="hidden sm:inline-block">
-              <Button variant="ghost">Login</Button>
+              <Button variant="ghost" className="text-primary-foreground">Login</Button>
             </Link>
             <Link to="/app">
-              <Button>Try for Free</Button>
+              <Button variant="secondary" className="font-semibold">Try for Free</Button>
             </Link>
           </div>
         </div>
