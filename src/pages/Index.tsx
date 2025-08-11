@@ -300,6 +300,122 @@ const Index = () => {
                             <TabsContent value="back" className="space-y-4 pt-4">
                               <div className="space-y-2">
                                 <Label htmlFor="postcard-message">Message</Label>
+                                <div className="flex items-center gap-2">
+                                  <Checkbox
+                                    id="add-signature"
+                                    checked={includeSignature}
+                                    onCheckedChange={(v) => setIncludeSignature(Boolean(v))}
+                                  />
+                                  <Label htmlFor="add-signature">Add Signature</Label>
+                                </div>
+
+                                {includeSignature && (
+                                  <div className="mt-2 space-y-4 rounded-md border p-4">
+                                    <div>
+                                      <Label className="mb-2 block">Signature method</Label>
+                                      <ToggleGroup
+                                        type="single"
+                                        value={signatureMode ?? undefined}
+                                        onValueChange={(val) => setSignatureMode((val as any) || null)}
+                                        className="flex flex-wrap gap-2"
+                                      >
+                                        <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
+                                          Draw Signature
+                                        </ToggleGroupItem>
+                                        <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
+                                          Type Signature
+                                        </ToggleGroupItem>
+                                        <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
+                                          Upload Signature
+                                        </ToggleGroupItem>
+                                      </ToggleGroup>
+                                    </div>
+
+                                    {signatureMode === "draw" && (
+                                      <div className="space-y-3">
+                                        <div className="flex items-center gap-4">
+                                          <Label htmlFor="pen-color" className="w-48">Pen color</Label>
+                                          <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
+                                          <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
+                                        </div>
+                                        <div className="rounded-md border bg-background p-2">
+                                          <canvas
+                                            ref={drawCanvasRef}
+                                            className="w-full max-w-full touch-none"
+                                            onPointerDown={handlePointer("down")}
+                                            onPointerMove={handlePointer("move")}
+                                            onPointerUp={handlePointer("up")}
+                                            onPointerLeave={handlePointer("up")}
+                                          />
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {signatureMode === "type" && (
+                                      <div className="space-y-3">
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label htmlFor="typed-signature" className="sm:w-48">Signature text</Label>
+                                          <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="flex-1" />
+                                        </div>
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label className="sm:w-48">Font</Label>
+                                          <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
+                                            <SelectTrigger className="w-[200px]"><SelectValue placeholder="Choose font" /></SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="cursive">Cursive</SelectItem>
+                                              <SelectItem value="serif">Serif</SelectItem>
+                                              <SelectItem value="sans-serif">Sans-serif</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label className="sm:w-48">Size</Label>
+                                          <div className="sm:w-[240px]">
+                                            <Slider value={[typedSize]} min={16} max={96} step={1} onValueChange={(v) => setTypedSize(v[0])} />
+                                          </div>
+                                          <span className="text-sm text-muted-foreground">{typedSize}px</span>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {signatureMode === "upload" && (
+                                      <div className="space-y-3">
+                                        <div className="flex items-center gap-4">
+                                          <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
+                                          <Input id="signature-upload" type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="max-w-xs" />
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {/* Live preview */}
+                                    <div className="space-y-2">
+                                      <Label className="block">Signature preview</Label>
+                                      <div className="rounded-md border bg-card p-3">
+                                        {signatureMode === "type" ? (
+                                          <div
+                                            className="max-w-full truncate"
+                                            style={{
+                                              fontFamily: typedFont,
+                                              fontSize: typedSize,
+                                            }}
+                                          >
+                                            {typedSignature}
+                                          </div>
+                                        ) : signaturePreview ? (
+                                          <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
+                                        ) : (
+                                          <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center gap-3">
+                                      <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
+                                      <Button type="button" variant="secondary" onClick={() => setSignatureMode(null)}>Change Signature</Button>
+                                    </div>
+                                  </div>
+                                )}
+
                                 <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
                               </div>
                               <div>
