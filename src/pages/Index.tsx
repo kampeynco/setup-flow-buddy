@@ -210,7 +210,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1024px] px-4 sm:px-6 py-8 grid gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-[488px_1fr] md:justify-items-center lg:justify-items-stretch">
+      <main className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:pl-0 py-8 grid gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-[488px_1fr] md:justify-items-center lg:justify-items-stretch">
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
           <nav aria-label="Setup steps" className="bg-muted/20">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
