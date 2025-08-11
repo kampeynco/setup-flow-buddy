@@ -101,8 +101,8 @@ function BackCanvas() {
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
-        {/* Donor details (bottom, left-aligned, no wrap) */}
-        <div className="absolute left-2 bottom-2 text-left text-[9px] leading-none whitespace-nowrap">
+        {/* Donor details (bottom-center, left-aligned, no wrap) */}
+        <div className="absolute left-1/2 bottom-3 -translate-x-1/2 text-left text-[9px] leading-none whitespace-nowrap">
           <div>
             <div>Donor Full Name</div>
             <div>456 Donor Avenue</div>
