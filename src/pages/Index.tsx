@@ -182,8 +182,8 @@ const Index = () => {
     reader.readAsDataURL(file);
   };
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-white border-b">
-        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-white">
+      <header className="sticky top-0 z-50 bg-background border-b">
+        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between bg-background">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
@@ -194,7 +194,7 @@ const Index = () => {
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent align="start" className="z-50 bg-popover">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -209,8 +209,8 @@ const Index = () => {
       </header>
 
       <main className="mx-auto max-w-[1024px] py-8 grid gap-12 md:grid-cols-[488px_1fr]">
-        <aside className="bg-[s] bg-transparent">
-          <nav aria-label="Setup steps" className="bg-[#f7fafc]">
+        <aside className="bg-transparent">
+          <nav aria-label="Setup steps" className="bg-muted/20">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
               {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
                   <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
@@ -318,7 +318,15 @@ const Index = () => {
                                           <ToggleGroup
                                             type="single"
                                             value={signatureMode ?? undefined}
-                                            onValueChange={(val) => setSignatureMode((val as any) || null)}
+                                            onValueChange={(val) => {
+                                              const next = (val as "draw" | "type" | "upload") || null;
+                                              setSignatureMode(next);
+                                              setSignaturePreview(null);
+                                              setUploadedSignature(null);
+                                              if (next !== "draw") {
+                                                clearCanvas();
+                                              }
+                                            }}
                                             className="flex flex-wrap gap-2"
                                           >
                                             <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
@@ -377,6 +385,11 @@ const Index = () => {
                                               </div>
                                               <span className="text-sm text-muted-foreground">{typedSize}px</span>
                                             </div>
+                                            <div className="flex items-center gap-3">
+                                              <Button type="button" variant="secondary" onClick={() => { setTypedSignature(""); setTypedFont("cursive"); setTypedSize(32); }}>
+                                                Reset
+                                              </Button>
+                                            </div>
                                           </div>
                                         )}
 
@@ -385,6 +398,11 @@ const Index = () => {
                                             <div className="flex items-center gap-4">
                                               <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
                                               <Input id="signature-upload" type="file" accept="image/png,image/jpeg" onChange={handleUpload} className="max-w-xs" />
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                              <Button type="button" variant="secondary" onClick={() => { setUploadedSignature(null); setSignaturePreview(null); }}>
+                                                Remove upload
+                                              </Button>
                                             </div>
                                           </div>
                                         )}
@@ -415,7 +433,6 @@ const Index = () => {
 
                                         <div className="flex flex-wrap items-center gap-3">
                                           <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
-                                          <Button type="button" variant="secondary" onClick={() => { setSignatureMode(null); setSignaturePreview(null); setUploadedSignature(null); }}>Change Signature</Button>
                                         </div>
                                       </div>
                                     )}
