@@ -74,7 +74,7 @@ function CopyField({
 }
 const steps = [
   { id: 1, title: "Add Committee Details", cta: "Add Details", note: undefined },
-  { id: 2, title: "Design Postcard Template", cta: "Add Message", note: undefined },
+  { id: 2, title: "Design Postcard Template", cta: "Design Card", note: undefined },
   { id: 3, title: "Preview Thank You Card", cta: "Preview Card", note: undefined }
 ];
 const Index = () => {
