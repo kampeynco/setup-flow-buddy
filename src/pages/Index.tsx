@@ -204,13 +204,12 @@ const Index = () => {
                               </div>
                             </TabsContent>
                             <TabsContent value="back" className="space-y-4 pt-4">
-                              <div className="flex items-start gap-4">
-                                <Label htmlFor="postcard-message" className="w-48 pt-2">Message</Label>
-                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} className="flex-1" />
+                              <div className="space-y-2">
+                                <Label htmlFor="postcard-message">Message</Label>
+                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
                               </div>
-                              <div className="flex items-center gap-4">
-                                <div className="w-48" />
-                                <Button onClick={() => toast.success("Message saved (demo)")}>
+                              <div>
+                                <Button onClick={() => toast.success("Message saved (demo)")} className="self-end">
                                   Save Message
                                 </Button>
                               </div>
