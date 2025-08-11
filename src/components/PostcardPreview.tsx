@@ -29,7 +29,7 @@ function FrontCanvas() {
 
       {/* Trim size */}
       <div
-        className="absolute rounded-sm border-2 border-foreground"
+        className="absolute rounded-sm border-2 border-foreground/10"
         style={{ inset: trimInset }}
       />
 
@@ -80,7 +80,7 @@ function BackCanvas() {
 
       {/* Trim size */}
       <div
-        className="absolute rounded-sm border-2 border-foreground"
+        className="absolute rounded-sm border-2 border-foreground/10"
         style={{ inset: trimInset }}
       />
 
