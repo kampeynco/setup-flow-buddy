@@ -185,7 +185,7 @@ const Index = () => {
   };
   return <div className="min-h-screen">
       <header className="sticky top-0 z-50 bg-primary border-b">
-        <div className="mx-auto max-w-[1024px] py-3 flex items-center justify-between">
+        <div className="mx-auto max-w-[1024px] px-4 sm:px-6 py-3 flex items-center justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2 bg-card text-primary hover:bg-card/90">
@@ -210,7 +210,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1024px] py-8 grid gap-12 md:grid-cols-[488px_1fr]">
+      <main className="mx-auto max-w-[1024px] px-4 sm:px-6 py-8 grid gap-8 sm:gap-10 md:gap-12 md:grid-cols-[488px_1fr]">
         <aside className="bg-transparent">
           <nav aria-label="Setup steps" className="bg-muted/20">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
