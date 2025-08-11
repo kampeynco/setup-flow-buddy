@@ -133,7 +133,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="border-b bg-primary/5">
+        <section className="border-b bg-primary/5 bg-hero">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Automate thank‑you postcards for your ActBlue donors</h1>

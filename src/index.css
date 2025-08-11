@@ -103,3 +103,9 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .bg-hero {
+    background-image: radial-gradient(80% 60% at 50% 0%, hsl(var(--primary) / 0.12), transparent), linear-gradient(180deg, hsl(var(--primary) / 0.04), transparent 60%);
+  }
+}
