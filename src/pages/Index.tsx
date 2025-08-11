@@ -101,8 +101,8 @@ const Index = () => {
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between bg-slate-50">
+      <header className="sticky top-0 z-10 bg-background border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
