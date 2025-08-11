@@ -96,13 +96,13 @@ function BackCanvas() {
         style={{ left: mailingLeft, top: mailingTop, width: mailingW, height: mailingH }}
 >
         {/* Committee details (top-left, smaller) */}
-        <div className="absolute top-2 left-2 text-[9px] leading-none text-muted-foreground text-left py-1 pr-2">
+        <div className="absolute top-2 left-2 text-[7px] leading-none text-muted-foreground text-left py-1 pr-2">
           <div>Placeholder Committee</div>
           <div>123 Main Street</div>
           <div>City, ST 12345</div>
         </div>
         {/* Mailing barcode (above donor details, left-aligned, no overlap) */}
-        <div className="absolute left-2 right-12 top-12">
+        <div className="absolute left-2 right-12 top-8">
           <img
             src="/lovable-uploads/7d41e453-11de-4cbc-8330-837205bd314a.png"
             alt="Mailing barcode example"
