@@ -186,12 +186,12 @@ const Index = () => {
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
                         <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Add Postcard Message</DialogTitle>
-                            <DialogDescription>
-                              Write the default message for your thank you postcards.
-                            </DialogDescription>
-                          </DialogHeader>
+                        <DialogHeader>
+                          <DialogTitle>Design Postcard Template</DialogTitle>
+                          <DialogDescription>
+                            Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
+                          </DialogDescription>
+                        </DialogHeader>
                           <Tabs defaultValue="front" className="mt-2">
                             <TabsList>
                               <TabsTrigger value="front">Front</TabsTrigger>
