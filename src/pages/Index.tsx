@@ -237,11 +237,13 @@ const Index = () => {
                 </ol>
               </article>
 
-              <div className="grid gap-4">
-                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" hidden={!showSecrets} />
-                <CopyField id="username" label="Username" value={username} hidden={!showSecrets} />
-                <CopyField id="password" label="Password" value={password} type="password" hidden={!showSecrets} />
-              </div>
+              {showSecrets && (
+                <div className="grid gap-4">
+                  <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" />
+                  <CopyField id="username" label="Username" value={username} />
+                  <CopyField id="password" label="Password" value={password} type="password" />
+                </div>
+              )}
 
               <div className="flex items-center gap-3">
                 <Button onClick={() => setShowSecrets(s => !s)}>
