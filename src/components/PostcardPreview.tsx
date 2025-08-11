@@ -134,7 +134,7 @@ function BackCanvas() {
 
 export default function PostcardPreview() {
   const [tab, setTab] = useState<"front" | "back">("front");
-  const zoom = 1.6; // 1.6x = 160%
+  const zoom = 1.8; // 1.8x = 180%
 
   const scale = useMemo(() => `scale(${zoom})`, [zoom]);
 
