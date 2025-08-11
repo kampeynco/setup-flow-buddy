@@ -79,11 +79,16 @@ const steps = [{
   id: 2,
   title: "Add Committee Address",
   cta: "Add Address",
-  note: undefined
+  note: "this is the return address for undeliverable postcards"
 }, {
   id: 3,
-  title: "Preview Thank You Card",
-  cta: "Preview Card",
+  title: "Add ActBlue account",
+  cta: "Open",
+  note: "see left section"
+}, {
+  id: 4,
+  title: "Preview Thank You Postcard",
+  cta: "Preview",
   note: undefined
 }];
 const Index = () => {
@@ -96,8 +101,8 @@ const Index = () => {
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
   return <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-white border-b">
-        <div className="mx-auto max-w-[1024px] px-4 py-3 flex items-center justify-between bg-white">
+      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between bg-white">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2">
@@ -122,8 +127,8 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1024px] px-4 py-8 grid gap-12 md:grid-cols-[488px_1fr]">
-        <aside className="bg-[s] bg-transparent">
+      <main className="container mx-auto px-4 py-8 grid gap-8 md:grid-cols-12">
+        <aside className="md:col-span-5 lg:col-span-4 bg-[s] bg-transparent">
           <nav aria-label="Setup steps" className="bg-[#f7fafc]">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
               {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
@@ -163,10 +168,6 @@ const Index = () => {
                             <DialogDescription>This will be used as the return address for undeliverable postcards.</DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 md:grid-cols-2">
-                            <div className="space-y-2 md:col-span-2">
-                              <Label>Legal Committee Name</Label>
-                              <Input placeholder="Committee Name" />
-                            </div>
                             <div className="space-y-2">
                               <Label>Street</Label>
                               <Input placeholder="123 Main St" />
@@ -192,7 +193,11 @@ const Index = () => {
                         </DialogContent>
                       </Dialog>}
 
-                    {s.id === 3 && <Dialog>
+                    {s.id === 3 && <a href="#actblue" className="inline-flex">
+                        
+                      </a>}
+
+                    {s.id === 4 && <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">{s.cta}</Button>
                         </DialogTrigger>
@@ -213,8 +218,8 @@ const Index = () => {
           </nav>
         </aside>
 
-        <section id="actblue">
-          <Card className="shadow-sm w-full md:w-[484px] md:min-h-[454px]">
+        <section id="actblue" className="md:col-span-7 lg:col-span-8">
+          <Card className="shadow-sm">
             <CardHeader>
               <h1 className="text-2xl font-semibold">Add ActBlue account</h1>
             </CardHeader>
@@ -223,7 +228,7 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">
                   Your ActBlue donors will be mailed thank you postcards for donations received under this account.
                 </p>
-                <ol className="list-decimal pl-5 space-y-2 text-sm pt-8">
+                <ol className="list-decimal pl-5 space-y-2 text-sm">
                   <li>Click Integrations on the left-hand sidebar.</li>
                   <li>Click Manage under the Webhooks section.</li>
                   <li>Click Request a New Webhook.</li>
@@ -232,22 +237,17 @@ const Index = () => {
                 </ol>
               </article>
 
-{showSecrets && (
               <div className="grid gap-4">
-                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" />
-                <CopyField id="username" label="Username" value={username} />
-                <CopyField id="password" label="Password" value={password} type="password" />
+                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" hidden={!showSecrets} />
+                <CopyField id="username" label="Username" value={username} hidden={!showSecrets} />
+                <CopyField id="password" label="Password" value={password} type="password" hidden={!showSecrets} />
               </div>
-              )}
 
               <div className="flex items-center gap-3">
-                <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
-                  {showSecrets ? <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span> : <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>}
+                <Button onClick={() => setShowSecrets(s => !s)}>
+                  {showSecrets ? <span className="inline-flex items-center gap-2 text-center"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span> : <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>}
                 </Button>
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Our system will receive ActBlue donation data from your account within 48 hours. If you have alerts enabled, we will send email alerts when postcards are sent.
-              </p>
             </CardContent>
           </Card>
         </section>
