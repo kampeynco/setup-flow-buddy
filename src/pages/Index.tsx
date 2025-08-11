@@ -389,31 +389,33 @@ const Index = () => {
                                           </div>
                                         )}
 
-                                        {/* Live preview */}
-                                        <div className="space-y-2">
-                                          <Label className="block">Signature preview</Label>
-                                          <div className="rounded-md border bg-card p-3">
-                                            {signatureMode === "type" ? (
-                                              <div
-                                                className="max-w-full truncate"
-                                                style={{
-                                                  fontFamily: typedFont,
-                                                  fontSize: typedSize,
-                                                }}
-                                              >
-                                                {typedSignature}
-                                              </div>
-                                            ) : signaturePreview ? (
-                                              <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
-                                            ) : (
-                                              <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
-                                            )}
-                                          </div>
+                                    {/* Live preview */}
+                                    {signatureMode && (
+                                      <div className="space-y-2">
+                                        <Label className="block">Signature preview</Label>
+                                        <div className="rounded-md border bg-card p-3">
+                                          {signatureMode === "type" ? (
+                                            <div
+                                              className="max-w-full truncate"
+                                              style={{
+                                                fontFamily: typedFont,
+                                                fontSize: typedSize,
+                                              }}
+                                            >
+                                              {typedSignature}
+                                            </div>
+                                          ) : signaturePreview ? (
+                                            <img src={signaturePreview} alt="Signature preview" className="h-16 w-auto object-contain" />
+                                          ) : (
+                                            <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
+                                          )}
                                         </div>
+                                      </div>
+                                    )}
 
                                         <div className="flex flex-wrap items-center gap-3">
                                           <Button type="button" onClick={() => toast.success("Signature saved (demo)")}>Save Signature</Button>
-                                          <Button type="button" variant="secondary" onClick={() => setSignatureMode(null)}>Change Signature</Button>
+                                          <Button type="button" variant="secondary" onClick={() => { setSignatureMode(null); setSignaturePreview(null); setUploadedSignature(null); }}>Change Signature</Button>
                                         </div>
                                       </div>
                                     )}
