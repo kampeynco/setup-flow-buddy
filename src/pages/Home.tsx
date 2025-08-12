@@ -114,10 +114,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card text-foreground" : "bg-primary text-primary-foreground"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
-            <img src="/images/logo_icon.svg" alt="Thank Donors logo icon" className="h-6 w-6" />
-            <span>Thank Donors</span>
-          </Link>
+          <Link to="/" className="font-playfair text-lg font-semibold">Thank Donors</Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>Features</a>
             <a href="#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>How it works</a>
