@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { cleanupAuthState } from "@/lib/utils";
 
 function useSEO({ title, description }: { title: string; description: string }) {
   useEffect(() => {
@@ -28,21 +29,6 @@ function useSEO({ title, description }: { title: string; description: string }) 
   }, [title, description]);
 }
 
-const cleanupAuthState = () => {
-  try {
-    localStorage.removeItem('supabase.auth.token');
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-        localStorage.removeItem(key);
-      }
-    });
-    Object.keys(sessionStorage || {}).forEach((key) => {
-      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-        sessionStorage.removeItem(key);
-      }
-    });
-  } catch {}
-};
 
 export default function Auth() {
   useSEO({

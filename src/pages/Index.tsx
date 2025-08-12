@@ -16,6 +16,8 @@ import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SettingsDialog from "@/components/SettingsDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { cleanupAuthState } from "@/lib/utils";
 
 // Simple SEO helpers for SPA
 function useSEO({
@@ -93,6 +95,15 @@ const Index = () => {
   const endpoint = useMemo(() => "https://actblue.thanksfromus.com/ht6d30z3d43yf9", []);
   const username = useMemo(() => "lenox@kampeyn.com", []);
   const password = useMemo(() => "yay4a7ahe7tucygf", []);
+
+  const handleSignOut = async () => {
+    try {
+      cleanupAuthState();
+      try { await supabase.auth.signOut({ scope: 'global' }); } catch {}
+    } finally {
+      window.location.href = "/auth";
+    }
+  };
 
   // Signature editor state (Back tab)
   const [includeSignature, setIncludeSignature] = useState(false);
@@ -204,7 +215,7 @@ const Index = () => {
               
               <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>Settings</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem onSelect={handleSignOut}>Log out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
