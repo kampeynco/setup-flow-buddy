@@ -97,6 +97,9 @@ export default function Auth() {
     e.preventDefault();
     setLoading(true);
     try {
+      if (password.length < 6) throw new Error("Password must be at least 6 characters");
+      if (password !== confirmPassword) throw new Error("Passwords do not match");
+
       const redirectUrl = `${window.location.origin}/auth`;
       const { error } = await supabase.auth.signUp({
         email,
@@ -172,6 +175,12 @@ export default function Auth() {
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" type="password" autoComplete={mode === "signin" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
+                {mode === "signup" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password-signup">Confirm password</Label>
+                    <Input id="confirm-password-signup" type="password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-sm">
                   <button type="button" className="underline underline-offset-4" onClick={() => setMode("forgot")}>
                     Forgot password?
