@@ -92,9 +92,11 @@ const Index = () => {
   });
   const [showSecrets, setShowSecrets] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const endpoint = useMemo(() => "https://actblue.thanksfromus.com/ht6d30z3d43yf9", []);
-  const username = useMemo(() => "lenox@kampeyn.com", []);
-  const password = useMemo(() => "yay4a7ahe7tucygf", []);
+  // ActBlue webhook fields loaded from Supabase profile
+  const [actblueEndpoint, setActblueEndpoint] = useState("");
+  const [actblueUsername, setActblueUsername] = useState("");
+  const [actbluePassword, setActbluePassword] = useState("");
+  const [loadingWebhook, setLoadingWebhook] = useState(true);
 
   const handleSignOut = async () => {
     try {
@@ -104,6 +106,83 @@ const Index = () => {
       window.location.href = "/auth";
     }
   };
+
+  // Auth + profile/webhook provisioning
+  const provisionWebhookIfNeeded = async (userId: string) => {
+    try {
+      setLoadingWebhook(true);
+      // Ensure profile exists
+      const { data: existing, error: selectError } = await supabase
+        .from('profiles')
+        .select('id, webhook_url, webhook_password')
+        .eq('id', userId)
+        .maybeSingle();
+
+      let profile = existing;
+
+      if (!profile) {
+        const { error: insertError } = await supabase.from('profiles').insert({ id: userId });
+        if (insertError) {
+          console.error('Insert profile error', insertError);
+          toast.error('Could not create your profile. Please try again.');
+          setLoadingWebhook(false);
+          return;
+        }
+        const { data: refetched } = await supabase
+          .from('profiles')
+          .select('id, webhook_url, webhook_password')
+          .eq('id', userId)
+          .maybeSingle();
+        profile = refetched || null;
+      }
+
+      if (!profile?.webhook_url || !profile?.webhook_password) {
+        toast.info('Creating your ActBlue webhook...');
+        const { error: fnError } = await supabase.functions.invoke('create-hookdeck-webhook', { body: {} });
+        if (fnError) {
+          console.error('Webhook creation error', fnError);
+          toast.error('Failed to create webhook.');
+          setLoadingWebhook(false);
+          return;
+        }
+        toast.success('Webhook created');
+        const { data: after } = await supabase
+          .from('profiles')
+          .select('webhook_url, webhook_password')
+          .eq('id', userId)
+          .maybeSingle();
+        setActblueEndpoint(after?.webhook_url || '');
+        setActbluePassword(after?.webhook_password || '');
+      } else {
+        setActblueEndpoint(profile.webhook_url || '');
+        setActbluePassword(profile.webhook_password || '');
+      }
+    } catch (e) {
+      console.error('Provisioning error', e);
+      toast.error('Unexpected error provisioning webhook');
+    } finally {
+      setLoadingWebhook(false);
+    }
+  };
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setActblueUsername(session?.user?.email ?? '');
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        window.location.href = '/auth';
+        return;
+      }
+      setActblueUsername(session.user.email ?? '');
+      provisionWebhookIfNeeded(session.user.id);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   // Signature editor state (Back tab)
   const [includeSignature, setIncludeSignature] = useState(false);
@@ -533,11 +612,12 @@ const Index = () => {
 
 {showSecrets && (
               <div className="grid gap-4">
-                <CopyField id="endpoint" label="Endpoint URL" value={endpoint} type="url" />
-                <CopyField id="username" label="Username" value={username} />
-                <CopyField id="password" label="Password" value={password} type="password" />
+                <CopyField id="endpoint" label="Endpoint URL" value={actblueEndpoint} type="url" />
+                <CopyField id="username" label="Username" value={actblueUsername} />
+                <CopyField id="password" label="Password" value={actbluePassword} type="password" />
               </div>
               )}
+
 
               <div className="flex items-center gap-3">
                 <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
