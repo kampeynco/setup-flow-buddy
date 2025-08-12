@@ -115,7 +115,7 @@ export default function Home() {
       <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card text-foreground" : "bg-primary text-primary-foreground"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
-            <img src="/images/logo_icon.svg" alt="Thank Donors logo icon" className="h-6 w-6" />
+            <img src="https://qnsodkdsjfrfjahnczwn.supabase.co/storage/v1/object/public/assets/logo_icon.svg" alt="Thank Donors logo icon" className="h-6 w-6" />
             <span>Thank Donors</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
