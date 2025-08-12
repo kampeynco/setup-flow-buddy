@@ -62,12 +62,19 @@ export default function Auth() {
   }, []);
 
   useEffect(() => {
+    // Support query param ?mode=signup or ?mode=signin to set initial mode
+    const params = new URLSearchParams(window.location.search);
+    const m = params.get('mode');
+    if (m === 'signup') setMode('signup');
+    else if (m === 'signin') setMode('signin');
+
     // If redirected back from password recovery, show reset form
     const hash = window.location.hash || ""; // e.g. #access_token=...&type=recovery
     if (hash.includes("type=recovery")) {
       setMode("reset");
     }
   }, []);
+
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();

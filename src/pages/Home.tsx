@@ -128,7 +128,7 @@ export default function Home() {
             <Link to="/auth" className="hidden sm:inline-block">
               <Button variant="ghost" className={scrolled ? "" : "text-primary-foreground"}>Login</Button>
             </Link>
-            <Link to="/dashboard">
+            <Link to="/auth?mode=signup">
               <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Try for Free</Button>
             </Link>
           </div>
@@ -158,7 +158,7 @@ export default function Home() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link to="/dashboard"><Button size="lg">Try for Free Today</Button></Link>
+                <Link to="/auth?mode=signup"><Button size="lg">Try for Free Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
             </div>
