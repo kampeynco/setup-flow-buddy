@@ -122,7 +122,7 @@ export default function Home() {
             <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link to="/dashboard" className="hidden sm:inline-block">
+            <Link to="/auth" className="hidden sm:inline-block">
               <Button variant="ghost" className={scrolled ? "" : "text-primary-foreground"}>Login</Button>
             </Link>
             <Link to="/dashboard">
