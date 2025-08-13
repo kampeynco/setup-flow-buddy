@@ -54,6 +54,45 @@ serve(async (req: Request): Promise<Response> => {
     // Service role client for privileged operations
     const admin = createClient(supabaseUrl, serviceKey);
 
+    // Attempt to delete Hookdeck Source if configured
+    try {
+      const HOOKDECK_API_KEY = Deno.env.get("HOOKDECK_API_KEY");
+      const HOOKDECK_API_BASE = "https://api.hookdeck.com/2025-07-01";
+      if (HOOKDECK_API_KEY) {
+        const { data: profRow, error: profSelErr } = await admin
+          .from("profiles")
+          .select("source_id")
+          .eq("id", userId)
+          .maybeSingle();
+        if (profSelErr) {
+          console.warn("Failed to load profile for Hookdeck deletion", profSelErr);
+        } else if (profRow?.source_id) {
+          const srcId = profRow.source_id as string;
+          const url = `${HOOKDECK_API_BASE}/sources/${srcId}`;
+          console.log("Deleting Hookdeck source:", url);
+          const res = await fetch(url, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${HOOKDECK_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          });
+          const text = await res.text();
+          if (res.status === 404) {
+            console.log("Hookdeck source not found, treating as deleted");
+          } else if (!res.ok) {
+            console.warn("Hookdeck source delete failed", res.status, text);
+          } else {
+            console.log("Hookdeck source deleted");
+          }
+        }
+      } else {
+        console.warn("HOOKDECK_API_KEY not set; skipping Hookdeck source deletion");
+      }
+    } catch (hdErr) {
+      console.warn("Hookdeck deletion step error (ignored)", hdErr);
+    }
+
     // 1) Gather related IDs (donations -> postcards -> tracking_events)
     const { data: donations, error: donationsErr } = await admin
       .from("donations")
