@@ -46,7 +46,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
       try {
         await supabase.auth.signOut({ scope: 'global' });
       } catch {}
-      window.location.href = '/auth';
+      window.location.href = '/auth?mode=signup';
     } catch (err) {
       console.error('Delete account error', err);
       toast.error('Failed to delete account. Please try again.');
