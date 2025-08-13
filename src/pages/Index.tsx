@@ -138,10 +138,16 @@ const Index = () => {
 
       if (!profile?.webhook_url || !profile?.webhook_password) {
         toast.info('Creating your ActBlue webhook...');
-        const { error: fnError } = await supabase.functions.invoke('create-hookdeck-webhook', { body: {} });
+        const { data: fnData, error: fnError } = await supabase.functions.invoke('create-hookdeck-webhook', {
+          body: {
+            user_id: userId,
+            email: actblueUsername || undefined,
+          },
+        });
         if (fnError) {
-          console.error('Webhook creation error', fnError);
-          toast.error('Failed to create webhook.');
+          console.error('Webhook creation error', fnError, fnData);
+          const serverMessage = (fnData as any)?.error || (fnError as any)?.message || 'Failed to create webhook.';
+          toast.error(serverMessage);
           setLoadingWebhook(false);
           return;
         }
