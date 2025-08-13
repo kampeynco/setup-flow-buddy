@@ -97,10 +97,11 @@ async function updateHookdeckSourceAuth(sourceId: string, username: string, pass
   if (!HOOKDECK_API_KEY) {
     throw new Error("HOOKDECK_API_KEY is not configured");
   }
-  const url = `${HOOKDECK_API_BASE}/sources`;
+  // Use the specific source endpoint and PUT to update auth config
+  const url = `${HOOKDECK_API_BASE}/sources/${sourceId}`;
   const payload = {
-    id: sourceId,
     name: sourceId,
+    type: "WEBHOOK",
     config: {
       auth_type: "BASIC_AUTH",
       auth: {
@@ -109,7 +110,10 @@ async function updateHookdeckSourceAuth(sourceId: string, username: string, pass
       },
     },
   };
-  console.log("Updating Hookdeck source auth at:", url);
+  console.log("Updating Hookdeck source auth at:", url, "payload:", {
+    ...payload,
+    config: { ...payload.config, auth: { username, password: "***redacted***" } },
+  });
   const res = await fetch(url, {
     method: "PUT",
     headers: {
@@ -121,13 +125,12 @@ async function updateHookdeckSourceAuth(sourceId: string, username: string, pass
   const text = await res.text();
   if (!res.ok) {
     console.error("Hookdeck source update error", res.status, text);
-    // Not fatal — we can still return webhook URL from the newly-created source
-    return { ok: false, body: text };
+    throw new Error(`Hookdeck source update failed (${res.status})`);
   }
   try {
-    return { ok: true, body: JSON.parse(text) };
+    return JSON.parse(text);
   } catch (_) {
-    return { ok: true, body: text };
+    return text as unknown as Record<string, unknown>;
   }
 }
 
