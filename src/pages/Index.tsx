@@ -107,6 +107,7 @@ const Index = () => {
   const [region, setRegion] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [savingAddress, setSavingAddress] = useState(false);
+  const [addressDialogOpen, setAddressDialogOpen] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -155,6 +156,7 @@ const Index = () => {
         toast.error('Failed to save address');
       } else {
         toast.success('Address saved');
+        setAddressDialogOpen(false);
       }
     } catch (e) {
       toast.error('Failed to save address');
@@ -389,7 +391,7 @@ const Index = () => {
                       <div className="mt-3">
                         {/* Step dialogs */}
                         {s.id === 1 && (
-                          <Dialog>
+                          <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
                             <DialogTrigger asChild>
                               <Button size="sm">{s.cta}</Button>
                             </DialogTrigger>
