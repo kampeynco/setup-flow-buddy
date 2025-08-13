@@ -631,9 +631,19 @@ const Index = () => {
 
 
               <div className="flex items-center gap-3">
-                <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
-                  {showSecrets ? <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span> : <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>}
-                </Button>
+                {loadingWebhook ? (
+                  <Button className="w-full" variant="secondary" disabled>
+                    Webhook creation pending...
+                  </Button>
+                ) : (
+                  <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
+                    {showSecrets ? (
+                      <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span>
+                    ) : (
+                      <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>
+                    )}
+                  </Button>
+                )}
               </div>
               <p className="mt-2 text-sm text-muted-foreground text-center">
                 Our system receives donation data within 48 hours of new webhook submissions to ActBlue.
