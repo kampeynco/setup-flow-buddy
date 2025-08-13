@@ -98,12 +98,68 @@ const Index = () => {
   const [actbluePassword, setActbluePassword] = useState("");
   const [loadingWebhook, setLoadingWebhook] = useState(true);
 
+  // Address form state
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [committeeName, setCommitteeName] = useState("");
+  const [street, setStreet] = useState("");
+  const [unitAddr, setUnitAddr] = useState("");
+  const [cityName, setCityName] = useState("");
+  const [region, setRegion] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [savingAddress, setSavingAddress] = useState(false);
+
   const handleSignOut = async () => {
     try {
       cleanupAuthState();
       try { await supabase.auth.signOut({ scope: 'global' }); } catch {}
     } finally {
       window.location.href = "/auth";
+    }
+  };
+
+  // Load profile address fields
+  const loadAddressProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('committee_name, street_address, city, state, postal_code')
+        .eq('id', userId)
+        .maybeSingle();
+      if (error) return;
+      if (data) {
+        setCommitteeName(data.committee_name ?? '');
+        setStreet(data.street_address ?? '');
+        setCityName(data.city ?? '');
+        setRegion(data.state ?? '');
+        setPostalCode(data.postal_code ?? '');
+        setUnitAddr('');
+      }
+    } catch {}
+  };
+
+  // Save profile address fields
+  const handleSaveAddress = async () => {
+    if (!currentUserId) return;
+    setSavingAddress(true);
+    try {
+      const street_address = (street + ' ' + (unitAddr || '')).trim();
+      const { error } = await supabase.from('profiles').upsert({
+        id: currentUserId,
+        committee_name: committeeName || null,
+        street_address: street_address || null,
+        city: cityName || null,
+        state: region || null,
+        postal_code: postalCode || null,
+      });
+      if (error) {
+        toast.error('Failed to save address');
+      } else {
+        toast.success('Address saved');
+      }
+    } catch (e) {
+      toast.error('Failed to save address');
+    } finally {
+      setSavingAddress(false);
     }
   };
 
@@ -187,6 +243,8 @@ const Index = () => {
         return;
       }
       setActblueUsername(session.user.email ?? '');
+      setCurrentUserId(session.user.id);
+      loadAddressProfile(session.user.id);
       provisionWebhookIfNeeded(session.user.id, session.user.email ?? '');
     });
 
@@ -343,35 +401,35 @@ const Index = () => {
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="space-y-4">
-                                <div className="grid gap-4 md:grid-cols-2">
-                                  <div className="space-y-2 md:col-span-2">
-                                    <Label>Legal Committee Name</Label>
-                                    <Input placeholder="Committee Name" />
+                                  <div className="grid gap-4 md:grid-cols-2">
+                                    <div className="space-y-2 md:col-span-2">
+                                      <Label>Legal Committee Name</Label>
+                                      <Input placeholder="Committee Name" value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                      <Label>Street</Label>
+                                      <Input placeholder="123 Main St" value={street} onChange={(e) => setStreet(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                      <Label>Unit</Label>
+                                      <Input placeholder="Suite 100" value={unitAddr} onChange={(e) => setUnitAddr(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2 md:col-span-2">
+                                      <Label>City</Label>
+                                      <Input placeholder="Anytown" value={cityName} onChange={(e) => setCityName(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                      <Label>State</Label>
+                                      <Input placeholder="CA" value={region} onChange={(e) => setRegion(e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                      <Label>ZIP</Label>
+                                      <Input placeholder="90210" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+                                    </div>
                                   </div>
-                                  <div className="space-y-2">
-                                    <Label>Street</Label>
-                                    <Input placeholder="123 Main St" />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label>Unit</Label>
-                                    <Input placeholder="Suite 100" />
-                                  </div>
-                                  <div className="space-y-2 md:col-span-2">
-                                    <Label>City</Label>
-                                    <Input placeholder="Anytown" />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label>State</Label>
-                                    <Input placeholder="CA" />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label>ZIP</Label>
-                                    <Input placeholder="90210" />
-                                  </div>
-                                </div>
-                                <Button onClick={() => toast.success("Address saved (demo)")}>
-                                  Save Address
-                                </Button>
+                                  <Button onClick={handleSaveAddress} disabled={savingAddress}>
+                                    {savingAddress ? 'Saving...' : 'Save Address'}
+                                  </Button>
                               </div>
                             </DialogContent>
                           </Dialog>
