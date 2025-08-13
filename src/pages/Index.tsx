@@ -108,7 +108,7 @@ const Index = () => {
   };
 
   // Auth + profile/webhook provisioning
-  const provisionWebhookIfNeeded = async (userId: string) => {
+  const provisionWebhookIfNeeded = async (userId: string, userEmail: string) => {
     try {
       setLoadingWebhook(true);
       // Ensure profile exists
@@ -137,11 +137,16 @@ const Index = () => {
       }
 
       if (!profile?.webhook_url || !profile?.webhook_password) {
+        if (!userEmail) {
+          toast.error('Missing account email. Please sign out and sign back in.');
+          setLoadingWebhook(false);
+          return;
+        }
         toast.info('Creating your ActBlue webhook...');
         const { data: fnData, error: fnError } = await supabase.functions.invoke('create-hookdeck-webhook', {
           body: {
             user_id: userId,
-            email: actblueUsername || undefined,
+            email: userEmail,
           },
         });
         if (fnError) {
@@ -182,7 +187,7 @@ const Index = () => {
         return;
       }
       setActblueUsername(session.user.email ?? '');
-      provisionWebhookIfNeeded(session.user.id);
+      provisionWebhookIfNeeded(session.user.id, session.user.email ?? '');
     });
 
     return () => {
