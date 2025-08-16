@@ -210,7 +210,7 @@ export default function Home() {
         <section id="features" className="bg-secondary/40 border-y">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
             <h2 className="text-2xl font-semibold mb-8">Why campaigns choose Thank Donors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 h-[600px]">
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 h-[700px]">
               {/* Large card - spans 2x2 */}
               <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
                 <CardHeader>
@@ -252,6 +252,14 @@ export default function Home() {
                   <CardTitle>Affordable at scale</CardTitle>
                 </CardHeader>
                 <CardContent>Usage‑based pricing fits any campaign size—pay only for mailings, no monthly minimums.</CardContent>
+              </Card>
+              
+              {/* Small card - spans 2x1 */}
+              <Card className="md:col-span-2 lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>Real‑time tracking</CardTitle>
+                </CardHeader>
+                <CardContent>Monitor delivery status and track campaign performance with detailed analytics and reporting.</CardContent>
               </Card>
               
               {/* Wide card - spans 4x1 */}
