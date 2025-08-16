@@ -208,25 +208,60 @@ export default function Home() {
 
         {/* Features */}
         <section id="features" className="bg-secondary/40 border-y">
-          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14 grid md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Brand‑ready templates</CardTitle>
-              </CardHeader>
-              <CardContent>Clean, configurable layout that always fits USPS guidelines.</CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Fast delivery</CardTitle>
-              </CardHeader>
-              <CardContent>Choose Standard (up to 10 business days) or First Class (~3 business days).</CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Affordable at scale</CardTitle>
-              </CardHeader>
-              <CardContent>Usage‑based pricing fits any campaign size—pay only for mailings.</CardContent>
-            </Card>
+          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
+            <h2 className="text-2xl font-semibold mb-8">Why campaigns choose Thank Donors</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 h-[600px]">
+              {/* Large card - spans 2x2 */}
+              <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
+                <CardHeader>
+                  <CardTitle className="text-xl">Zero manual work</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 flex items-center">
+                  <p className="text-lg">Connect once and we automatically mail every new ActBlue donor a personalized thank-you postcard.</p>
+                </CardContent>
+              </Card>
+              
+              {/* Medium card - spans 2x1 */}
+              <Card className="md:col-span-2 lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>Brand‑ready templates</CardTitle>
+                </CardHeader>
+                <CardContent>Clean, configurable layout that always fits USPS guidelines with your logo and message.</CardContent>
+              </Card>
+              
+              {/* Tall card - spans 1x2 */}
+              <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
+                <CardHeader>
+                  <CardTitle>Fast delivery options</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-center space-y-3">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <p className="font-medium">Standard Class</p>
+                    <p className="text-sm text-muted-foreground">Up to 10 business days</p>
+                  </div>
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <p className="font-medium">First Class</p>
+                    <p className="text-sm text-muted-foreground">~3 business days</p>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {/* Medium card - spans 2x1 */}
+              <Card className="md:col-span-2 lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>Affordable at scale</CardTitle>
+                </CardHeader>
+                <CardContent>Usage‑based pricing fits any campaign size—pay only for mailings, no monthly minimums.</CardContent>
+              </Card>
+              
+              {/* Wide card - spans 4x1 */}
+              <Card className="md:col-span-4 lg:col-span-4">
+                <CardHeader>
+                  <CardTitle>Built for political campaigns</CardTitle>
+                </CardHeader>
+                <CardContent>Designed specifically for ActBlue integration with FEC compliance considerations and campaign-focused features.</CardContent>
+              </Card>
+            </div>
           </div>
         </section>
 
