@@ -138,13 +138,13 @@ export default function Home() {
         {/* Hero */}
         <section className="border-b bg-primary/5">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
-            <div>
+            <div className="text-center lg:text-left">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
               <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Thank Donors Effortlessly</h1>
-              <p className="mt-4 text-muted-foreground max-w-prose">
+              <p className="mt-4 text-muted-foreground max-w-prose mx-auto lg:mx-0">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
-              <ul className="mt-6 space-y-2">
+              <ul className="mt-6 space-y-2 inline-block">
                 {[
                   'Direct ActBlue integration',
                   'Branded postcard template with your message',
@@ -156,12 +156,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
                 <Link to="/auth?mode=signup"><Button size="lg">Try for Free Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
             </div>
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden mx-auto lg:mx-0">
               <CardHeader>
                 <CardTitle>Postcard preview</CardTitle>
               </CardHeader>
