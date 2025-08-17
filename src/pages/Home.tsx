@@ -128,7 +128,7 @@ export default function Home() {
               <Button variant="ghost" className={scrolled ? "" : "text-primary-foreground"}>Login</Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Try for Free</Button>
+              <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Start for Free</Button>
             </Link>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function Home() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                <Link to="/auth?mode=signup"><Button size="lg">Try for Free Today</Button></Link>
+                <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
             </div>
