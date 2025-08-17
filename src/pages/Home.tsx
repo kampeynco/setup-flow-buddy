@@ -101,7 +101,6 @@ export default function Home() {
     },
   });
 
-
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -141,9 +140,9 @@ export default function Home() {
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
-              <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Thank Donors<br />Without Effort</h1>
+              <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Thank Donors Effortlessly</h1>
               <p className="mt-4 text-muted-foreground max-w-prose">
-                Connect ActBlue once. We’ll send postcards thanking every new donor using your logo, personal message, and optional signature.
+                Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
               <ul className="mt-6 space-y-2">
                 {[
