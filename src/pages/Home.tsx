@@ -180,23 +180,19 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <Card className="overflow-hidden mx-auto">
-              <CardHeader>
-                <CardTitle>Demo Video</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="w-full">
-                  <video 
-                    className="w-full h-auto rounded-lg"
-                    controls
-                    poster="/placeholder-video-thumbnail.jpg"
-                  >
-                    <source src="/demo-video.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="w-full max-w-4xl mx-auto">
+              <div className="relative aspect-video bg-muted rounded-xl overflow-hidden shadow-2xl">
+                <video 
+                  className="w-full h-full object-cover"
+                  controls
+                  poster="/placeholder-video-thumbnail.jpg"
+                  preload="metadata"
+                >
+                  <source src="/demo-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
         </section>
 
