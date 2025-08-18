@@ -199,23 +199,23 @@ export default function Home() {
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <h2 className="text-2xl font-semibold mb-8">How it works</h2>
-          <Accordion type="single" collapsible className="space-y-4" defaultValue="step-1">
-            <AccordionItem value="step-1" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+          <Accordion type="single" collapsible className="space-y-0" defaultValue="step-1">
+            <AccordionItem value="step-1" className="border-b border-border">
+              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
-                    <h3 className="text-lg font-semibold">1) Connect ActBlue</h3>
+                    <h3 className="text-lg font-medium">1. Connect ActBlue</h3>
                     <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
+                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
+              <AccordionContent className="pb-8">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div className="space-y-4">
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
                       Add your webhook credentials and authorize Thank Donors to receive donor data securely. 
                       Our simple setup process guides you through connecting your ActBlue account safely.
                     </p>
@@ -230,13 +230,14 @@ export default function Home() {
                       </li>
                     </ul>
                   </div>
-                  <div className="bg-muted rounded-lg p-4">
-                    <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
+                  <div className="bg-muted/50 rounded-lg p-6">
+                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center">
                       <div className="text-center">
-                        <div className="w-16 h-16 bg-actblue rounded-lg mx-auto mb-2 flex items-center justify-center">
+                        <div className="w-12 h-12 bg-actblue rounded-lg mx-auto mb-3 flex items-center justify-center">
                           <span className="text-white font-bold text-xs">AB</span>
                         </div>
                         <p className="text-sm font-medium">ActBlue Integration</p>
+                        <p className="text-xs text-muted-foreground mt-1">Connected</p>
                       </div>
                     </div>
                   </div>
@@ -244,22 +245,22 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="step-2" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+            <AccordionItem value="step-2" className="border-b border-border">
+              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
-                    <h3 className="text-lg font-semibold">2) Customize your postcard</h3>
+                    <h3 className="text-lg font-medium">2. Customize your postcard</h3>
                     <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
+                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
+              <AccordionContent className="pb-8">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div className="space-y-4">
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
                       Use your committee name, return address, logo, and message. Add a signature for a personal touch.
                       Our templates ensure professional design while maintaining USPS compliance.
                     </p>
@@ -278,8 +279,8 @@ export default function Home() {
                       </li>
                     </ul>
                   </div>
-                  <div className="bg-muted rounded-lg p-4">
-                    <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 rounded-lg flex items-center justify-center">
+                  <div className="bg-muted/50 rounded-lg p-6">
+                    <div className="aspect-video bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg flex items-center justify-center">
                       <div className="bg-white rounded shadow-lg p-4 max-w-[200px] w-full">
                         <div className="text-center space-y-2">
                           <div className="w-8 h-8 bg-primary rounded mx-auto"></div>
@@ -294,22 +295,22 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="step-3" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+            <AccordionItem value="step-3" className="border-b border-border">
+              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
-                    <h3 className="text-lg font-semibold">3) We mail automatically</h3>
+                    <h3 className="text-lg font-medium">3. We mail automatically</h3>
                     <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
+                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
+              <AccordionContent className="pb-8">
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div className="space-y-4">
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
                       Each new donor gets a postcard—no manual work required. Track delivery speed by plan and 
                       monitor your committee's thank you outreach in real-time.
                     </p>
@@ -328,15 +329,15 @@ export default function Home() {
                       </li>
                     </ul>
                   </div>
-                  <div className="bg-muted rounded-lg p-4">
-                    <div className="aspect-video bg-gradient-to-br from-accent/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                  <div className="bg-muted/50 rounded-lg p-6">
+                    <div className="aspect-video bg-gradient-to-br from-accent/10 to-secondary/10 rounded-lg flex items-center justify-center">
                       <div className="text-center space-y-3">
                         <div className="flex justify-center space-x-2">
-                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                         </div>
-                        <p className="text-sm font-medium">Thank You Mailing in progress</p>
+                        <p className="text-sm font-medium">Processing donations</p>
                         <p className="text-xs text-muted-foreground">157 postcards sent today</p>
                       </div>
                     </div>
