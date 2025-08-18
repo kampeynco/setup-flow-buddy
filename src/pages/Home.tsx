@@ -222,7 +222,7 @@ export default function Home() {
 
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
+          <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
           
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Column - Accordion */}
@@ -390,7 +390,7 @@ export default function Home() {
         {/* Features */}
         <section id="features" className="bg-secondary/40 border-y">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-            <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Why committees choose Thank Donors</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Why committees choose Thank Donors</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 md:h-[700px]">
               {/* Large card - spans 2x2 */}
               <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
@@ -456,8 +456,8 @@ export default function Home() {
 
         {/* Pricing */}
         <section id="pricing" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-2xl font-semibold">Simple pricing</h2>
-          <p className="mt-2 text-muted-foreground">Pick the plan that matches your delivery speed and volume.</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">Simple pricing</h2>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">Pick the plan that matches your delivery speed and volume.</p>
           <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch">
             <Card>
               <CardHeader>
@@ -493,8 +493,8 @@ export default function Home() {
         {/* FAQ */}
         <section id="faq" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-2">Frequently asked questions</h2>
-            <p className="text-muted-foreground">Get answers to common questions about our service</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Frequently asked questions</h2>
+            <p className="text-base sm:text-lg text-muted-foreground">Get answers to common questions about our service</p>
           </div>
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
