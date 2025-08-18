@@ -262,6 +262,10 @@ export default function Home() {
                           <Check className="h-4 w-4 text-green-600" />
                           <span>5-minute setup</span>
                         </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Secure integration</span>
+                        </li>
                       </ul>
                     </div>
                   </AccordionContent>
