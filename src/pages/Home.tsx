@@ -514,12 +514,68 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t bg-card">
-        <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-8 flex items-center justify-between text-sm">
-          <div>© {new Date().getFullYear()} Thank Donors</div>
-          <div className="flex items-center gap-4">
-            <a href="#pricing" className="hover:opacity-80">Pricing</a>
-            <Link to="/dashboard" className="hover:opacity-80">Open dashboard</Link>
+      <footer className="bg-muted/30 border-t">
+        <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Logo and Description */}
+            <div className="md:col-span-1">
+              <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold mb-4" aria-label="Thank Donors Home">
+                <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
+                <span>Thank Donors</span>
+              </Link>
+              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                Postcard donations made easy. Let your donors generate and send personalized thank you postcards. No more manual work. No processing fees. No more headaches.
+              </p>
+              <div className="text-xs text-muted-foreground">
+                Copyright © {new Date().getFullYear()} - All rights reserved
+              </div>
+            </div>
+
+            {/* Links Column */}
+            <div>
+              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">LINKS</h3>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#features" className="text-foreground hover:text-primary transition-colors">Support</a></li>
+                <li><a href="#pricing" className="text-foreground hover:text-primary transition-colors">Pricing</a></li>
+                <li><Link to="/auth" className="text-foreground hover:text-primary transition-colors">Dashboard</Link></li>
+              </ul>
+            </div>
+
+            {/* Legal Column */}
+            <div>
+              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">LEGAL</h3>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors">Terms of service</a></li>
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors">Privacy policy</a></li>
+              </ul>
+            </div>
+
+            {/* More Column */}
+            <div>
+              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">MORE</h3>
+              <ul className="space-y-3 text-sm">
+                <li><a href="#how" className="text-foreground hover:text-primary transition-colors">How it works</a></li>
+                <li><a href="#faq" className="text-foreground hover:text-primary transition-colors">FAQ</a></li>
+                <li><Link to="/auth?mode=signup" className="text-foreground hover:text-primary transition-colors">Get Started</Link></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>Built with</span>
+              <span className="inline-flex items-center gap-1 bg-foreground text-background px-2 py-1 rounded font-medium">
+                ⚡ Lovable
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
+                👋
+              </div>
+              <span>Hey there! Made with care for political campaigns and nonprofits.</span>
+            </div>
           </div>
         </div>
       </footer>
