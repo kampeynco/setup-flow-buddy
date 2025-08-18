@@ -94,6 +94,7 @@ export default function Home() {
     }
   });
   const [scrolled, setScrolled] = useState(false);
+  const [activeStep, setActiveStep] = useState("step-1");
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', onScroll);
@@ -199,153 +200,161 @@ export default function Home() {
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <h2 className="text-2xl font-semibold mb-8">How it works</h2>
-          <Accordion type="single" collapsible className="space-y-0" defaultValue="step-1">
-            <AccordionItem value="step-1" className="border-b border-border">
-              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
-                <div className="flex items-center justify-between text-left w-full">
-                  <div>
-                    <h3 className="text-lg font-medium">1. Connect ActBlue</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
-                  </div>
-                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-8">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      Add your webhook credentials and authorize Thank Donors to receive donor data securely. 
-                      Our simple setup process guides you through connecting your ActBlue account safely.
-                    </p>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Real-time data sync</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>5-minute setup</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="bg-muted/50 rounded-lg p-6">
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-actblue rounded-lg mx-auto mb-3 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">AB</span>
-                        </div>
-                        <p className="text-sm font-medium">ActBlue Integration</p>
-                        <p className="text-xs text-muted-foreground mt-1">Connected</p>
+          
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left Column - Accordion */}
+            <div>
+              <Accordion 
+                type="single" 
+                collapsible 
+                className="space-y-0" 
+                defaultValue="step-1"
+                value={activeStep}
+                onValueChange={(value) => setActiveStep(value || "step-1")}
+              >
+                <AccordionItem value="step-1" className="border-b border-border">
+                  <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+                    <div className="flex items-center justify-between text-left w-full">
+                      <div>
+                        <h3 className="text-lg font-medium">1. Connect ActBlue</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
+                      </div>
+                      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center ml-4">
+                        <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                       </div>
                     </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        Add your webhook credentials and authorize Thank Donors to receive donor data securely. 
+                        Our simple setup process guides you through connecting your ActBlue account safely.
+                      </p>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Real-time data sync</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>5-minute setup</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
 
-            <AccordionItem value="step-2" className="border-b border-border">
-              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
-                <div className="flex items-center justify-between text-left w-full">
-                  <div>
-                    <h3 className="text-lg font-medium">2. Customize your postcard</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
-                  </div>
-                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-8">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      Use your committee name, return address, logo, and message. Add a signature for a personal touch.
-                      Our templates ensure professional design while maintaining USPS compliance.
-                    </p>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Upload your logo</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Custom message editor</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Digital signature support</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="bg-muted/50 rounded-lg p-6">
-                    <div className="aspect-video bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg flex items-center justify-center">
-                      <div className="bg-white rounded shadow-lg p-4 max-w-[200px] w-full">
-                        <div className="text-center space-y-2">
-                          <div className="w-8 h-8 bg-primary rounded mx-auto"></div>
-                          <div className="h-2 bg-muted rounded w-3/4 mx-auto"></div>
-                          <div className="h-2 bg-muted rounded w-1/2 mx-auto"></div>
-                          <div className="text-xs text-muted-foreground">Postcard Preview</div>
-                        </div>
+                <AccordionItem value="step-2" className="border-b border-border">
+                  <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+                    <div className="flex items-center justify-between text-left w-full">
+                      <div>
+                        <h3 className="text-lg font-medium">2. Customize your postcard</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
+                      </div>
+                      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center ml-4">
+                        <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                       </div>
                     </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        Use your committee name, return address, logo, and message. Add a signature for a personal touch.
+                        Our templates ensure professional design while maintaining USPS compliance.
+                      </p>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Upload your logo</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Custom message editor</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Digital signature support</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
 
-            <AccordionItem value="step-3" className="border-b border-border">
-              <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
-                <div className="flex items-center justify-between text-left w-full">
-                  <div>
-                    <h3 className="text-lg font-medium">3. We mail automatically</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
-                  </div>
-                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                    <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="pb-8">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      Each new donor gets a postcard—no manual work required. Track delivery speed by plan and 
-                      monitor your committee's thank you outreach in real-time.
-                    </p>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Automatic trigger on donation</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Real-time delivery tracking</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
-                        <span>Mail delivery notifications</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="bg-muted/50 rounded-lg p-6">
-                    <div className="aspect-video bg-gradient-to-br from-accent/10 to-secondary/10 rounded-lg flex items-center justify-center">
-                      <div className="text-center space-y-3">
-                        <div className="flex justify-center space-x-2">
-                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                        </div>
-                        <p className="text-sm font-medium">Processing donations</p>
-                        <p className="text-xs text-muted-foreground">157 postcards sent today</p>
+                <AccordionItem value="step-3" className="border-b border-border">
+                  <AccordionTrigger className="py-6 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
+                    <div className="flex items-center justify-between text-left w-full">
+                      <div>
+                        <h3 className="text-lg font-medium">3. We mail automatically</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
+                      </div>
+                      <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center ml-4">
+                        <Plus className="icon-plus h-5 w-5 text-muted-foreground transition-transform duration-200" />
                       </div>
                     </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        Each new donor gets a postcard—no manual work required. Track delivery speed by plan and 
+                        monitor your committee's thank you outreach in real-time.
+                      </p>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Automatic trigger on donation</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Real-time delivery tracking</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
+                          <span>Mail delivery notifications</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+
+            {/* Right Column - Dynamic Visuals */}
+            <div className="lg:sticky lg:top-8">
+              <div className="bg-muted/50 rounded-lg p-6 min-h-[400px] flex items-center justify-center">
+                {activeStep === "step-1" && (
+                  <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center w-full">
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-actblue rounded-lg mx-auto mb-3 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">AB</span>
+                      </div>
+                      <p className="text-sm font-medium">ActBlue Integration</p>
+                      <p className="text-xs text-muted-foreground mt-1">Connected</p>
+                    </div>
                   </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+                )}
+
+                {activeStep === "step-2" && (
+                  <div className="w-full">
+                    <PostcardPreview />
+                  </div>
+                )}
+
+                {activeStep === "step-3" && (
+                  <div className="aspect-video bg-gradient-to-br from-accent/10 to-secondary/10 rounded-lg flex items-center justify-center w-full">
+                    <div className="text-center space-y-3">
+                      <div className="flex justify-center space-x-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                      </div>
+                      <p className="text-sm font-medium">Automation Active</p>
+                      <p className="text-xs text-muted-foreground">Postcards sent automatically</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Features */}
