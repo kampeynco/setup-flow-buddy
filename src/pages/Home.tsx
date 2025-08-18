@@ -180,7 +180,7 @@ export default function Home() {
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
               </div>
-              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1]">Thank Donors<br />Effortlessly</h1>
+              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1]">Thank Your Donors<br />Effortlessly</h1>
               <p className="mt-4 text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
