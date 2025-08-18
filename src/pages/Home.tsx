@@ -128,18 +128,18 @@ export default function Home() {
         {/* Hero */}
         <section className="border-b bg-primary/5">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
-            <div className="text-center lg:text-left">
+            <div className="text-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
               <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Thank Donors Effortlessly</h1>
               <p className="mt-4 text-muted-foreground max-w-prose mx-auto lg:mx-0">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
               
-              <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
-              <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Check className="h-4 w-4 text-green-600" />
                   <span>No setup fees</span>
