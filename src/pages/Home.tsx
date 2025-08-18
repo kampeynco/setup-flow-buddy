@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PostcardPreview from "@/components/PostcardPreview";
-import { Check } from "lucide-react";
+import { Check, Plus, Minus } from "lucide-react";
 function useSEO({
   title,
   description,
@@ -198,33 +198,166 @@ export default function Home() {
 
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-2xl font-semibold">How it works</h2>
-          <div className="mt-6 grid md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>1) Connect ActBlue</CardTitle>
-              </CardHeader>
-              <CardContent>
-                Add your webhook credentials and authorize Thank Donors to receive donor data securely.
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>2) Customize your postcard</CardTitle>
-              </CardHeader>
-              <CardContent>
-                Use your committee name, return address, logo, and message. Add a signature for a personal touch.
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>3) We mail automatically</CardTitle>
-              </CardHeader>
-              <CardContent>
-                Each new donor gets a postcard—no manual work. Track delivery speed by plan.
-              </CardContent>
-            </Card>
-          </div>
+          <h2 className="text-2xl font-semibold mb-8">How it works</h2>
+          <Accordion type="single" collapsible className="space-y-4" defaultValue="step-1">
+            <AccordionItem value="step-1" className="border rounded-lg">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+                <div className="flex items-center gap-4 text-left">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                    <Plus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                    <Minus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">1) Connect ActBlue</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-4">
+                    <p className="text-muted-foreground">
+                      Add your webhook credentials and authorize Thank Donors to receive donor data securely. 
+                      Our simple setup process guides you through connecting your ActBlue account safely.
+                    </p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Secure OAuth integration</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Real-time data sync</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>5-minute setup</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4">
+                    <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-actblue rounded-lg mx-auto mb-2 flex items-center justify-center">
+                          <span className="text-white font-bold text-xs">AB</span>
+                        </div>
+                        <p className="text-sm font-medium">ActBlue Integration</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="step-2" className="border rounded-lg">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+                <div className="flex items-center gap-4 text-left">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                    <Plus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                    <Minus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">2) Customize your postcard</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-4">
+                    <p className="text-muted-foreground">
+                      Use your committee name, return address, logo, and message. Add a signature for a personal touch.
+                      Our templates ensure professional design while maintaining USPS compliance.
+                    </p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Upload your logo</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Custom message editor</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Digital signature support</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4">
+                    <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 rounded-lg flex items-center justify-center">
+                      <div className="bg-white rounded shadow-lg p-4 max-w-[200px] w-full">
+                        <div className="text-center space-y-2">
+                          <div className="w-8 h-8 bg-primary rounded mx-auto"></div>
+                          <div className="h-2 bg-muted rounded w-3/4 mx-auto"></div>
+                          <div className="h-2 bg-muted rounded w-1/2 mx-auto"></div>
+                          <div className="text-xs text-muted-foreground">Postcard Preview</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="step-3" className="border rounded-lg">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+                <div className="flex items-center gap-4 text-left">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                    <Plus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                    <Minus className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">3) We mail automatically</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-6">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-4">
+                    <p className="text-muted-foreground">
+                      Each new donor gets a postcard—no manual work required. Track delivery speed by plan and 
+                      monitor your campaign's thank you outreach in real-time.
+                    </p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Automatic trigger on donation</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Real-time delivery tracking</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-600" />
+                        <span>Campaign analytics</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-muted rounded-lg p-4">
+                    <div className="aspect-video bg-gradient-to-br from-accent/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                      <div className="text-center space-y-3">
+                        <div className="flex justify-center space-x-2">
+                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                        </div>
+                        <p className="text-sm font-medium">Auto-mailing in progress</p>
+                        <p className="text-xs text-muted-foreground">157 postcards sent today</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </section>
 
         {/* Features */}
