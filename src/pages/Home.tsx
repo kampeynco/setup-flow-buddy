@@ -199,7 +199,7 @@ export default function Home() {
 
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-2xl font-semibold mb-8">How it works</h2>
+          <h2 className="text-5xl font-bold tracking-tight leading-[1.1] mb-8">Send thank you postcards to your donors</h2>
           
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Column - Accordion */}
