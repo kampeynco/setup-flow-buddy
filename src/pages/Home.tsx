@@ -182,11 +182,18 @@ export default function Home() {
             </div>
             <Card className="overflow-hidden mx-auto">
               <CardHeader>
-                <CardTitle>Postcard preview</CardTitle>
+                <CardTitle>Demo Video</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="scale-95 origin-top w-full overflow-x-auto">
-                  <PostcardPreview />
+                <div className="w-full">
+                  <video 
+                    className="w-full h-auto rounded-lg"
+                    controls
+                    poster="/placeholder-video-thumbnail.jpg"
+                  >
+                    <source src="/demo-video.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               </CardContent>
             </Card>
