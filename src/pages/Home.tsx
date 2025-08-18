@@ -423,7 +423,7 @@ export default function Home() {
               {/* Wide card - spans 4x1 */}
               <Card className="md:col-span-4 lg:col-span-4">
                 <CardHeader>
-                  <CardTitle>Built for political campaigns</CardTitle>
+                  <CardTitle>Built for political organizations</CardTitle>
                 </CardHeader>
                 <CardContent>Designed specifically for ActBlue integration with FEC compliance considerations and campaign-focused features.</CardContent>
               </Card>
