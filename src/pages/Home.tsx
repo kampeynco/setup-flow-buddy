@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PostcardPreview from "@/components/PostcardPreview";
 import { Check, Plus, Minus } from "lucide-react";
-import logoIcon from "@/assets/logo_icon.png";
+import logoIcon from "@/assets/logo_icon.svg";
 function useSEO({
   title,
   description,
