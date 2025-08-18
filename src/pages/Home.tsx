@@ -201,14 +201,14 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-8">How it works</h2>
           <Accordion type="single" collapsible className="space-y-4" defaultValue="step-1">
             <AccordionItem value="step-1" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
                     <h3 className="text-lg font-semibold">1) Connect ActBlue</h3>
                     <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
+                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -249,14 +249,14 @@ export default function Home() {
             </AccordionItem>
 
             <AccordionItem value="step-2" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
                     <h3 className="text-lg font-semibold">2) Customize your postcard</h3>
                     <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
+                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -299,14 +299,14 @@ export default function Home() {
             </AccordionItem>
 
             <AccordionItem value="step-3" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden [&[data-state=open]_.icon-plus]:rotate-45">
                 <div className="flex items-center justify-between text-left w-full">
                   <div>
                     <h3 className="text-lg font-semibold">3) We mail automatically</h3>
                     <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
+                    <Plus className="icon-plus h-4 w-4 text-primary transition-transform duration-200" />
                   </div>
                 </div>
               </AccordionTrigger>
