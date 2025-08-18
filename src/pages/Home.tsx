@@ -127,25 +127,27 @@ export default function Home() {
       <main>
         {/* Hero */}
         <section className="relative border-b bg-primary/5 overflow-hidden">
-          {/* Geometric Pattern Elements */}
+          {/* Abstract Blob Shapes */}
           <div className="absolute inset-0 pointer-events-none">
-            {/* Large decorative circles */}
-            <div className="absolute top-10 right-20 w-32 h-32 border border-primary/20 rounded-full"></div>
-            <div className="absolute bottom-20 left-16 w-24 h-24 border-2 border-secondary/15 rounded-full"></div>
-            <div className="absolute top-1/3 left-1/4 w-16 h-16 bg-accent/10 rounded-full"></div>
+            {/* Large blob - top right */}
+            <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/10 opacity-60" 
+                 style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'}}></div>
             
-            {/* Dot pattern grid */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-30">
-              <div className="grid grid-cols-12 gap-8 h-full p-8">
-                {Array.from({ length: 48 }).map((_, i) => (
-                  <div key={i} className="w-1 h-1 bg-primary/40 rounded-full self-center justify-self-center"></div>
-                ))}
-              </div>
-            </div>
+            {/* Medium blob - bottom left */}
+            <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-secondary/8 opacity-80"
+                 style={{clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)'}}></div>
             
-            {/* Geometric lines */}
-            <div className="absolute top-1/4 right-1/3 w-20 h-px bg-gradient-to-r from-primary/30 to-transparent transform rotate-45"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-16 h-px bg-gradient-to-l from-secondary/25 to-transparent transform -rotate-12"></div>
+            {/* Small organic shape - center left */}
+            <div className="absolute top-1/3 left-8 w-32 h-32 bg-accent/12 opacity-70"
+                 style={{clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)'}}></div>
+            
+            {/* Fluid blob - top center */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-48 h-24 bg-primary/8 opacity-50"
+                 style={{clipPath: 'ellipse(60% 100% at 50% 0%)'}}></div>
+            
+            {/* Small accent blob - bottom right */}
+            <div className="absolute bottom-1/4 right-1/4 w-20 h-20 bg-accent/15 opacity-60"
+                 style={{clipPath: 'circle(50% at 50% 50%)'}}></div>
           </div>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
