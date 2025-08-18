@@ -5,19 +5,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PostcardPreview from "@/components/PostcardPreview";
 import { Check } from "lucide-react";
-
-function useSEO({ title, description, jsonLd }: { title: string; description: string; jsonLd?: object }) {
+function useSEO({
+  title,
+  description,
+  jsonLd
+}: {
+  title: string;
+  description: string;
+  jsonLd?: object;
+}) {
   useEffect(() => {
     document.title = title;
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", description);
-    else {
+    if (desc) desc.setAttribute("content", description);else {
       const m = document.createElement("meta");
       m.name = "description";
       m.content = description;
       document.head.appendChild(m);
     }
-
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
       canonical = document.createElement("link");
@@ -38,69 +43,56 @@ function useSEO({ title, description, jsonLd }: { title: string; description: st
     }
   }, [title, description, jsonLd]);
 }
-
 export default function Home() {
   useSEO({
     title: "Thank Donors – Automate ActBlue Thank‑You Postcards",
-    description:
-      "Connect ActBlue to Thank Donors and automatically mail branded, signed thank‑you postcards to supporters.",
+    description: "Connect ActBlue to Thank Donors and automatically mail branded, signed thank‑you postcards to supporters.",
     jsonLd: {
       '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'SoftwareApplication',
-          name: 'Thank Donors',
-          applicationCategory: 'MarketingAutomation',
-          offers: [
-            {
-              '@type': 'Offer',
-              name: 'Free',
-              price: '0',
-              priceCurrency: 'USD',
-              description: 'Usage $1.79 per postcard. Standard class mail (up to 10 business days).',
-            },
-            {
-              '@type': 'Offer',
-              name: 'Pro',
-              price: '79',
-              priceCurrency: 'USD',
-              description: 'Usage $0.79 per postcard. First class mail (about 3 business days).',
-            },
-          ],
-        },
-        {
-          '@type': 'FAQPage',
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: 'Do I need to export data from ActBlue?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'No. Once connected, ActBlue sends donor details directly to us automatically.'
-              }
-            },
-            {
-              '@type': 'Question',
-              name: 'Can I add my committee logo and return address?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.'
-              }
-            },
-            {
-              '@type': 'Question',
-              name: 'How fast is delivery?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).'
-              }
-            }
-          ]
-        }
-      ]
-    },
+      '@graph': [{
+        '@type': 'SoftwareApplication',
+        name: 'Thank Donors',
+        applicationCategory: 'MarketingAutomation',
+        offers: [{
+          '@type': 'Offer',
+          name: 'Free',
+          price: '0',
+          priceCurrency: 'USD',
+          description: 'Usage $1.79 per postcard. Standard class mail (up to 10 business days).'
+        }, {
+          '@type': 'Offer',
+          name: 'Pro',
+          price: '79',
+          priceCurrency: 'USD',
+          description: 'Usage $0.79 per postcard. First class mail (about 3 business days).'
+        }]
+      }, {
+        '@type': 'FAQPage',
+        mainEntity: [{
+          '@type': 'Question',
+          name: 'Do I need to export data from ActBlue?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'No. Once connected, ActBlue sends donor details directly to us automatically.'
+          }
+        }, {
+          '@type': 'Question',
+          name: 'Can I add my committee logo and return address?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.'
+          }
+        }, {
+          '@type': 'Question',
+          name: 'How fast is delivery?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).'
+          }
+        }]
+      }]
+    }
   });
-
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -108,9 +100,7 @@ export default function Home() {
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <header className={`sticky top-0 z-50 border-b transition-colors ${scrolled ? "bg-card text-foreground" : "bg-primary text-primary-foreground"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
@@ -144,18 +134,7 @@ export default function Home() {
               <p className="mt-4 text-muted-foreground max-w-prose mx-auto lg:mx-0">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
-              <ul className="mt-6 space-y-2 inline-block">
-                {[
-                  'Direct ActBlue integration',
-                  'Branded postcard template with your message',
-                  'Automatic mailing, no spreadsheets',
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              
               <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
                 <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
@@ -357,6 +336,5 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
