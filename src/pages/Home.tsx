@@ -492,27 +492,38 @@ export default function Home() {
 
         {/* FAQ */}
         <section id="faq" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-2xl font-semibold">Frequently asked questions</h2>
-          <Accordion type="single" collapsible className="mt-4">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Do I need to export data from ActBlue?</AccordionTrigger>
-              <AccordionContent>
-                No. Once connected, ActBlue sends donor details directly to us automatically.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Can I add my committee logo and return address?</AccordionTrigger>
-              <AccordionContent>
-                Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>How fast is delivery?</AccordionTrigger>
-              <AccordionContent>
-                Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-2">Frequently asked questions</h2>
+            <p className="text-muted-foreground">Get answers to common questions about our service</p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem value="item-1" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Do I need to export data from ActBlue?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  No. Once connected, ActBlue sends donor details directly to us automatically.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Can I add my committee logo and return address?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Yes. Tell us your committee name with a mailing address, share your logo, and add a personal message for your donors, all in your dashboard.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  How fast is delivery?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
         </section>
       </main>
 
