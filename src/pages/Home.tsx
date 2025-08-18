@@ -256,15 +256,15 @@ export default function Home() {
                       <ul className="space-y-2 text-sm">
                         <li className="flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-600" />
+                          <span>Secure integration</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600" />
                           <span>Real-time data sync</span>
                         </li>
                         <li className="flex items-center gap-2">
                           <Check className="h-4 w-4 text-green-600" />
                           <span>5-minute setup</span>
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-green-600" />
-                          <span>Secure integration</span>
                         </li>
                       </ul>
                     </div>
