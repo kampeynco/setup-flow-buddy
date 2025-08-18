@@ -160,6 +160,20 @@ export default function Home() {
                 <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
               </div>
+              <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span>No setup fees</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span>Cancel anytime</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span>Postage included</span>
+                </div>
+              </div>
             </div>
             <Card className="overflow-hidden mx-auto lg:mx-0">
               <CardHeader>
