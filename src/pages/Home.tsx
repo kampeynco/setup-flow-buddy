@@ -221,7 +221,8 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
+        <section id="how" className="bg-gradient-to-b from-primary/5 to-white">
+          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
           
           <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -389,6 +390,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
         </section>
 
         {/* Features */}
