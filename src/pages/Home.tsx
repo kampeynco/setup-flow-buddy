@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PostcardPreview from "@/components/PostcardPreview";
+import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
+import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 import { Check, Plus, Minus } from "lucide-react";
 import logoIcon from "@/assets/logo_icon.svg";
 function useSEO({
@@ -545,8 +547,16 @@ export default function Home() {
             <div>
               <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">LEGAL</h3>
               <ul className="space-y-3 text-sm">
-                <li><a href="#" className="text-foreground hover:text-primary transition-colors">Terms of service</a></li>
-                <li><a href="#" className="text-foreground hover:text-primary transition-colors">Privacy policy</a></li>
+                <li>
+                  <TermsOfServiceDialog>
+                    <button className="text-foreground hover:text-primary transition-colors">Terms of service</button>
+                  </TermsOfServiceDialog>
+                </li>
+                <li>
+                  <PrivacyPolicyDialog>
+                    <button className="text-foreground hover:text-primary transition-colors">Privacy policy</button>
+                  </PrivacyPolicyDialog>
+                </li>
               </ul>
             </div>
 
