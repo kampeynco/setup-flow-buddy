@@ -102,7 +102,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 border-b transition-colors relative ${scrolled ? "bg-card text-foreground" : "bg-primary/5 text-primary-foreground"}`}>
+      <header className={`sticky top-0 z-50 transition-colors relative ${scrolled ? "bg-card text-foreground" : "bg-primary/5 text-foreground"}`}>
         {!scrolled && (
           <div className="absolute inset-0 pointer-events-none">
             {/* Dot grid pattern */}
@@ -129,17 +129,17 @@ export default function Home() {
             <span>Thank Donors</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>Features</a>
-            <a href="#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>How it works</a>
-            <a href="#pricing" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>Pricing</a>
-            <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}>FAQ</a>
+            <a href="#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>Features</a>
+            <a href="#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>How it works</a>
+            <a href="#pricing" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>Pricing</a>
+            <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/auth" className="hidden sm:inline-block">
-              <Button variant="ghost" className={scrolled ? "" : "text-primary-foreground"}>Login</Button>
+              <Button variant="ghost" className={scrolled ? "" : "text-foreground"}>Login</Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Start for Free</Button>
+              <Button variant={scrolled ? "default" : "default"} className="font-semibold">Start for Free</Button>
             </Link>
           </div>
         </div>
