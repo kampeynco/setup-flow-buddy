@@ -374,7 +374,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle className="text-xl">Zero manual work</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-1 flex items-center">
+                <CardContent className="flex-1 flex items-start">
                   <p className="text-lg">Connect once and we automatically mail every new ActBlue donor a personalized thank-you postcard.</p>
                 </CardContent>
               </Card>
@@ -392,7 +392,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Fast delivery options</CardTitle>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col justify-center space-y-3">
+                <CardContent className="flex-1 flex flex-col justify-start space-y-3">
                   <div className="p-3 bg-primary/10 rounded-lg">
                     <p className="font-medium">Standard Class</p>
                     <p className="text-sm text-muted-foreground">Up to 10 business days</p>
