@@ -334,8 +334,15 @@ export default function Home() {
                 )}
 
                 {activeStep === "step-2" && (
-                  <div className="w-full">
-                    <PostcardPreview />
+                  <div className="aspect-video bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg flex items-center justify-center w-full">
+                    <div className="bg-white rounded shadow-lg p-4 max-w-[200px] w-full">
+                      <div className="text-center space-y-2">
+                        <div className="w-8 h-8 bg-primary rounded mx-auto"></div>
+                        <div className="h-2 bg-muted rounded w-3/4 mx-auto"></div>
+                        <div className="h-2 bg-muted rounded w-1/2 mx-auto"></div>
+                        <div className="text-xs text-muted-foreground">Postcard Preview</div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -347,8 +354,8 @@ export default function Home() {
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                       </div>
-                      <p className="text-sm font-medium">Automation Active</p>
-                      <p className="text-xs text-muted-foreground">Postcards sent automatically</p>
+                      <p className="text-sm font-medium">Thanking Donors</p>
+                      <p className="text-xs text-muted-foreground">157 postcards mailed today</p>
                     </div>
                   </div>
                 )}
