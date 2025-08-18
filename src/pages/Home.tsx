@@ -127,27 +127,29 @@ export default function Home() {
       <main>
         {/* Hero */}
         <section className="relative border-b bg-primary/5 overflow-hidden">
-          {/* Abstract Blob Shapes */}
+          {/* Grid/Dot Pattern Background */}
           <div className="absolute inset-0 pointer-events-none">
-            {/* Large blob - top right */}
-            <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/10 opacity-60" 
-                 style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'}}></div>
+            {/* Dot grid pattern */}
+            <div className="absolute inset-0 opacity-40"
+                 style={{
+                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
+                   backgroundSize: '24px 24px'
+                 }}></div>
             
-            {/* Medium blob - bottom left */}
-            <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-secondary/8 opacity-80"
-                 style={{clipPath: 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)'}}></div>
+            {/* Subtle line grid overlay */}
+            <div className="absolute inset-0 opacity-20"
+                 style={{
+                   backgroundImage: `
+                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
+                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
+                   `,
+                   backgroundSize: '48px 48px'
+                 }}></div>
             
-            {/* Small organic shape - center left */}
-            <div className="absolute top-1/3 left-8 w-32 h-32 bg-accent/12 opacity-70"
-                 style={{clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)'}}></div>
-            
-            {/* Fluid blob - top center */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-48 h-24 bg-primary/8 opacity-50"
-                 style={{clipPath: 'ellipse(60% 100% at 50% 0%)'}}></div>
-            
-            {/* Small accent blob - bottom right */}
-            <div className="absolute bottom-1/4 right-1/4 w-20 h-20 bg-accent/15 opacity-60"
-                 style={{clipPath: 'circle(50% at 50% 50%)'}}></div>
+            {/* Accent dots for visual interest */}
+            <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full opacity-60"></div>
+            <div className="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-secondary rounded-full opacity-70"></div>
+            <div className="absolute top-2/3 left-1/4 w-1 h-1 bg-primary rounded-full opacity-80"></div>
           </div>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
