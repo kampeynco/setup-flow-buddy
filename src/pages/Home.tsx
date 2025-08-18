@@ -208,8 +208,7 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
-                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
+                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -257,8 +256,7 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
-                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
+                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -308,8 +306,7 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
                   </div>
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
-                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
+                    <Plus className="h-4 w-4 text-primary transition-transform duration-200 data-[state=open]:rotate-45" />
                   </div>
                 </div>
               </AccordionTrigger>
