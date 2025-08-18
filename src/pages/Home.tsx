@@ -150,7 +150,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="relative border-b bg-primary/5 overflow-hidden">
+        <section className="relative bg-primary/5 overflow-hidden">
           {/* Grid/Dot Pattern Background */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Dot grid pattern */}
@@ -169,6 +169,9 @@ export default function Home() {
                    `,
                    backgroundSize: '48px 48px'
                  }}></div>
+            
+            {/* Gradient overlay that transitions to white */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white pointer-events-none"></div>
             
             {/* Accent dots for visual interest */}
             <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full opacity-60"></div>
@@ -221,7 +224,9 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
+        <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14 relative">
+          {/* Gradient overlay at top to blend with hero */}
+          <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none -z-10"></div>
           <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
           
           <div className="grid lg:grid-cols-2 gap-12 items-start">
