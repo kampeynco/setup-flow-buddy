@@ -127,11 +127,25 @@ export default function Home() {
       <main>
         {/* Hero */}
         <section className="relative border-b bg-primary/5 overflow-hidden">
-          {/* Gradient Background Elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-radial from-primary/20 via-primary/10 to-transparent rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-radial from-secondary/15 via-secondary/8 to-transparent rounded-full blur-2xl"></div>
-            <div className="absolute top-1/2 left-0 w-64 h-64 bg-gradient-radial from-accent/10 via-accent/5 to-transparent rounded-full blur-xl"></div>
+          {/* Geometric Pattern Elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Large decorative circles */}
+            <div className="absolute top-10 right-20 w-32 h-32 border border-primary/20 rounded-full"></div>
+            <div className="absolute bottom-20 left-16 w-24 h-24 border-2 border-secondary/15 rounded-full"></div>
+            <div className="absolute top-1/3 left-1/4 w-16 h-16 bg-accent/10 rounded-full"></div>
+            
+            {/* Dot pattern grid */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-30">
+              <div className="grid grid-cols-12 gap-8 h-full p-8">
+                {Array.from({ length: 48 }).map((_, i) => (
+                  <div key={i} className="w-1 h-1 bg-primary/40 rounded-full self-center justify-self-center"></div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Geometric lines */}
+            <div className="absolute top-1/4 right-1/3 w-20 h-px bg-gradient-to-r from-primary/30 to-transparent transform rotate-45"></div>
+            <div className="absolute bottom-1/3 right-1/4 w-16 h-px bg-gradient-to-l from-secondary/25 to-transparent transform -rotate-12"></div>
           </div>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
