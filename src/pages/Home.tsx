@@ -201,12 +201,12 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-8">How it works</h2>
           <Accordion type="single" collapsible className="space-y-4" defaultValue="step-1">
             <AccordionItem value="step-1" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
                 <div className="flex items-center gap-4 text-left">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=open]:hidden">
                     <Plus className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=closed]:hidden">
                     <Minus className="h-4 w-4 text-primary" />
                   </div>
                   <div>
@@ -252,12 +252,12 @@ export default function Home() {
             </AccordionItem>
 
             <AccordionItem value="step-2" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
                 <div className="flex items-center gap-4 text-left">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=open]:hidden">
                     <Plus className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=closed]:hidden">
                     <Minus className="h-4 w-4 text-primary" />
                   </div>
                   <div>
@@ -305,12 +305,12 @@ export default function Home() {
             </AccordionItem>
 
             <AccordionItem value="step-3" className="border rounded-lg">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline group">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline [&>svg]:hidden">
                 <div className="flex items-center gap-4 text-left">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=open]:hidden">
                     <Plus className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center data-[state=closed]:hidden">
                     <Minus className="h-4 w-4 text-primary" />
                   </div>
                   <div>
