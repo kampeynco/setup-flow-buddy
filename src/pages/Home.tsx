@@ -199,7 +199,7 @@ export default function Home() {
 
         {/* How it works */}
         <section id="how" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-          <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8">Send thank you postcards to your donors</h2>
+          <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
           
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Column - Accordion */}
@@ -367,7 +367,7 @@ export default function Home() {
         {/* Features */}
         <section id="features" className="bg-secondary/40 border-y">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
-            <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8">Why campaigns choose Thank Donors</h2>
+            <h2 className="text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Why campaigns choose Thank Donors</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 h-[700px]">
               {/* Large card - spans 2x2 */}
               <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
