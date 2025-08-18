@@ -127,11 +127,11 @@ export default function Home() {
       <main>
         {/* Hero */}
         <section className="border-b bg-primary/5">
-          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 grid lg:grid-cols-2 items-center gap-8">
+          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
               <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">Thank Donors Effortlessly</h1>
-              <p className="mt-4 text-muted-foreground max-w-prose mx-auto lg:mx-0">
+              <p className="mt-4 text-muted-foreground max-w-prose mx-auto">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
               
@@ -154,7 +154,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <Card className="overflow-hidden mx-auto lg:mx-0">
+            <Card className="overflow-hidden mx-auto">
               <CardHeader>
                 <CardTitle>Postcard preview</CardTitle>
               </CardHeader>
