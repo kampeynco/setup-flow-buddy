@@ -539,7 +539,6 @@ export default function Home() {
               <ul className="space-y-3 text-sm">
                 <li><a href="#features" className="text-foreground hover:text-primary transition-colors">Support</a></li>
                 <li><a href="#pricing" className="text-foreground hover:text-primary transition-colors">Pricing</a></li>
-                <li><Link to="/auth" className="text-foreground hover:text-primary transition-colors">Dashboard</Link></li>
               </ul>
             </div>
 
@@ -584,7 +583,7 @@ export default function Home() {
               <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
                 👋
               </div>
-              <span>Hey there! Made with care for political campaigns and nonprofits.</span>
+              <span>Hey there! Made with care for political organizations and nonprofits.</span>
             </div>
           </div>
         </div>
