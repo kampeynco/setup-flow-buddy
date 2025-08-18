@@ -207,11 +207,9 @@ export default function Home() {
                     <h3 className="text-lg font-semibold">1) Connect ActBlue</h3>
                     <p className="text-sm text-muted-foreground mt-1">Set up your integration in minutes</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
-                    <Plus className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
-                    <Minus className="h-4 w-4 text-primary" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
+                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -258,11 +256,9 @@ export default function Home() {
                     <h3 className="text-lg font-semibold">2) Customize your postcard</h3>
                     <p className="text-sm text-muted-foreground mt-1">Design your perfect thank you message</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
-                    <Plus className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
-                    <Minus className="h-4 w-4 text-primary" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
+                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
                   </div>
                 </div>
               </AccordionTrigger>
@@ -311,11 +307,9 @@ export default function Home() {
                     <h3 className="text-lg font-semibold">3) We mail automatically</h3>
                     <p className="text-sm text-muted-foreground mt-1">Sit back and watch the magic happen</p>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=open]:hidden">
-                    <Plus className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-data-[state=closed]:hidden">
-                    <Minus className="h-4 w-4 text-primary" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Plus className="h-4 w-4 text-primary data-[state=open]:hidden" />
+                    <Minus className="h-4 w-4 text-primary hidden data-[state=open]:block" />
                   </div>
                 </div>
               </AccordionTrigger>
