@@ -524,7 +524,7 @@ export default function Home() {
                 <span>Thank Donors</span>
               </Link>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Postcard donations made easy. Let your donors generate and send personalized thank you postcards. No more manual work. No processing fees. No more headaches.
+                Postcard donations made easy. Let your donors generate and send personalized thank you postcards. No more manual work. No more headaches.
               </p>
               <div className="text-xs text-muted-foreground">
                 Copyright © {new Date().getFullYear()} - All rights reserved
