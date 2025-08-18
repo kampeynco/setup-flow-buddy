@@ -324,7 +324,7 @@ export default function Home() {
                       </li>
                       <li className="flex items-center gap-2">
                         <Check className="h-4 w-4 text-green-600" />
-                        <span>Individual donor tracking</span>
+                        <span>Mail delivery notifications</span>
                       </li>
                     </ul>
                   </div>
