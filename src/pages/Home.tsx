@@ -126,8 +126,14 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="border-b bg-primary/5">
-          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
+        <section className="relative border-b bg-primary/5 overflow-hidden">
+          {/* Gradient Background Elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-radial from-primary/20 via-primary/10 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-radial from-secondary/15 via-secondary/8 to-transparent rounded-full blur-2xl"></div>
+            <div className="absolute top-1/2 left-0 w-64 h-64 bg-gradient-radial from-accent/10 via-accent/5 to-transparent rounded-full blur-xl"></div>
+          </div>
+          <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
