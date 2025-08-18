@@ -132,7 +132,7 @@ export default function Home() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Made for <span className="text-actblue">ActBlue</span></p>
               <h1 className="mt-2 text-[64px] font-bold tracking-tight leading-[1.1]">Thank Donors<br />Effortlessly</h1>
               <p className="mt-4 text-[20px] text-muted-foreground max-w-prose mx-auto">
-                Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
+                Connect ActBlue once. We'll send postcards thanking<br />every new donor using your logo, personal<br />message, and optional signature.
               </p>
               
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
