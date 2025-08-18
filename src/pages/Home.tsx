@@ -311,7 +311,7 @@ export default function Home() {
                   <div className="space-y-4">
                     <p className="text-muted-foreground">
                       Each new donor gets a postcard—no manual work required. Track delivery speed by plan and 
-                      monitor your campaign's thank you outreach in real-time.
+                      monitor your committee's thank you outreach in real-time.
                     </p>
                     <ul className="space-y-2 text-sm">
                       <li className="flex items-center gap-2">
