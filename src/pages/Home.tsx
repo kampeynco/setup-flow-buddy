@@ -336,7 +336,7 @@ export default function Home() {
                           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
                           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                         </div>
-                        <p className="text-sm font-medium">Auto-mailing in progress</p>
+                        <p className="text-sm font-medium">Thank You Mailing in progress</p>
                         <p className="text-xs text-muted-foreground">157 postcards sent today</p>
                       </div>
                     </div>
