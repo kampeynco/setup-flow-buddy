@@ -536,35 +536,35 @@ export default function Home() {
                 <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
                 <span>Thank Donors</span>
               </Link>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-sm text-background/70 mb-6 leading-relaxed">
                 Postcard donations made easy. Let your donors generate and send personalized thank you postcards. No more manual work. No more headaches.
               </p>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-background/60">
                 Copyright © {new Date().getFullYear()} - All rights reserved
               </div>
             </div>
 
             {/* Links Column */}
             <div>
-              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">LINKS</h3>
+              <h3 className="font-semibold text-sm mb-4 text-background/60 uppercase tracking-wider">LINKS</h3>
               <ul className="space-y-3 text-sm">
-                <li><a href="#features" className="text-foreground hover:text-primary transition-colors">Support</a></li>
-                <li><a href="#pricing" className="text-foreground hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#features" className="text-background hover:text-background/80 transition-colors">Support</a></li>
+                <li><a href="#pricing" className="text-background hover:text-background/80 transition-colors">Pricing</a></li>
               </ul>
             </div>
 
             {/* Legal Column */}
             <div>
-              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">LEGAL</h3>
+              <h3 className="font-semibold text-sm mb-4 text-background/60 uppercase tracking-wider">LEGAL</h3>
               <ul className="space-y-3 text-sm">
                 <li>
                   <TermsOfServiceDialog>
-                    <button className="text-foreground hover:text-primary transition-colors">Terms of service</button>
+                    <button className="text-background hover:text-background/80 transition-colors">Terms of service</button>
                   </TermsOfServiceDialog>
                 </li>
                 <li>
                   <PrivacyPolicyDialog>
-                    <button className="text-foreground hover:text-primary transition-colors">Privacy policy</button>
+                    <button className="text-background hover:text-background/80 transition-colors">Privacy policy</button>
                   </PrivacyPolicyDialog>
                 </li>
               </ul>
@@ -572,25 +572,25 @@ export default function Home() {
 
             {/* More Column */}
             <div>
-              <h3 className="font-semibold text-sm mb-4 text-muted-foreground uppercase tracking-wider">MORE</h3>
+              <h3 className="font-semibold text-sm mb-4 text-background/60 uppercase tracking-wider">MORE</h3>
               <ul className="space-y-3 text-sm">
-                <li><a href="#how" className="text-foreground hover:text-primary transition-colors">How it works</a></li>
-                <li><a href="#faq" className="text-foreground hover:text-primary transition-colors">FAQ</a></li>
-                <li><Link to="/auth?mode=signup" className="text-foreground hover:text-primary transition-colors">Get Started</Link></li>
+                <li><a href="#how" className="text-background hover:text-background/80 transition-colors">How it works</a></li>
+                <li><a href="#faq" className="text-background hover:text-background/80 transition-colors">FAQ</a></li>
+                <li><Link to="/auth?mode=signup" className="text-background hover:text-background/80 transition-colors">Get Started</Link></li>
               </ul>
             </div>
           </div>
 
           {/* Bottom Section */}
           <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-background/60">
               <span>Built with</span>
-              <span className="inline-flex items-center gap-1 bg-foreground text-background px-2 py-1 rounded font-medium">
+              <span className="inline-flex items-center gap-1 bg-background text-foreground px-2 py-1 rounded font-medium">
                 ⚡ Lovable
               </span>
             </div>
             
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-background/60">
               <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
                 👋
               </div>
