@@ -517,33 +517,79 @@ export default function Home() {
         <section id="pricing" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-16 sm:py-18 lg:py-24">
           <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-4 text-center">Simple pricing</h2>
           <p className="text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto text-center mb-8">Pick the plan that matches your delivery speed and volume.</p>
-          <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch">
-            <Card>
-              <CardHeader>
-                <CardTitle>Free</CardTitle>
+          <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch max-w-4xl mx-auto">
+            <Card className="relative">
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="text-xl font-semibold">Free</CardTitle>
+                <div className="text-4xl font-bold mt-2">
+                  $0<span className="text-lg font-normal text-muted-foreground">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">Perfect for getting started</p>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="text-3xl font-bold">$0<span className="text-base font-normal text-muted-foreground">/mo</span></div>
-                <ul className="space-y-2 text-sm">
-                  <li>• $1.79 per postcard</li>
-                  <li>• Standard class mail (up to 10 business days)</li>
-                  <li>• All core features</li>
+              <CardContent className="space-y-6">
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">$1.79 per postcard</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">Standard class mail (up to 10 business days)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">All core features</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">Email support</span>
+                  </li>
                 </ul>
-                <Link to="/dashboard"><Button className="w-full">Choose Free</Button></Link>
+                <Link to="/dashboard" className="block">
+                  <Button variant="outline" className="w-full">Get Started Free</Button>
+                </Link>
               </CardContent>
             </Card>
-            <Card className="border-primary">
-              <CardHeader>
-                <CardTitle>Pro</CardTitle>
+
+            <Card className="relative border-primary bg-primary/5">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
+                  Most Popular
+                </span>
+              </div>
+              <CardHeader className="text-center pb-4 pt-6">
+                <CardTitle className="text-xl font-semibold">Pro</CardTitle>
+                <div className="text-4xl font-bold mt-2">
+                  $79<span className="text-lg font-normal text-muted-foreground">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">Best for active campaigns</p>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="text-3xl font-bold">$79<span className="text-base font-normal text-muted-foreground">/mo</span></div>
-                <ul className="space-y-2 text-sm">
-                  <li>• $0.79 per postcard</li>
-                  <li>• First class mail (~3 business days)</li>
-                  <li>• Priority support</li>
+              <CardContent className="space-y-6">
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm font-medium">$0.79 per postcard (55% savings)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">First class mail (~3 business days)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">Priority support</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">Advanced analytics</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <span className="text-sm">Custom branding options</span>
+                  </li>
                 </ul>
-                <Link to="/dashboard"><Button className="w-full">Choose Pro</Button></Link>
+                <Link to="/dashboard" className="block">
+                  <Button className="w-full">Start Pro Trial</Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
