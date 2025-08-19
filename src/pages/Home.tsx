@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import PostcardPreview from "@/components/PostcardPreview";
 import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
-import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star } from "lucide-react";
+import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X } from "lucide-react";
 import logoIcon from "@/assets/logo_icon.svg";
 function useSEO({
   title,
@@ -544,6 +544,10 @@ export default function Home() {
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
                     <span className="text-sm">Email support</span>
                   </li>
+                  <li className="flex items-center gap-3">
+                    <X className="h-4 w-4 text-red-600 shrink-0" />
+                    <span className="text-sm">Remove Thank Donors branding</span>
+                  </li>
                 </ul>
                 <Link to="/dashboard" className="block">
                   <Button variant="outline" className="w-full">Get Started Free</Button>
@@ -576,7 +580,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">Advanced analytics</span>
+                    <span className="text-sm">Custom branding options</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
@@ -584,7 +588,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">Custom branding options</span>
+                    <span className="text-sm">Remove Thank Donors branding</span>
                   </li>
                 </ul>
                 <Link to="/dashboard" className="block">
