@@ -216,6 +216,28 @@ export default function Home() {
                   Your browser does not support the video tag.
                 </video>
               </div>
+              
+              {/* Social Proof */}
+              <div className="mt-16 text-center">
+                <p className="text-sm text-muted-foreground mb-8">Trusted by nonprofits worldwide</p>
+                <div className="flex items-center justify-center gap-8 opacity-60 grayscale">
+                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
+                    <span className="text-xs font-semibold text-muted-foreground">CHARITY</span>
+                  </div>
+                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
+                    <span className="text-xs font-semibold text-muted-foreground">UNICEF</span>
+                  </div>
+                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
+                    <span className="text-xs font-semibold text-muted-foreground">RED CROSS</span>
+                  </div>
+                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
+                    <span className="text-xs font-semibold text-muted-foreground">OXFAM</span>
+                  </div>
+                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
+                    <span className="text-xs font-semibold text-muted-foreground">AMNESTY</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
