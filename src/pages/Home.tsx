@@ -150,31 +150,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="relative bg-primary/5 overflow-hidden">
-          {/* Grid/Dot Pattern Background */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 opacity-40"
-                 style={{
-                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-                   backgroundSize: '24px 24px'
-                 }}></div>
-            
-            {/* Subtle line grid overlay */}
-            <div className="absolute inset-0 opacity-20"
-                 style={{
-                   backgroundImage: `
-                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
-                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
-                   `,
-                   backgroundSize: '48px 48px'
-                 }}></div>
-            
-            {/* Accent dots for visual interest */}
-            <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full opacity-60"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-secondary rounded-full opacity-70"></div>
-            <div className="absolute top-2/3 left-1/4 w-1 h-1 bg-primary rounded-full opacity-80"></div>
-          </div>
+        <section className="relative bg-hero overflow-hidden">
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
