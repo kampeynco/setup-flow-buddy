@@ -408,7 +408,7 @@ export default function Home() {
         <section id="features" className="bg-secondary/40 border-y">
           <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-16 sm:py-18 lg:py-24">
             <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Why committees choose Thank Donors</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 md:h-[700px]">
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 md:h-[800px] lg:h-[700px]">
               {/* Large card - spans 2x2 */}
               <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
                 <CardHeader>
