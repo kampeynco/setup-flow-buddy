@@ -105,27 +105,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 transition-colors relative ${scrolled ? "bg-card text-foreground" : "bg-primary/5 text-foreground"}`}>
-        {!scrolled && (
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 opacity-40"
-                 style={{
-                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-                   backgroundSize: '24px 24px'
-                 }}></div>
-            
-            {/* Subtle line grid overlay */}
-            <div className="absolute inset-0 opacity-20"
-                 style={{
-                   backgroundImage: `
-                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
-                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
-                   `,
-                   backgroundSize: '48px 48px'
-                 }}></div>
-          </div>
-        )}
+      <header className={`sticky top-0 z-50 transition-colors relative ${scrolled ? "bg-card text-foreground" : "bg-hero text-white"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
             <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
