@@ -529,23 +529,23 @@ export default function Home() {
               <CardContent className="space-y-6">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">$1.79 per postcard</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Standard class mail (7 to 10 business days)</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Basic branding options</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Email support</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <X className="h-4 w-4 text-red-600 shrink-0" />
+                    <X className="h-4 w-4 text-red-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Remove Thank Donors branding</span>
                   </li>
                 </ul>
@@ -571,23 +571,23 @@ export default function Home() {
               <CardContent className="space-y-6">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm font-medium">$0.79 per postcard (55% savings)</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">First class mail (3 to 5 business days)</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Custom branding options</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Email and Phone support</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-600 shrink-0" />
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Remove Thank Donors branding</span>
                   </li>
                 </ul>
