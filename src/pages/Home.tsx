@@ -133,7 +133,7 @@ export default function Home() {
         {/* Hero */}
         <section className="relative overflow-hidden" 
                  style={{
-                   background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 30%, rgba(255, 255, 255, 1) 100%)'
+                   background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 70%, rgba(255, 255, 255, 1) 100%)'
                  }}>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
