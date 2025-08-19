@@ -572,7 +572,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">First class mail (~3 business days)</span>
+                    <span className="text-sm">First class mail (up to 3 business days)</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
