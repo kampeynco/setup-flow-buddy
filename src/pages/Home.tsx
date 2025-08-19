@@ -7,7 +7,7 @@ import PostcardPreview from "@/components/PostcardPreview";
 import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X } from "lucide-react";
-import logoIcon from "@/assets/logo_icon.svg";
+import logoIcon from "@/assets/logo_icon_white.svg";
 function useSEO({
   title,
   description,
