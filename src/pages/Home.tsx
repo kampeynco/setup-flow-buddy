@@ -538,7 +538,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">All core features</span>
+                    <span className="text-sm">Standard branding options</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
@@ -562,7 +562,7 @@ export default function Home() {
                 <div className="text-4xl font-bold mt-2">
                   $79<span className="text-lg font-normal text-muted-foreground">/month</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">Best for active campaigns</p>
+                <p className="text-sm text-muted-foreground mt-2">Best for active committees</p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <ul className="space-y-3">
@@ -576,11 +576,11 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">Priority support</span>
+                    <span className="text-sm">Advanced analytics</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">Advanced analytics</span>
+                    <span className="text-sm">Email and Phone support</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
