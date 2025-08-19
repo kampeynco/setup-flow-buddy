@@ -550,8 +550,9 @@ export default function Home() {
                   </li>
                 </ul>
                 <Link to="/dashboard" className="block">
-                  <Button variant="outline" className="w-full">Get Started Free</Button>
+                  <Button variant="outline" className="w-full">Create Free Account</Button>
                 </Link>
+                <p className="text-xs text-muted-foreground text-center mt-2">No setup fees, cancel anytime</p>
               </CardContent>
             </Card>
 
@@ -592,8 +593,9 @@ export default function Home() {
                   </li>
                 </ul>
                 <Link to="/dashboard" className="block">
-                  <Button className="w-full">Start Pro Trial</Button>
+                  <Button className="w-full">Create Free Account</Button>
                 </Link>
+                <p className="text-xs text-muted-foreground text-center mt-2">No setup fees, cancel anytime</p>
               </CardContent>
             </Card>
           </div>
