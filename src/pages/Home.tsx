@@ -638,7 +638,7 @@ export default function Home() {
                   What happens if a postcard can't be delivered?
                 </AccordionTrigger>
                 <AccordionContent className="pb-4 text-muted-foreground">
-                  We use USPS address validation to minimize delivery issues. If a postcard is undeliverable, we'll notify you and won't charge for failed deliveries.
+                  We charge for postcards that are printed and mailed, not just delivered ones. If USPS can't deliver a postcard, it will be returned to the return address you provided during account setup.
                 </AccordionContent>
               </AccordionItem>
 
