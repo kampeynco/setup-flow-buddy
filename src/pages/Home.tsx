@@ -138,7 +138,7 @@ export default function Home() {
                    backgroundRepeat: 'no-repeat'
                  }}>
           {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-white/50"></div>
+          <div className="absolute inset-0 bg-white/75"></div>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
