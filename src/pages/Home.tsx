@@ -123,7 +123,7 @@ export default function Home() {
               <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button variant="yellow" className="font-semibold">Start for Free</Button>
+              <Button variant="yellow" className="font-semibold">Create Free Account</Button>
             </Link>
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function Home() {
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/20 border border-white/30">
-                <span className="text-xs font-semibold uppercase tracking-wider text-white">Made for <span className="text-white font-bold">ActBlue</span></span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-white">Made for <span className="text-[hsl(199,76%,55%)] font-bold">ActBlue</span></span>
               </div>
               <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] text-white">Effortlessly<br />Thank Donors</h1>
               <p className="mt-4 text-base sm:text-lg lg:text-[20px] text-white/80 max-w-prose mx-auto">
@@ -146,7 +146,7 @@ export default function Home() {
               </p>
               
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <Link to="/auth?mode=signup"><Button variant="yellow" size="lg">Start for Free</Button></Link>
+                <Link to="/auth?mode=signup"><Button variant="yellow" size="lg">Create Free Account Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4 text-white/90 hover:text-white">See pricing</a>
               </div>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/80">
@@ -556,7 +556,7 @@ export default function Home() {
                 </ul>
                 <div className="space-y-2">
                   <Link to="/dashboard" className="block">
-                    <Button className="w-full">Create Free Account</Button>
+                    <Button variant="yellow" className="w-full">Create Free Account</Button>
                   </Link>
                   <p className="text-xs text-muted-foreground text-center">No setup fees, cancel anytime</p>
                 </div>
