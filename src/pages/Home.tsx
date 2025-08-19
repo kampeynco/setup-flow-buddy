@@ -451,14 +451,14 @@ export default function Home() {
                       <p className="font-medium">Standard Class</p>
                       <Truck className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <p className="text-sm text-muted-foreground">Up to 10 business days</p>
+                    <p className="text-sm text-muted-foreground">7 to 10 business days</p>
                   </div>
                   <div className="p-3 bg-primary/10 rounded-lg">
                     <div className="flex items-center justify-between mb-1">
                       <p className="font-medium">First Class</p>
                       <Zap className="h-4 w-4 text-primary" />
                     </div>
-                    <p className="text-sm text-muted-foreground">~3 business days</p>
+                    <p className="text-sm text-muted-foreground">3 to 5 business days</p>
                   </div>
                 </CardContent>
               </Card>
