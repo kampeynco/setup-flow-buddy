@@ -538,7 +538,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
-                    <span className="text-sm">Standard branding options</span>
+                    <span className="text-sm">Basic branding options</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" />
