@@ -620,7 +620,7 @@ export default function Home() {
                   Do you add your branding to the postcards?
                 </AccordionTrigger>
                 <AccordionContent className="pb-4 text-muted-foreground">
-                  No, we never add our branding to your postcards. The postcards are completely branded with your committee name, logo, and messaging only.
+                  Free accounts include small Thank Donors branding on postcards. Pro account users can remove all Thank Donors branding for completely custom postcards with only your committee branding.
                 </AccordionContent>
               </AccordionItem>
 
