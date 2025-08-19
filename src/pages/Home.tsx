@@ -556,7 +556,7 @@ export default function Home() {
                 </ul>
                 <div className="space-y-2">
                   <Link to="/dashboard" className="block">
-                    <Button variant="yellow" className="w-full">Start Pro Trial</Button>
+                    <Button variant="yellow" className="w-full">Start 7-Day Pro Trial</Button>
                   </Link>
                   <p className="text-xs text-muted-foreground text-center">No setup fees, cancel anytime</p>
                 </div>
