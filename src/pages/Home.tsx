@@ -105,24 +105,24 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return <div className="min-h-screen flex flex-col">
-      <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-foreground"}`}>
+      <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-white"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
             <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
             <span>Thank Donors</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>Features</a>
-            <a href="#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>How it works</a>
-            <a href="#pricing" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>Pricing</a>
-            <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-foreground/80 hover:text-foreground"}>FAQ</a>
+            <a href="#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>Features</a>
+            <a href="#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>How it works</a>
+            <a href="#pricing" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>Pricing</a>
+            <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
             <Link to="/auth" className="hidden sm:inline-block">
-              <Button variant="ghost" className={scrolled ? "" : "text-foreground"}>Login</Button>
+              <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button variant={scrolled ? "default" : "default"} className="font-semibold">Start for Free</Button>
+              <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Start for Free</Button>
             </Link>
           </div>
         </div>
@@ -136,29 +136,29 @@ export default function Home() {
                  }}>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
-              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
+              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/20 border border-white/30">
+                <span className="text-xs font-semibold uppercase tracking-wider text-white">Made for <span className="text-white font-bold">ActBlue</span></span>
               </div>
-              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1]">Effortlessly<br />Thank Donors</h1>
-              <p className="mt-4 text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto">
+              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] text-white">Effortlessly<br />Thank Donors</h1>
+              <p className="mt-4 text-base sm:text-lg lg:text-[20px] text-white/80 max-w-prose mx-auto">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
               
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
-                <a href="#pricing" className="text-sm underline underline-offset-4">See pricing</a>
+                <a href="#pricing" className="text-sm underline underline-offset-4 text-white/90 hover:text-white">See pricing</a>
               </div>
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/80">
                 <div className="flex items-center gap-1">
-                  <Check className="h-4 w-4 text-green-600" />
+                  <Check className="h-4 w-4 text-green-400" />
                   <span>No setup fees</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Check className="h-4 w-4 text-green-600" />
+                  <Check className="h-4 w-4 text-green-400" />
                   <span>Cancel anytime</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Check className="h-4 w-4 text-green-600" />
+                  <Check className="h-4 w-4 text-green-400" />
                   <span>Postage included</span>
                 </div>
               </div>
