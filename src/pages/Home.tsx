@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import PostcardPreview from "@/components/PostcardPreview";
 import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
-import { Check, Plus, Minus } from "lucide-react";
+import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star } from "lucide-react";
 import logoIcon from "@/assets/logo_icon.svg";
 function useSEO({
   title,
@@ -412,6 +412,13 @@ export default function Home() {
               {/* Large card - spans 2x2 */}
               <Card className="md:col-span-2 lg:col-span-2 md:row-span-2 flex flex-col">
                 <CardHeader>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-1">
+                      <Settings className="h-5 w-5 text-primary" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                      <Check className="h-4 w-4 text-green-600" />
+                    </div>
+                  </div>
                   <CardTitle className="text-xl">Zero manual work</CardTitle>
                 </CardHeader>
                 <CardContent className="flex-1 flex items-start">
@@ -422,6 +429,12 @@ export default function Home() {
               {/* Medium card - spans 2x1 */}
               <Card className="md:col-span-2 lg:col-span-2">
                 <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-6 bg-gradient-to-r from-primary to-secondary rounded border shadow-sm flex items-center justify-center">
+                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    <Palette className="h-4 w-4 text-primary" />
+                  </div>
                   <CardTitle>Brand‑ready templates</CardTitle>
                 </CardHeader>
                 <CardContent>Clean, configurable layout that always fits USPS guidelines with your logo and message.</CardContent>
@@ -434,11 +447,17 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col justify-start space-y-3">
                   <div className="p-3 bg-primary/10 rounded-lg">
-                    <p className="font-medium">Standard Class</p>
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-medium">Standard Class</p>
+                      <Truck className="h-4 w-4 text-muted-foreground" />
+                    </div>
                     <p className="text-sm text-muted-foreground">Up to 10 business days</p>
                   </div>
                   <div className="p-3 bg-primary/10 rounded-lg">
-                    <p className="font-medium">First Class</p>
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-medium">First Class</p>
+                      <Zap className="h-4 w-4 text-primary" />
+                    </div>
                     <p className="text-sm text-muted-foreground">~3 business days</p>
                   </div>
                 </CardContent>
@@ -447,6 +466,15 @@ export default function Home() {
               {/* Medium card - spans 2x1 */}
               <Card className="md:col-span-2 lg:col-span-2">
                 <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingDown className="h-5 w-5 text-green-600" />
+                    <div className="flex items-end gap-1">
+                      <div className="w-2 h-3 bg-primary/40 rounded-sm"></div>
+                      <div className="w-2 h-4 bg-primary/60 rounded-sm"></div>
+                      <div className="w-2 h-2 bg-primary/80 rounded-sm"></div>
+                      <div className="w-2 h-1 bg-primary rounded-sm"></div>
+                    </div>
+                  </div>
                   <CardTitle>Affordable at scale</CardTitle>
                 </CardHeader>
                 <CardContent>Usage‑based pricing fits any campaign size—pay only for mailings, no monthly minimums.</CardContent>
@@ -455,6 +483,13 @@ export default function Home() {
               {/* Small card - spans 2x1 */}
               <Card className="md:col-span-2 lg:col-span-2">
                 <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                    </div>
+                  </div>
                   <CardTitle>Real‑time tracking</CardTitle>
                 </CardHeader>
                 <CardContent>Monitor delivery status and track campaign performance with detailed analytics and reporting.</CardContent>
@@ -463,6 +498,13 @@ export default function Home() {
               {/* Wide card - spans 4x1 */}
               <Card className="md:col-span-4 lg:col-span-4">
                 <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Building2 className="h-5 w-5 text-primary" />
+                    <Shield className="h-4 w-4 text-muted-foreground" />
+                    <div className="w-6 h-4 bg-gradient-to-r from-blue-500 to-red-500 rounded-sm flex items-center justify-center">
+                      <Star className="h-2 w-2 text-white fill-white" />
+                    </div>
+                  </div>
                   <CardTitle>Built for political organizations</CardTitle>
                 </CardHeader>
                 <CardContent>Designed specifically for ActBlue integration with FEC compliance considerations and campaign-focused features.</CardContent>
