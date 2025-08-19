@@ -180,7 +180,7 @@ export default function Home() {
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
               </div>
-              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1]">Thank Your Donors<br />Effortlessly</h1>
+              <h1 className="mt-2 text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1]">Effortlessly<br />Thank Donors</h1>
               <p className="mt-4 text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto">
                 Connect ActBlue once. We'll send postcards thanking every new donor using your logo, personal message, and optional signature.
               </p>
@@ -219,23 +219,12 @@ export default function Home() {
               
               {/* Social Proof */}
               <div className="mt-16 text-center">
-                <p className="text-sm text-muted-foreground mb-8">Trusted by nonprofits worldwide</p>
                 <div className="flex items-center justify-center gap-8 opacity-60 grayscale">
-                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
-                    <span className="text-xs font-semibold text-muted-foreground">CHARITY</span>
-                  </div>
-                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
-                    <span className="text-xs font-semibold text-muted-foreground">UNICEF</span>
-                  </div>
-                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
-                    <span className="text-xs font-semibold text-muted-foreground">RED CROSS</span>
-                  </div>
-                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
-                    <span className="text-xs font-semibold text-muted-foreground">OXFAM</span>
-                  </div>
-                  <div className="flex items-center justify-center h-12 w-24 bg-muted rounded-lg">
-                    <span className="text-xs font-semibold text-muted-foreground">AMNESTY</span>
-                  </div>
+                  <img src="https://via.placeholder.com/120x48/e5e7eb/6b7280?text=Company" alt="Company logo" className="h-12 object-contain" />
+                  <img src="https://via.placeholder.com/120x48/e5e7eb/6b7280?text=Brand" alt="Brand logo" className="h-12 object-contain" />
+                  <img src="https://via.placeholder.com/120x48/e5e7eb/6b7280?text=Corp" alt="Corp logo" className="h-12 object-contain" />
+                  <img src="https://via.placeholder.com/120x48/e5e7eb/6b7280?text=Group" alt="Group logo" className="h-12 object-contain" />
+                  <img src="https://via.placeholder.com/120x48/e5e7eb/6b7280?text=Inc" alt="Inc logo" className="h-12 object-contain" />
                 </div>
               </div>
             </div>
