@@ -150,7 +150,7 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="relative border-b bg-primary/5 overflow-hidden">
+        <section className="relative bg-primary/5 overflow-hidden">
           {/* Grid/Dot Pattern Background */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Dot grid pattern */}
@@ -221,31 +221,7 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="relative bg-gradient-to-b from-primary/5 to-white overflow-hidden">
-          {/* Grid/Dot Pattern Background */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 opacity-40"
-                 style={{
-                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-                   backgroundSize: '24px 24px'
-                 }}></div>
-            
-            {/* Subtle line grid overlay */}
-            <div className="absolute inset-0 opacity-20"
-                 style={{
-                   backgroundImage: `
-                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
-                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
-                   `,
-                   backgroundSize: '48px 48px'
-                 }}></div>
-            
-            {/* Accent dots for visual interest */}
-            <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full opacity-60"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-secondary rounded-full opacity-70"></div>
-            <div className="absolute top-2/3 left-1/4 w-1 h-1 bg-primary rounded-full opacity-80"></div>
-          </div>
+        <section id="how" className="bg-gradient-to-b from-primary/5 to-white">
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Send thank you postcards to your donors</h2>
           
