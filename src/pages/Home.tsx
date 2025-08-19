@@ -406,7 +406,7 @@ export default function Home() {
 
         {/* Features */}
         <section id="features" className="bg-secondary/40 border-y">
-          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
+          <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-16 sm:py-20 lg:py-24">
             <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Why committees choose Thank Donors</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 md:h-[700px]">
               {/* Large card - spans 2x2 */}
@@ -514,7 +514,7 @@ export default function Home() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
+        <section id="pricing" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-16 sm:py-20 lg:py-24">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">Simple pricing</h2>
           <p className="mt-2 text-base sm:text-lg text-muted-foreground">Pick the plan that matches your delivery speed and volume.</p>
           <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch">
