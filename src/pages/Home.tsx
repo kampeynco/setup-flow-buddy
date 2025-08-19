@@ -515,8 +515,8 @@ export default function Home() {
 
         {/* Pricing */}
         <section id="pricing" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-16 sm:py-18 lg:py-24">
-          <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Simple pricing</h2>
-          <p className="text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto text-center">Pick the plan that matches your delivery speed and volume.</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-4 text-center">Simple pricing</h2>
+          <p className="text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto text-center mb-8">Pick the plan that matches your delivery speed and volume.</p>
           <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch">
             <Card>
               <CardHeader>
@@ -552,8 +552,8 @@ export default function Home() {
         {/* FAQ */}
         <section id="faq" className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-14">
           <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-8 text-center">Frequently asked questions</h2>
-            <p className="text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto text-center">Get answers to common questions about our service</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold tracking-tight leading-[1.1] mb-4 text-center">Frequently asked questions</h2>
+            <p className="text-base sm:text-lg lg:text-[20px] text-muted-foreground max-w-prose mx-auto text-center mb-8">Get answers to common questions about our service</p>
           </div>
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible className="space-y-4">
