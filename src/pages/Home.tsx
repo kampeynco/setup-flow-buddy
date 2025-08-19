@@ -552,7 +552,7 @@ export default function Home() {
                 <Link to="/dashboard" className="block">
                   <Button variant="outline" className="w-full">Create Free Account</Button>
                 </Link>
-                <p className="text-xs text-muted-foreground text-center mt-2">No setup fees, cancel anytime</p>
+                <p className="text-xs text-muted-foreground text-center mt-1">No setup fees, cancel anytime</p>
               </CardContent>
             </Card>
 
@@ -595,7 +595,7 @@ export default function Home() {
                 <Link to="/dashboard" className="block">
                   <Button className="w-full">Create Free Account</Button>
                 </Link>
-                <p className="text-xs text-muted-foreground text-center mt-2">No setup fees, cancel anytime</p>
+                <p className="text-xs text-muted-foreground text-center mt-1">No setup fees, cancel anytime</p>
               </CardContent>
             </Card>
           </div>
