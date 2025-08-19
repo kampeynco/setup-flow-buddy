@@ -494,6 +494,10 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
+                    <span className="text-sm">6x9 postcards</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">Standard class mail (7 to 10 business days)</span>
                   </li>
                   <li className="flex items-center gap-3">
@@ -536,6 +540,10 @@ export default function Home() {
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm font-medium">$0.99 per postcard (50% savings)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
+                    <span className="text-sm">6x9 postcards</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
