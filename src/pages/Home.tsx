@@ -123,7 +123,7 @@ export default function Home() {
               <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button variant={scrolled ? "default" : "secondary"} className="font-semibold">Start for Free</Button>
+              <Button variant="yellow" className="font-semibold">Start for Free</Button>
             </Link>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function Home() {
               </p>
               
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <Link to="/auth?mode=signup"><Button size="lg">Start for Free</Button></Link>
+                <Link to="/auth?mode=signup"><Button variant="yellow" size="lg">Start for Free</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4 text-white/90 hover:text-white">See pricing</a>
               </div>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/80">
