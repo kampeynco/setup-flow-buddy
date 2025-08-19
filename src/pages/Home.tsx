@@ -105,7 +105,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-foreground"}`}>
+      <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-foreground"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
             <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
@@ -139,7 +139,7 @@ export default function Home() {
                  }}>
           {/* Overlay for better text readability */}
           <div className="absolute inset-0 bg-white/60"></div>
-          <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-24 sm:py-32 flex flex-col items-center gap-8">
+          <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
