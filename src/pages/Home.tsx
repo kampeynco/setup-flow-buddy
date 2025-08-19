@@ -8,6 +8,7 @@ import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X } from "lucide-react";
 import logoIcon from "@/assets/logo_icon_white.svg";
+import logoIconRegular from "@/assets/logo_icon_regular.svg";
 function useSEO({
   title,
   description,
@@ -108,7 +109,7 @@ export default function Home() {
       <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-white"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
-            <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
+            <img src={scrolled ? logoIconRegular : logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
             <span>Thank Donors</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
