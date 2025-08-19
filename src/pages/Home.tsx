@@ -605,6 +605,87 @@ export default function Home() {
                   Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
                 </AccordionContent>
               </AccordionItem>
+
+              <AccordionItem value="item-4" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  What size postcards do you use?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  We use standard 6x9 inch postcards that meet USPS requirements for both Standard and First Class mail delivery.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Do you add your branding to the postcards?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  No, we never add our branding to your postcards. The postcards are completely branded with your committee name, logo, and messaging only.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-6" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Can I see postcards before they're sent?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Yes, you can preview and approve your postcard design in your dashboard before activating automatic sending. You can also make changes anytime.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-7" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  What happens if a postcard can't be delivered?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  We use USPS address validation to minimize delivery issues. If a postcard is undeliverable, we'll notify you and won't charge for failed deliveries.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-8" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Can I customize the message for different donation amounts?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Currently, all donors receive the same message. We're working on features to customize messages based on donation amount and donor history.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-9" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Is there a minimum number of postcards I need to send?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  No minimum required. You only pay for postcards actually sent. Start with your first donor and scale as your campaign grows.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-10" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Can I turn off automatic sending temporarily?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Yes, you can pause and resume automatic postcard sending anytime from your dashboard without losing your setup or customizations.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-11" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  Do you support international addresses?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  Currently we only support US addresses. We're exploring international shipping options for future releases.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-12" className="border border-border rounded-lg px-6 py-2">
+                <AccordionTrigger className="text-left hover:no-underline py-4">
+                  How secure is my donor data?
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-muted-foreground">
+                  We use enterprise-grade encryption and security practices. Donor data is processed securely and only used for postcard fulfillment as authorized by you.
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
           </div>
         </section>
