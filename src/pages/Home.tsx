@@ -132,13 +132,8 @@ export default function Home() {
         {/* Hero */}
         <section className="relative overflow-hidden" 
                  style={{
-                   backgroundImage: `url('/lovable-uploads/4d695ca7-cfc6-4b4a-878b-97a2e7c9ef1f.png')`,
-                   backgroundSize: 'cover',
-                   backgroundPosition: 'center',
-                   backgroundRepeat: 'no-repeat'
+                   background: 'linear-gradient(90deg, rgba(3, 101, 199, 1) 30%, rgba(255, 255, 255, 1) 100%)'
                  }}>
-          {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-white/85"></div>
           <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 pt-20 pb-12 sm:pt-24 sm:pb-16 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
