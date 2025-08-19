@@ -62,13 +62,13 @@ export default function Home() {
           name: 'Free',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Usage $1.79 per postcard. Standard class mail (up to 10 business days).'
+          description: 'Usage $1.99 per postcard. Standard class mail (up to 10 business days).'
         }, {
           '@type': 'Offer',
           name: 'Pro',
-          price: '79',
+          price: '99',
           priceCurrency: 'USD',
-          description: 'Usage $0.79 per postcard. First class mail (about 3 business days).'
+          description: 'Usage $0.99 per postcard. First class mail (about 3 business days).'
         }]
       }, {
         '@type': 'FAQPage',
@@ -490,7 +490,7 @@ export default function Home() {
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
-                    <span className="text-sm">$1.79 per postcard</span>
+                    <span className="text-sm">$1.99 per postcard</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
@@ -527,7 +527,7 @@ export default function Home() {
               <CardHeader className="text-center pb-4 pt-6">
                 <CardTitle className="text-xl font-semibold">Pro</CardTitle>
                 <div className="text-4xl font-bold mt-2">
-                  $79<span className="text-lg font-normal text-muted-foreground">/month</span>
+                  $99<span className="text-lg font-normal text-muted-foreground">/month</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">Best for active committees</p>
               </CardHeader>
@@ -535,7 +535,7 @@ export default function Home() {
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
-                    <span className="text-sm font-medium">$0.79 per postcard (55% savings)</span>
+                    <span className="text-sm font-medium">$0.99 per postcard (50% savings)</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
