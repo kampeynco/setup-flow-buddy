@@ -526,7 +526,7 @@ export default function Home() {
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">Perfect for getting started</p>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
@@ -549,10 +549,12 @@ export default function Home() {
                     <span className="text-sm">Remove Thank Donors branding</span>
                   </li>
                 </ul>
-                <Link to="/dashboard" className="block">
-                  <Button variant="outline" className="w-full">Create Free Account</Button>
-                </Link>
-                <p className="text-xs text-muted-foreground text-center mt-1">No setup fees, cancel anytime</p>
+                <div className="space-y-2">
+                  <Link to="/dashboard" className="block">
+                    <Button variant="outline" className="w-full">Create Free Account</Button>
+                  </Link>
+                  <p className="text-xs text-muted-foreground text-center">No setup fees, cancel anytime</p>
+                </div>
               </CardContent>
             </Card>
 
@@ -569,7 +571,7 @@ export default function Home() {
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">Best for active committees</p>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
@@ -592,10 +594,12 @@ export default function Home() {
                     <span className="text-sm">Remove Thank Donors branding</span>
                   </li>
                 </ul>
-                <Link to="/dashboard" className="block">
-                  <Button className="w-full">Create Free Account</Button>
-                </Link>
-                <p className="text-xs text-muted-foreground text-center mt-1">No setup fees, cancel anytime</p>
+                <div className="space-y-2">
+                  <Link to="/dashboard" className="block">
+                    <Button className="w-full">Create Free Account</Button>
+                  </Link>
+                  <p className="text-xs text-muted-foreground text-center">No setup fees, cancel anytime</p>
+                </div>
               </CardContent>
             </Card>
           </div>
