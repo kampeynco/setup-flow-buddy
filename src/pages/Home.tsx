@@ -105,27 +105,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return <div className="min-h-screen flex flex-col">
-      <header className={`sticky top-0 z-50 transition-colors relative ${scrolled ? "bg-card text-foreground" : "bg-primary/5 text-foreground"}`}>
-        {!scrolled && (
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 opacity-40"
-                 style={{
-                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-                   backgroundSize: '24px 24px'
-                 }}></div>
-            
-            {/* Subtle line grid overlay */}
-            <div className="absolute inset-0 opacity-20"
-                 style={{
-                   backgroundImage: `
-                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
-                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
-                   `,
-                   backgroundSize: '48px 48px'
-                 }}></div>
-          </div>
-        )}
+      <header className={`absolute top-0 left-0 right-0 z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-foreground"}`}>
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
           <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
             <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
@@ -150,32 +130,16 @@ export default function Home() {
 
       <main>
         {/* Hero */}
-        <section className="relative bg-primary/5 overflow-hidden">
-          {/* Grid/Dot Pattern Background */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Dot grid pattern */}
-            <div className="absolute inset-0 opacity-40"
+        <section className="relative overflow-hidden" 
                  style={{
-                   backgroundImage: `radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)`,
-                   backgroundSize: '24px 24px'
-                 }}></div>
-            
-            {/* Subtle line grid overlay */}
-            <div className="absolute inset-0 opacity-20"
-                 style={{
-                   backgroundImage: `
-                     linear-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px),
-                     linear-gradient(90deg, hsl(var(--primary) / 0.1) 1px, transparent 1px)
-                   `,
-                   backgroundSize: '48px 48px'
-                 }}></div>
-            
-            {/* Accent dots for visual interest */}
-            <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full opacity-60"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-secondary rounded-full opacity-70"></div>
-            <div className="absolute top-2/3 left-1/4 w-1 h-1 bg-primary rounded-full opacity-80"></div>
-          </div>
-          <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-12 sm:py-16 flex flex-col items-center gap-8">
+                   backgroundImage: `url('/lovable-uploads/4d695ca7-cfc6-4b4a-878b-97a2e7c9ef1f.png')`,
+                   backgroundSize: 'cover',
+                   backgroundPosition: 'center',
+                   backgroundRepeat: 'no-repeat'
+                 }}>
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-[1px]"></div>
+          <div className="relative mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-24 sm:py-32 flex flex-col items-center gap-8">
             <div className="text-center">
               <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Made for <span className="text-actblue">ActBlue</span></span>
