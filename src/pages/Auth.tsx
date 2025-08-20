@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cleanupAuthState } from "@/lib/utils";
+import logoIcon from "@/assets/logo_icon_white.svg";
+import logoIconRegular from "@/assets/logo_icon_regular.svg";
 
 function useSEO({ title, description }: { title: string; description: string }) {
   useEffect(() => {
@@ -43,6 +45,14 @@ export default function Auth() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -153,10 +163,44 @@ export default function Auth() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" 
+    <div className="min-h-screen flex flex-col" 
          style={{
            background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 70%, rgba(255, 255, 255, 1) 100%)'
          }}>
+      <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-white"}`}>
+        <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between relative z-10">
+          <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold" aria-label="Thank Donors Home">
+            <img src={scrolled ? logoIconRegular : logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
+            <span>Thank Donors</span>
+          </Link>
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <Link to="/#features" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>Features</Link>
+            <Link to="/#how" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>How it works</Link>
+            <Link to="/#pricing" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>Pricing</Link>
+            <Link to="/#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>FAQ</Link>
+          </nav>
+          <div className="flex items-center gap-2">
+            {mode !== "signin" && (
+              <button
+                onClick={() => setMode("signin")}
+                className={`hidden sm:inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors hover:bg-white/20 h-10 px-4 py-2 ${scrolled ? "" : "text-white"}`}
+              >
+                Login
+              </button>
+            )}
+            {mode !== "signup" && (
+              <button
+                onClick={() => setMode("signup")}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-[#ffc600] text-black hover:bg-[#ffc600]/90 font-semibold h-10 px-4 py-2"
+              >
+                Create Free Account
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 flex items-center justify-center p-4 pt-20">
       <main className="w-full max-w-md">
         <Card>
           <CardHeader>
@@ -246,6 +290,7 @@ export default function Auth() {
           </CardContent>
         </Card>
       </main>
+      </div>
     </div>
   );
 }
