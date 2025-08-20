@@ -467,7 +467,7 @@ export default function Home() {
                   </div>
                   <CardTitle>Built for political organizations</CardTitle>
                 </CardHeader>
-                <CardContent>Designed specifically for ActBlue integration with FEC compliance considerations and campaign-focused features.</CardContent>
+                <CardContent>Designed specifically for ActBlue integration with FEC and state compliance considerations and campaign-focused features.</CardContent>
               </Card>
             </div>
           </div>
