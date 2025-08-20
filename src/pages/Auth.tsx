@@ -153,7 +153,10 @@ export default function Auth() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" 
+         style={{
+           background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 70%, rgba(255, 255, 255, 1) 100%)'
+         }}>
       <main className="w-full max-w-md">
         <Card>
           <CardHeader>
@@ -194,7 +197,7 @@ export default function Auth() {
                     </button>
                   </div>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" variant="yellow" className="w-full" disabled={loading}>
                   {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
                 </Button>
               </form>
@@ -211,7 +214,7 @@ export default function Auth() {
                     Back to sign in
                   </button>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" variant="yellow" className="w-full" disabled={loading}>
                   {loading ? "Sending…" : "Send reset link"}
                 </Button>
               </form>
@@ -231,7 +234,7 @@ export default function Auth() {
                     Back to sign in
                   </button>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" variant="yellow" className="w-full" disabled={loading}>
                   {loading ? "Updating…" : "Update password"}
                 </Button>
               </form>

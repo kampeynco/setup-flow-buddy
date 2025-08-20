@@ -250,8 +250,26 @@ const Index = () => {
       provisionWebhookIfNeeded(session.user.id, session.user.email ?? '');
     });
 
+    // Force logout when leaving the dashboard
+    const handleBeforeUnload = () => {
+      cleanupAuthState();
+      try { supabase.auth.signOut({ scope: 'global' }); } catch {}
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        cleanupAuthState();
+        try { supabase.auth.signOut({ scope: 'global' }); } catch {}
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       subscription.unsubscribe();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
