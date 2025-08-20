@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cleanupAuthState } from "@/lib/utils";
+import logoIcon from "@/assets/logo_icon_white.svg";
 
 function useSEO({ title, description }: { title: string; description: string }) {
   useEffect(() => {
@@ -153,11 +154,19 @@ export default function Auth() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" 
+    <div className="min-h-screen flex flex-col" 
          style={{
            background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 70%, rgba(255, 255, 255, 1) 100%)'
          }}>
-      <main className="w-full max-w-md">
+      <header className="p-4">
+        <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold text-white" aria-label="Thank Donors Home">
+          <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
+          <span>Thank Donors</span>
+        </Link>
+      </header>
+      
+      <main className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">
@@ -245,6 +254,7 @@ export default function Auth() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </main>
     </div>
   );
