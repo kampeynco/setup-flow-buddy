@@ -154,19 +154,17 @@ export default function Auth() {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col" 
+    <div className="min-h-screen flex items-center justify-center p-4" 
          style={{
            background: 'linear-gradient(180deg, rgba(3, 101, 199, 1) 70%, rgba(255, 255, 255, 1) 100%)'
          }}>
-      <header className="p-4">
-        <Link to="/" className="flex items-center gap-2 font-sans text-lg font-semibold text-white" aria-label="Thank Donors Home">
-          <img src={logoIcon} alt="Thank Donors logo icon" className="h-6 w-6" />
-          <span>Thank Donors</span>
-        </Link>
-      </header>
-      
-      <main className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
+      <main className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <Link to="/" className="inline-flex items-center gap-2 font-sans text-xl font-semibold text-white hover:text-white/90 transition-colors" aria-label="Thank Donors Home">
+            <img src={logoIcon} alt="Thank Donors logo icon" className="h-8 w-8" />
+            <span>Thank Donors</span>
+          </Link>
+        </div>
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">
@@ -254,7 +252,6 @@ export default function Auth() {
             </div>
           </CardContent>
         </Card>
-        </div>
       </main>
     </div>
   );
