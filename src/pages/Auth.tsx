@@ -160,7 +160,7 @@ export default function Auth() {
          }}>
       <main className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2 font-sans text-xl font-semibold text-white hover:text-white/90 transition-colors" aria-label="Thank Donors Home">
+          <Link to="/" className="inline-flex items-center gap-2 font-sans text-2xl font-semibold text-white hover:text-white/90 transition-colors" aria-label="Thank Donors Home">
             <img src={logoIcon} alt="Thank Donors logo icon" className="h-10 w-10" />
             <span>Thank Donors</span>
           </Link>
