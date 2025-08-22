@@ -467,7 +467,7 @@ const Index = () => {
                       {/* Design Card Button */}
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm">Design Card</Button>
+                          <Button size="sm">Design</Button>
                         </DialogTrigger>
                     <DialogContent className="max-h-[85vh] overflow-auto pb-0">
                           <DialogHeader>
@@ -666,10 +666,10 @@ const Index = () => {
                         </DialogContent>
                       </Dialog>
 
-                      {/* Preview Card Button */}
+                      {/* Preview Button */}
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm" variant="outline">Preview Card</Button>
+                          <Button size="sm" variant="outline">Preview</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
                           <DialogHeader className="sr-only">
@@ -693,9 +693,51 @@ const Index = () => {
                   <div className="flex-1">
                     <p className="font-medium">Add Billing</p>
                     <div className="mt-3">
-                      <Button size="sm" variant="secondary" disabled>
-                        Coming Soon
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm">Add Billing</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[500px]">
+                          <DialogHeader>
+                            <DialogTitle>Add Billing Information</DialogTitle>
+                            <DialogDescription>
+                              Set up your billing information to start sending thank you postcards.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4 mt-4">
+                            <div className="grid gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="billing-email">Email Address</Label>
+                                <Input id="billing-email" type="email" placeholder="billing@example.com" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="card-number">Card Number</Label>
+                                <Input id="card-number" placeholder="1234 5678 9012 3456" />
+                              </div>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <Label htmlFor="expiry">Expiry Date</Label>
+                                  <Input id="expiry" placeholder="MM/YY" />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label htmlFor="cvc">CVC</Label>
+                                  <Input id="cvc" placeholder="123" />
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="billing-name">Cardholder Name</Label>
+                                <Input id="billing-name" placeholder="Full name on card" />
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-end space-x-2 pt-4">
+                              <Button variant="outline">Cancel</Button>
+                              <Button onClick={() => toast.success("Billing information saved (demo)")}>
+                                Save Billing Info
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </div>
