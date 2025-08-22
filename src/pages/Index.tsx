@@ -114,10 +114,6 @@ const Index = () => {
   const [selectedPlan, setSelectedPlan] = useState("free");
   const [billingDialogOpen, setBillingDialogOpen] = useState(false);
 
-  // Session timeout state
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes in milliseconds
-
   const handleSignOut = async () => {
     try {
       cleanupAuthState();
@@ -126,53 +122,6 @@ const Index = () => {
       window.location.href = "/auth";
     }
   };
-
-  // Session timeout management
-  const startSessionTimeout = () => {
-    // Clear existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    
-    // Set new timeout
-    timeoutRef.current = setTimeout(() => {
-      toast.info("Session expired due to inactivity");
-      handleSignOut();
-    }, SESSION_TIMEOUT);
-  };
-
-  const resetSessionTimeout = () => {
-    startSessionTimeout();
-  };
-
-  // Activity event listeners to reset timeout
-  useEffect(() => {
-    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-    
-    const resetTimeout = () => {
-      resetSessionTimeout();
-    };
-
-    // Add event listeners
-    events.forEach(event => {
-      document.addEventListener(event, resetTimeout, true);
-    });
-
-    // Start initial timeout
-    startSessionTimeout();
-
-    return () => {
-      // Clean up event listeners
-      events.forEach(event => {
-        document.removeEventListener(event, resetTimeout, true);
-      });
-      
-      // Clear timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   // Load profile address fields
   const loadAddressProfile = async (userId: string) => {
@@ -306,8 +255,26 @@ const Index = () => {
       provisionWebhookIfNeeded(session.user.id, session.user.email ?? '');
     });
 
+    // Force logout when leaving the dashboard
+    const handleBeforeUnload = () => {
+      cleanupAuthState();
+      try { supabase.auth.signOut({ scope: 'global' }); } catch {}
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        cleanupAuthState();
+        try { supabase.auth.signOut({ scope: 'global' }); } catch {}
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       subscription.unsubscribe();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
