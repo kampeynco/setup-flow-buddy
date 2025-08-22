@@ -726,12 +726,30 @@ const Index = () => {
                                       <div className="space-y-1">
                                         <p className="font-semibold">Free Plan Includes:</p>
                                         <ul className="text-sm space-y-1">
-                                          <li>• $1.99 per postcard</li>
-                                          <li>• 6x9 postcards</li>
-                                          <li>• Standard class mail (7-10 business days)</li>
-                                          <li>• Basic branding options</li>
-                                          <li>• Email support</li>
-                                          <li>• Thank Donors branding included</li>
+                                          <li className="flex items-center gap-2">
+                                            <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                            <span>$1.99 per postcard</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
+                                            <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                            <span>6x9 postcards</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
+                                            <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                            <span>Standard class mail (7-10 business days)</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
+                                            <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                            <span>Basic branding options</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
+                                            <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                            <span>Email support</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
+                                            <X className="h-3 w-3 text-red-600 shrink-0" strokeWidth={2.5} />
+                                            <span>Remove Thank Donors branding</span>
+                                          </li>
                                         </ul>
                                       </div>
                                     </TooltipContent>
@@ -748,19 +766,37 @@ const Index = () => {
                                         <div className="text-sm text-muted-foreground">per month</div>
                                       </ToggleGroupItem>
                                     </TooltipTrigger>
-                                    <TooltipContent side="top" className="max-w-[280px]">
-                                      <div className="space-y-1">
-                                        <p className="font-semibold">Pro Plan Includes:</p>
-                                        <ul className="text-sm space-y-1">
-                                          <li>• $0.99 per postcard (50% savings)</li>
-                                          <li>• 6x9 postcards</li>
-                                          <li>• First class mail (3-5 business days)</li>
-                                          <li>• Custom branding options</li>
-                                          <li>• Email and Phone support</li>
-                                          <li>• Remove Thank Donors branding</li>
-                                        </ul>
-                                      </div>
-                                    </TooltipContent>
+                                     <TooltipContent side="top" className="max-w-[280px]">
+                                       <div className="space-y-1">
+                                         <p className="font-semibold">Pro Plan Includes:</p>
+                                         <ul className="text-sm space-y-1">
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>$0.99 per postcard (50% savings)</span>
+                                           </li>
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>6x9 postcards</span>
+                                           </li>
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>First class mail (3-5 business days)</span>
+                                           </li>
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>Custom branding options</span>
+                                           </li>
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>Email and Phone support</span>
+                                           </li>
+                                           <li className="flex items-center gap-2">
+                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
+                                             <span>Remove Thank Donors branding</span>
+                                           </li>
+                                         </ul>
+                                       </div>
+                                     </TooltipContent>
                                   </Tooltip>
                                 </ToggleGroup>
                               </TooltipProvider>
