@@ -715,7 +715,7 @@ const Index = () => {
                                     <TooltipTrigger asChild>
                                       <ToggleGroupItem 
                                         value="free" 
-                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
+                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10 data-[state=on]:shadow-lg hover:border-primary/50 transition-all duration-200"
                                       >
                                         <div className="font-semibold">Free</div>
                                         <div className="text-2xl font-bold">$0</div>
@@ -759,7 +759,7 @@ const Index = () => {
                                     <TooltipTrigger asChild>
                                       <ToggleGroupItem 
                                         value="pro" 
-                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
+                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/10 data-[state=on]:shadow-lg hover:border-primary/50 transition-all duration-200"
                                       >
                                         <div className="font-semibold">Pro</div>
                                         <div className="text-2xl font-bold">$99</div>
