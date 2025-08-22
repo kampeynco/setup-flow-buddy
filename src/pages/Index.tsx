@@ -747,12 +747,13 @@ const Index = () => {
                             <div className="space-y-3">
                               <Label>Select Subscription Plan</Label>
                               <TooltipProvider>
-                                <ToggleGroup 
-                                  type="single" 
-                                  value={selectedPlan} 
-                                  onValueChange={(value) => setSelectedPlan(value || "free")}
-                                  className="grid grid-cols-2 gap-3"
-                                >
+                                 <ToggleGroup 
+                                   type="single" 
+                                   value={selectedPlan} 
+                                   onValueChange={(value) => setSelectedPlan(value || "free")}
+                                   variant="card"
+                                   className="grid grid-cols-2 gap-3"
+                                 >
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <ToggleGroupItem 
