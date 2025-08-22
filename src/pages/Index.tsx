@@ -708,23 +708,22 @@ const Index = () => {
                             {/* Subscription Plan Selection */}
                             <div className="space-y-3">
                               <Label>Select Subscription Plan</Label>
-                              <ToggleGroup type="single" defaultValue="monthly" className="grid grid-cols-2 gap-3">
+                              <ToggleGroup type="single" defaultValue="free" className="grid grid-cols-2 gap-3">
                                 <ToggleGroupItem 
-                                  value="monthly" 
+                                  value="free" 
                                   className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
                                 >
-                                  <div className="font-semibold">Monthly</div>
-                                  <div className="text-2xl font-bold">$29</div>
-                                  <div className="text-sm text-muted-foreground">per month</div>
+                                  <div className="font-semibold">Free</div>
+                                  <div className="text-2xl font-bold">$0</div>
+                                  <div className="text-sm text-muted-foreground">forever</div>
                                 </ToggleGroupItem>
                                 <ToggleGroupItem 
-                                  value="yearly" 
+                                  value="pro" 
                                   className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
                                 >
-                                  <div className="font-semibold">Yearly</div>
-                                  <div className="text-2xl font-bold">$290</div>
-                                  <div className="text-sm text-muted-foreground">per year</div>
-                                  <div className="text-xs text-primary font-medium">Save 17%</div>
+                                  <div className="font-semibold">Pro</div>
+                                  <div className="text-2xl font-bold">$99</div>
+                                  <div className="text-sm text-muted-foreground">per month</div>
                                 </ToggleGroupItem>
                               </ToggleGroup>
                             </div>
