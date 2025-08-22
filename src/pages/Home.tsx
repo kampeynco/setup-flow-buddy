@@ -140,7 +140,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             {user ? (
-              <Link to="/">
+              <Link to="/dashboard">
                 <Button variant="yellow" className="font-semibold">Dashboard</Button>
               </Link>
             ) : (
