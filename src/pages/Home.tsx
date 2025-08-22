@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import PostcardPreview from "@/components/PostcardPreview";
@@ -99,11 +101,29 @@ export default function Home() {
   });
   const [scrolled, setScrolled] = useState(false);
   const [activeStep, setActiveStep] = useState("step-1");
+  const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener('scroll', onScroll);
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
   return <div className="min-h-screen flex flex-col">
       <header className={`${scrolled ? "sticky top-0" : "absolute top-0 left-0 right-0"} z-50 transition-colors ${scrolled ? "bg-card/95 backdrop-blur-sm text-foreground" : "bg-transparent text-white"}`}>
@@ -119,12 +139,20 @@ export default function Home() {
             <a href="#faq" className={scrolled ? "text-foreground/80 hover:text-foreground" : "text-white/80 hover:text-white"}>FAQ</a>
           </nav>
           <div className="flex items-center gap-2">
-            <Link to="/auth" className="hidden sm:inline-block">
-              <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
-            </Link>
-            <Link to="/auth?mode=signup">
-              <Button variant="yellow" className="font-semibold">Create Free Account</Button>
-            </Link>
+            {user ? (
+              <Link to="/">
+                <Button variant="yellow" className="font-semibold">Dashboard</Button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/auth" className="hidden sm:inline-block">
+                  <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
+                </Link>
+                <Link to="/auth?mode=signup">
+                  <Button variant="yellow" className="font-semibold">Create Free Account</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
