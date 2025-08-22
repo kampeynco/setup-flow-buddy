@@ -828,11 +828,54 @@ const Index = () => {
                 </span>
                 <div className="flex items-start gap-4">
                   <div className="flex-1">
-                    <p className="font-medium">Add ActBlue</p>
+                    <p className="font-medium">Integrate ActBlue</p>
                     <div className="mt-3">
-                      <Button size="sm" onClick={() => document.getElementById('actblue')?.scrollIntoView({ behavior: 'smooth' })}>
-                        Configure ActBlue
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm">Get Webhook</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-auto">
+                          <DialogHeader>
+                            <DialogTitle>Add ActBlue account</DialogTitle>
+                            <DialogDescription>
+                              Your ActBlue donors will be mailed thank you postcards for donations received under this account.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <Tabs defaultValue="instructions" className="mt-4">
+                            <TabsList className="grid w-full grid-cols-2">
+                              <TabsTrigger value="instructions">Instructions</TabsTrigger>
+                              <TabsTrigger value="webhook">Webhook Details</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="instructions" className="space-y-4 pt-4">
+                              <article className="prose prose-sm max-w-none text-foreground">
+                                <ol className="list-decimal pl-5 space-y-2 text-sm">
+                                  <li>Click Integrations on the left-hand sidebar.</li>
+                                  <li>Click Manage under the Webhooks section.</li>
+                                  <li>Click Request a New Webhook.</li>
+                                  <li>Select ActBlue Default in the dropdown menu, then click Next.</li>
+                                  <li>Copy and paste the details into the corresponding fields, then click Submit Request.</li>
+                                </ol>
+                              </article>
+                              <p className="text-sm text-muted-foreground">
+                                Our system receives donation data within 48 hours of new webhook submissions to ActBlue.
+                              </p>
+                            </TabsContent>
+                            <TabsContent value="webhook" className="space-y-4 pt-4">
+                              {loadingWebhook ? (
+                                <div className="text-center py-8">
+                                  <p className="text-sm text-muted-foreground">Webhook creation pending...</p>
+                                </div>
+                              ) : (
+                                <div className="space-y-4">
+                                  <CopyField id="endpoint" label="Endpoint URL" value={actblueEndpoint} type="url" />
+                                  <CopyField id="username" label="Username" value={actblueUsername} />
+                                  <CopyField id="password" label="Password" value={actbluePassword} type="password" />
+                                </div>
+                              )}
+                            </TabsContent>
+                          </Tabs>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </div>
@@ -841,55 +884,6 @@ const Index = () => {
           </nav>
         </aside>
 
-        <section id="actblue">
-          <Card className="shadow-sm w-full md:w-[484px] md:min-h-[454px] md:mx-auto lg:mx-0">
-            <CardHeader>
-              <h1 className="text-2xl font-semibold">Add ActBlue account</h1>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <article className="prose prose-sm max-w-none text-foreground">
-                <p className="text-sm text-muted-foreground">
-                  Your ActBlue donors will be mailed thank you postcards for donations received under this account.
-                </p>
-                <ol className="list-decimal pl-5 space-y-2 text-sm pt-8">
-                  <li>Click Integrations on the left-hand sidebar.</li>
-                  <li>Click Manage under the Webhooks section.</li>
-                  <li>Click Request a New Webhook.</li>
-                  <li>Select ActBlue Default in the dropdown menu, then click Next.</li>
-                  <li>Copy and paste the details into the corresponding fields, then click Submit Request.</li>
-                </ol>
-              </article>
-
-{showSecrets && (
-              <div className="grid gap-4">
-                <CopyField id="endpoint" label="Endpoint URL" value={actblueEndpoint} type="url" />
-                <CopyField id="username" label="Username" value={actblueUsername} />
-                <CopyField id="password" label="Password" value={actbluePassword} type="password" />
-              </div>
-              )}
-
-
-              <div className="flex items-center gap-3">
-                {loadingWebhook ? (
-                  <Button className="w-full" variant="secondary" disabled>
-                    Webhook creation pending...
-                  </Button>
-                ) : (
-                  <Button className="w-full" onClick={() => setShowSecrets(s => !s)}>
-                    {showSecrets ? (
-                      <span className="inline-flex items-center gap-2"><EyeOff className="h-4 w-4" /> Hide ActBlue Details</span>
-                    ) : (
-                      <span className="inline-flex items-center gap-2"><Eye className="h-4 w-4" /> Show ActBlue Details</span>
-                    )}
-                  </Button>
-                )}
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground text-center">
-                Our system receives donation data within 48 hours of new webhook submissions to ActBlue.
-              </p>
-            </CardContent>
-          </Card>
-        </section>
       </main>
     </div>;
 };
