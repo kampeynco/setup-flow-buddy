@@ -110,6 +110,10 @@ const Index = () => {
   const [savingAddress, setSavingAddress] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
 
+  // Billing state
+  const [selectedPlan, setSelectedPlan] = useState("free");
+  const [billingDialogOpen, setBillingDialogOpen] = useState(false);
+
   const handleSignOut = async () => {
     try {
       cleanupAuthState();
@@ -710,7 +714,12 @@ const Index = () => {
                             <div className="space-y-3">
                               <Label>Select Subscription Plan</Label>
                               <TooltipProvider>
-                                <ToggleGroup type="single" defaultValue="free" className="grid grid-cols-2 gap-3">
+                                <ToggleGroup 
+                                  type="single" 
+                                  value={selectedPlan} 
+                                  onValueChange={(value) => setSelectedPlan(value || "free")}
+                                  className="grid grid-cols-2 gap-3"
+                                >
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <ToggleGroupItem 
