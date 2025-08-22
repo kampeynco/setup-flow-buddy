@@ -828,11 +828,11 @@ const Index = () => {
                 </span>
                 <div className="flex items-start gap-4">
                   <div className="flex-1">
-                    <p className="font-medium">Integrate ActBlue</p>
+                    <p className="font-medium">Connect ActBlue</p>
                     <div className="mt-3">
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm">Get Webhook</Button>
+                          <Button size="sm">Connect</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[500px] max-h-[85vh] overflow-auto">
                           <DialogHeader>
