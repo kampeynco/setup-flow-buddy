@@ -17,6 +17,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SettingsDialog from "@/components/SettingsDialog";
+import { DonationsTable } from "@/components/DonationsTable";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanupAuthState } from "@/lib/utils";
 
@@ -884,6 +885,10 @@ const Index = () => {
           </nav>
         </aside>
 
+        {/* Main Content Area */}
+        <div className="flex-1 p-6">
+          <DonationsTable />
+        </div>
       </main>
     </div>;
 };
