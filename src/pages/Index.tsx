@@ -83,7 +83,7 @@ function CopyField({
 const steps = [
   { id: 1, title: "Enter Committee Details", cta: "Enter Details", note: undefined },
   { id: 2, title: "Design Postcard", cta: "Design Card", note: undefined },
-  { id: 3, title: "Thank Donors", cta: "Preview Card", note: undefined }
+  { id: 3, title: "Add Billing", cta: "Preview Card", note: undefined }
 ];
 const Index = () => {
   useSEO({
@@ -397,285 +397,309 @@ const Index = () => {
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
           <nav aria-label="Setup steps" className="bg-muted/20">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
-              {steps.map((s, idx) => <li key={s.id} className="relative pl-6 md:pl-8 py-6">
-                  <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
-                    {s.id}
-                  </span>
-                  <div className="flex items-start gap-4">
-                    <div className="flex-1">
-                      <p className="font-medium">{s.title}</p>
-                      {s.note}
-
-                      <div className="mt-3">
-                        {/* Step dialogs */}
-                        {s.id === 1 && (
-                          <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
-                            <DialogTrigger asChild>
-                              <Button size="sm">{s.cta}</Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Add Committee Address</DialogTitle>
-                                <DialogDescription>
-                                  This will be used as the return address for undeliverable postcards.
-                                </DialogDescription>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                  <div className="grid gap-4 md:grid-cols-2">
-                                    <div className="space-y-2 md:col-span-2">
-                                      <Label>Legal Committee Name</Label>
-                                      <Input placeholder="Committee Name" value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                      <Label>Street</Label>
-                                      <Input placeholder="123 Main St" value={street} onChange={(e) => setStreet(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                      <Label>Unit</Label>
-                                      <Input placeholder="Suite 100" value={unitAddr} onChange={(e) => setUnitAddr(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2 md:col-span-2">
-                                      <Label>City</Label>
-                                      <Input placeholder="Anytown" value={cityName} onChange={(e) => setCityName(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                      <Label>State</Label>
-                                      <Input placeholder="CA" value={region} onChange={(e) => setRegion(e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                      <Label>ZIP</Label>
-                                      <Input placeholder="90210" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
-                                    </div>
-                                  </div>
-                                  <Button onClick={handleSaveAddress} disabled={savingAddress}>
-                                    {savingAddress ? 'Saving...' : 'Save Address'}
-                                  </Button>
+              {/* Step 1 - Enter Committee Details */}
+              <li className="relative pl-6 md:pl-8 py-6">
+                <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
+                  1
+                </span>
+                <div className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <p className="font-medium">Enter Committee Details</p>
+                    <div className="mt-3">
+                      <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
+                        <DialogTrigger asChild>
+                          <Button size="sm">Enter Details</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Add Committee Address</DialogTitle>
+                            <DialogDescription>
+                              This will be used as the return address for undeliverable postcards.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                              <div className="grid gap-4 md:grid-cols-2">
+                                <div className="space-y-2 md:col-span-2">
+                                  <Label>Legal Committee Name</Label>
+                                  <Input placeholder="Committee Name" value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>Street</Label>
+                                  <Input placeholder="123 Main St" value={street} onChange={(e) => setStreet(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>Unit</Label>
+                                  <Input placeholder="Suite 100" value={unitAddr} onChange={(e) => setUnitAddr(e.target.value)} />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                  <Label>City</Label>
+                                  <Input placeholder="Anytown" value={cityName} onChange={(e) => setCityName(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>State</Label>
+                                  <Input placeholder="CA" value={region} onChange={(e) => setRegion(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>ZIP</Label>
+                                  <Input placeholder="90210" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+                                </div>
                               </div>
-                            </DialogContent>
-                          </Dialog>
-                        )}
-
-                        {s.id === 2 && (
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button size="sm">{s.cta}</Button>
-                            </DialogTrigger>
-                        <DialogContent className="max-h-[85vh] overflow-auto pb-0">
-                              <DialogHeader>
-                                <DialogTitle>Design Postcard</DialogTitle>
-                                <DialogDescription>
-                                  Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
-                                </DialogDescription>
-                              </DialogHeader>
-                              <Tabs defaultValue="front" className="mt-2">
-                                <TabsList>
-                                  <TabsTrigger value="front">Front</TabsTrigger>
-                                  <TabsTrigger value="back">Back</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="front" className="space-y-4 pt-4">
-                                  <div className="flex items-center gap-4">
-                                    <Label className="w-48">Committee Logo</Label>
-                                    <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
-                                  </div>
-                                  <div className="flex items-center gap-4">
-                                    <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
-                                    <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
-                                  </div>
-                                </TabsContent>
-                                <TabsContent value="back" className="space-y-4 pt-4">
-                                  <div className="space-y-2">
-                                    <Label htmlFor="postcard-message">Message</Label>
-                                    <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
-
-                                    <div className="flex items-center gap-2">
-                                      <Checkbox
-                                        id="add-signature"
-                                        checked={includeSignature}
-                                        onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
-                                      />
-                                      <Label htmlFor="add-signature">Add Signature</Label>
-                                    </div>
-
-                                    {includeSignature && (
-                                      <div className="mt-2 space-y-4 rounded-md border p-4">
-                                        <div>
-                                          
-                                          <ToggleGroup
-                                            type="single"
-                                            value={signatureMode ?? undefined}
-                                            onValueChange={(val) => {
-                                              const next = (val as "draw" | "type" | "upload") || null;
-                                              setSignatureMode(next);
-                                              setSignaturePreview(null);
-                                              setUploadedSignature(null);
-                                              setUploadedFileName(null);
-                                              if (uploadInputRef.current) uploadInputRef.current.value = "";
-                                              if (next !== "draw") {
-                                                clearCanvas();
-                                              }
-                                            }}
-                                            className="flex flex-wrap gap-2"
-                                          >
-                                            <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
-                                              Draw Signature
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
-                                              Type Signature
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
-                                              Upload Signature
-                                            </ToggleGroupItem>
-                                          </ToggleGroup>
-                                        </div>
-
-                                        {signatureMode === "draw" && (
-                                          <div className="space-y-3">
-                                            <div className="flex items-center gap-4">
-                                              <Label htmlFor="pen-color" className="w-48">Pen color</Label>
-                                              <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
-                                              <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
-                                            </div>
-                                            <div className="rounded-md border bg-background p-2">
-                                              <canvas
-                                                ref={drawCanvasRef}
-                                                className="w-full max-w-full touch-none"
-                                                onPointerDown={handlePointer("down")}
-                                                onPointerMove={handlePointer("move")}
-                                                onPointerUp={handlePointer("up")}
-                                                onPointerLeave={handlePointer("up")}
-                                              />
-                                            </div>
-                                          </div>
-                                        )}
-
-                                        {signatureMode === "type" && (
-                                          <div className="space-y-3">
-                                            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label htmlFor="typed-signature" className="sm:w-48 shrink-0">Signature text</Label>
-                                              <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="w-full sm:flex-1 min-w-0 max-w-full" />
-                                            </div>
-                                             <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label className="sm:w-48 shrink-0">Font</Label>
-                                              <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
-                                                <SelectTrigger className="w-full sm:w-[200px] min-w-0"><SelectValue placeholder="Choose font" /></SelectTrigger>
-                                                <SelectContent>
-                                                  <SelectItem value="cursive">Cursive</SelectItem>
-                                                  <SelectItem value="serif">Serif</SelectItem>
-                                                  <SelectItem value="sans-serif">Sans-serif</SelectItem>
-                                                </SelectContent>
-                                              </Select>
-                                            </div>
-                                             <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                              <Label className="sm:w-48 shrink-0">Size</Label>
-                                              <div className="w-full sm:w=[240px] min-w-0">
-                                                <Slider value={[typedSize]} min={16} max={40} step={1} onValueChange={(v) => setTypedSize(v[0])} />
-                                              </div>
-                                              <span className="text-sm text-muted-foreground">{typedSize}px</span>
-                                            </div>
-                                          </div>
-                                        )}
-
-                                        {signatureMode === "upload" && (
-                                          <div className="space-y-3">
-                                            <div className="flex items-center gap-4 min-w-0">
-                                              <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
-                                              <div className="flex items-center gap-2 min-w-0">
-                                                <Input
-                                                  id="signature-upload"
-                                                  type="file"
-                                                  accept="image/png,image/jpeg"
-                                                  onChange={handleUpload}
-                                                  className="max-w-xs"
-                                                  ref={uploadInputRef}
-                                                />
-                                                {uploadedFileName && (
-                                                  <div className="flex items-center gap-1 min-w-0">
-                                                    <span
-                                                      className="truncate text-sm text-muted-foreground max-w-[200px]"
-                                                      title={uploadedFileName}
-                                                    >
-                                                      {uploadedFileName}
-                                                    </span>
-                                                    <Button
-                                                      type="button"
-                                                      variant="ghost"
-                                                      size="icon"
-                                                      aria-label="Remove uploaded file"
-                                                      title="Remove uploaded file"
-                                                      onClick={() => {
-                                                        setUploadedSignature(null);
-                                                        setSignaturePreview(null);
-                                                        setUploadedFileName(null);
-                                                        if (uploadInputRef.current) {
-                                                          uploadInputRef.current.value = "";
-                                                          uploadInputRef.current.focus();
-                                                        }
-                                                      }}
-                                                    >
-                                                      <X className="h-4 w-4" />
-                                                    </Button>
-                                                  </div>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        )}
-
-                                    {/* Live preview */}
-                                    {signatureMode && (
-                                      <div className="space-y-2">
-                                        <Label className="block">Signature preview</Label>
-                                        <div className="rounded-md border bg-card p-3">
-                                          {signatureMode === "type" ? (
-                                            <div
-                                              className="max-w-full truncate flex items-center h-14"
-                                              style={{
-                                                fontFamily: typedFont,
-                                                fontSize: typedSize,
-                                                lineHeight: 1,
-                                              }}
-                                            >
-                                              {typedSignature}
-                                            </div>
-                                          ) : signaturePreview ? (
-                                            <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
-                                          ) : (
-                                            <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
-                                          )}
-                                        </div>
-                                      </div>
-                                    )}
-
-                                      </div>
-                                    )}
-                                  </div>
-                                </TabsContent>
-                              </Tabs>
-                              <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
-                                <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-                        )}
-
-                        {s.id === 3 && (
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button size="sm">{s.cta}</Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
-                              <DialogHeader className="sr-only">
-                                <DialogTitle>Preview Thank You Postcard</DialogTitle>
-                                <DialogDescription>6×9 template preview</DialogDescription>
-                              </DialogHeader>
-                              <PostcardPreview />
-                            </DialogContent>
-                          </Dialog>
-                        )}
-                      </div>
+                              <Button onClick={handleSaveAddress} disabled={savingAddress}>
+                                {savingAddress ? 'Saving...' : 'Save Address'}
+                              </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
-                </li>)}
+                </div>
+              </li>
+
+              {/* Steps 2 & 3 - Side by side */}
+              <li className="relative pl-6 md:pl-8 py-6">
+                <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
+                  2
+                </span>
+                <div className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <p className="font-medium">Design Postcard</p>
+                    <div className="mt-3 flex gap-3">
+                      {/* Design Card Button */}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm">Design Card</Button>
+                        </DialogTrigger>
+                    <DialogContent className="max-h-[85vh] overflow-auto pb-0">
+                          <DialogHeader>
+                            <DialogTitle>Design Postcard</DialogTitle>
+                            <DialogDescription>
+                              Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <Tabs defaultValue="front" className="mt-2">
+                            <TabsList>
+                              <TabsTrigger value="front">Front</TabsTrigger>
+                              <TabsTrigger value="back">Back</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="front" className="space-y-4 pt-4">
+                              <div className="flex items-center gap-4">
+                                <Label className="w-48">Committee Logo</Label>
+                                <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
+                              </div>
+                              <div className="flex items-center gap-4">
+                                <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
+                                <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
+                              </div>
+                            </TabsContent>
+                            <TabsContent value="back" className="space-y-4 pt-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="postcard-message">Message</Label>
+                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+
+                                <div className="flex items-center gap-2">
+                                  <Checkbox
+                                    id="add-signature"
+                                    checked={includeSignature}
+                                    onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
+                                  />
+                                  <Label htmlFor="add-signature">Add Signature</Label>
+                                </div>
+
+                                {includeSignature && (
+                                  <div className="mt-2 space-y-4 rounded-md border p-4">
+                                    <div>
+                                      
+                                      <ToggleGroup
+                                        type="single"
+                                        value={signatureMode ?? undefined}
+                                        onValueChange={(val) => {
+                                          const next = (val as "draw" | "type" | "upload") || null;
+                                          setSignatureMode(next);
+                                          setSignaturePreview(null);
+                                          setUploadedSignature(null);
+                                          setUploadedFileName(null);
+                                          if (uploadInputRef.current) uploadInputRef.current.value = "";
+                                          if (next !== "draw") {
+                                            clearCanvas();
+                                          }
+                                        }}
+                                        className="flex flex-wrap gap-2"
+                                      >
+                                        <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
+                                          Draw Signature
+                                        </ToggleGroupItem>
+                                        <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
+                                          Type Signature
+                                        </ToggleGroupItem>
+                                        <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
+                                          Upload Signature
+                                        </ToggleGroupItem>
+                                      </ToggleGroup>
+                                    </div>
+
+                                    {signatureMode === "draw" && (
+                                      <div className="space-y-3">
+                                        <div className="flex items-center gap-4">
+                                          <Label htmlFor="pen-color" className="w-48">Pen color</Label>
+                                          <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
+                                          <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
+                                        </div>
+                                        <div className="rounded-md border bg-background p-2">
+                                          <canvas
+                                            ref={drawCanvasRef}
+                                            className="w-full max-w-full touch-none"
+                                            onPointerDown={handlePointer("down")}
+                                            onPointerMove={handlePointer("move")}
+                                            onPointerUp={handlePointer("up")}
+                                            onPointerLeave={handlePointer("up")}
+                                          />
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {signatureMode === "type" && (
+                                      <div className="space-y-3">
+                                        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label htmlFor="typed-signature" className="sm:w-48 shrink-0">Signature text</Label>
+                                          <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="w-full sm:flex-1 min-w-0 max-w-full" />
+                                        </div>
+                                         <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label className="sm:w-48 shrink-0">Font</Label>
+                                          <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
+                                            <SelectTrigger className="w-full sm:w-[200px] min-w-0"><SelectValue placeholder="Choose font" /></SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="cursive">Cursive</SelectItem>
+                                              <SelectItem value="serif">Serif</SelectItem>
+                                              <SelectItem value="sans-serif">Sans-serif</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                         <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                          <Label className="sm:w-48 shrink-0">Size</Label>
+                                          <div className="w-full sm:w=[240px] min-w-0">
+                                            <Slider value={[typedSize]} min={16} max={40} step={1} onValueChange={(v) => setTypedSize(v[0])} />
+                                          </div>
+                                          <span className="text-sm text-muted-foreground">{typedSize}px</span>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                    {signatureMode === "upload" && (
+                                      <div className="space-y-3">
+                                        <div className="flex items-center gap-4 min-w-0">
+                                          <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
+                                          <div className="flex items-center gap-2 min-w-0">
+                                            <Input
+                                              id="signature-upload"
+                                              type="file"
+                                              accept="image/png,image/jpeg"
+                                              onChange={handleUpload}
+                                              className="max-w-xs"
+                                              ref={uploadInputRef}
+                                            />
+                                            {uploadedFileName && (
+                                              <div className="flex items-center gap-1 min-w-0">
+                                                <span
+                                                  className="truncate text-sm text-muted-foreground max-w-[200px]"
+                                                  title={uploadedFileName}
+                                                >
+                                                  {uploadedFileName}
+                                                </span>
+                                                <Button
+                                                  type="button"
+                                                  variant="ghost"
+                                                  size="icon"
+                                                  aria-label="Remove uploaded file"
+                                                  title="Remove uploaded file"
+                                                  onClick={() => {
+                                                    setUploadedSignature(null);
+                                                    setSignaturePreview(null);
+                                                    setUploadedFileName(null);
+                                                    if (uploadInputRef.current) {
+                                                      uploadInputRef.current.value = "";
+                                                      uploadInputRef.current.focus();
+                                                    }
+                                                  }}
+                                                >
+                                                  <X className="h-4 w-4" />
+                                                </Button>
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                {/* Live preview */}
+                                {signatureMode && (
+                                  <div className="space-y-2">
+                                    <Label className="block">Signature preview</Label>
+                                    <div className="rounded-md border bg-card p-3">
+                                      {signatureMode === "type" ? (
+                                        <div
+                                          className="max-w-full truncate flex items-center h-14"
+                                          style={{
+                                            fontFamily: typedFont,
+                                            fontSize: typedSize,
+                                            lineHeight: 1,
+                                          }}
+                                        >
+                                          {typedSignature}
+                                        </div>
+                                      ) : signaturePreview ? (
+                                        <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
+                                      ) : (
+                                        <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+
+                                  </div>
+                                )}
+                              </div>
+                            </TabsContent>
+                          </Tabs>
+                          <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
+                            <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      {/* Preview Card Button */}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="sm" variant="outline">Preview Card</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[960px] h-[85vh] max-h-[90vh] overflow-auto">
+                          <DialogHeader className="sr-only">
+                            <DialogTitle>Preview Thank You Postcard</DialogTitle>
+                            <DialogDescription>6×9 template preview</DialogDescription>
+                          </DialogHeader>
+                          <PostcardPreview />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              {/* Step 3 - Add Billing */}
+              <li className="relative pl-6 md:pl-8 py-6">
+                <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
+                  3
+                </span>
+                <div className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <p className="font-medium">Add Billing</p>
+                    <div className="mt-3">
+                      <Button size="sm" variant="secondary" disabled>
+                        Coming Soon
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </ol>
           </nav>
         </aside>
