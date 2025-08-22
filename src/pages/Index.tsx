@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SettingsDialog from "@/components/SettingsDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanupAuthState } from "@/lib/utils";
@@ -708,24 +709,59 @@ const Index = () => {
                             {/* Subscription Plan Selection */}
                             <div className="space-y-3">
                               <Label>Select Subscription Plan</Label>
-                              <ToggleGroup type="single" defaultValue="free" className="grid grid-cols-2 gap-3">
-                                <ToggleGroupItem 
-                                  value="free" 
-                                  className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
-                                >
-                                  <div className="font-semibold">Free</div>
-                                  <div className="text-2xl font-bold">$0</div>
-                                  <div className="text-sm text-muted-foreground">forever</div>
-                                </ToggleGroupItem>
-                                <ToggleGroupItem 
-                                  value="pro" 
-                                  className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
-                                >
-                                  <div className="font-semibold">Pro</div>
-                                  <div className="text-2xl font-bold">$99</div>
-                                  <div className="text-sm text-muted-foreground">per month</div>
-                                </ToggleGroupItem>
-                              </ToggleGroup>
+                              <TooltipProvider>
+                                <ToggleGroup type="single" defaultValue="free" className="grid grid-cols-2 gap-3">
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <ToggleGroupItem 
+                                        value="free" 
+                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
+                                      >
+                                        <div className="font-semibold">Free</div>
+                                        <div className="text-2xl font-bold">$0</div>
+                                        <div className="text-sm text-muted-foreground">forever</div>
+                                      </ToggleGroupItem>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="top" className="max-w-[250px]">
+                                      <div className="space-y-1">
+                                        <p className="font-semibold">Free Plan Includes:</p>
+                                        <ul className="text-sm space-y-1">
+                                          <li>• Up to 50 postcards per month</li>
+                                          <li>• Basic postcard templates</li>
+                                          <li>• Standard processing time</li>
+                                          <li>• Email support</li>
+                                        </ul>
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                  
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <ToggleGroupItem 
+                                        value="pro" 
+                                        className="flex flex-col items-start p-4 h-auto text-left border-2 data-[state=on]:border-primary data-[state=on]:bg-primary/5"
+                                      >
+                                        <div className="font-semibold">Pro</div>
+                                        <div className="text-2xl font-bold">$99</div>
+                                        <div className="text-sm text-muted-foreground">per month</div>
+                                      </ToggleGroupItem>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="top" className="max-w-[250px]">
+                                      <div className="space-y-1">
+                                        <p className="font-semibold">Pro Plan Includes:</p>
+                                        <ul className="text-sm space-y-1">
+                                          <li>• Unlimited postcards</li>
+                                          <li>• Premium templates & customization</li>
+                                          <li>• Priority processing (24hrs)</li>
+                                          <li>• Analytics & reporting</li>
+                                          <li>• Priority support</li>
+                                          <li>• Custom branding options</li>
+                                        </ul>
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </ToggleGroup>
+                              </TooltipProvider>
                             </div>
                             
                             <div className="grid gap-4">
