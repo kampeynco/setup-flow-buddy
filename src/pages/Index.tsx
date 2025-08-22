@@ -722,14 +722,16 @@ const Index = () => {
                                         <div className="text-sm text-muted-foreground">forever</div>
                                       </ToggleGroupItem>
                                     </TooltipTrigger>
-                                    <TooltipContent side="top" className="max-w-[250px]">
+                                    <TooltipContent side="top" className="max-w-[280px]">
                                       <div className="space-y-1">
                                         <p className="font-semibold">Free Plan Includes:</p>
                                         <ul className="text-sm space-y-1">
-                                          <li>• Up to 50 postcards per month</li>
-                                          <li>• Basic postcard templates</li>
-                                          <li>• Standard processing time</li>
+                                          <li>• $1.99 per postcard</li>
+                                          <li>• 6x9 postcards</li>
+                                          <li>• Standard class mail (7-10 business days)</li>
+                                          <li>• Basic branding options</li>
                                           <li>• Email support</li>
+                                          <li>• Thank Donors branding included</li>
                                         </ul>
                                       </div>
                                     </TooltipContent>
@@ -746,16 +748,16 @@ const Index = () => {
                                         <div className="text-sm text-muted-foreground">per month</div>
                                       </ToggleGroupItem>
                                     </TooltipTrigger>
-                                    <TooltipContent side="top" className="max-w-[250px]">
+                                    <TooltipContent side="top" className="max-w-[280px]">
                                       <div className="space-y-1">
                                         <p className="font-semibold">Pro Plan Includes:</p>
                                         <ul className="text-sm space-y-1">
-                                          <li>• Unlimited postcards</li>
-                                          <li>• Premium templates & customization</li>
-                                          <li>• Priority processing (24hrs)</li>
-                                          <li>• Analytics & reporting</li>
-                                          <li>• Priority support</li>
+                                          <li>• $0.99 per postcard (50% savings)</li>
+                                          <li>• 6x9 postcards</li>
+                                          <li>• First class mail (3-5 business days)</li>
                                           <li>• Custom branding options</li>
+                                          <li>• Email and Phone support</li>
+                                          <li>• Remove Thank Donors branding</li>
                                         </ul>
                                       </div>
                                     </TooltipContent>
