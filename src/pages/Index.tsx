@@ -846,7 +846,7 @@ const Index = () => {
                               <TabsTrigger value="instructions">Instructions</TabsTrigger>
                               <TabsTrigger value="webhook">Webhook Details</TabsTrigger>
                             </TabsList>
-                            <TabsContent value="instructions" className="space-y-4 pt-4">
+                            <TabsContent value="instructions" className="space-y-4 pt-4 min-h-[280px]">
                               <article className="prose prose-sm max-w-none text-foreground">
                                 <ol className="list-decimal pl-5 space-y-2 text-sm">
                                   <li>Click Integrations on the left-hand sidebar.</li>
@@ -860,7 +860,7 @@ const Index = () => {
                                 Our system receives donation data within 48 hours of new webhook submissions to ActBlue.
                               </p>
                             </TabsContent>
-                            <TabsContent value="webhook" className="space-y-4 pt-4">
+                            <TabsContent value="webhook" className="space-y-4 pt-4 min-h-[280px]">
                               {loadingWebhook ? (
                                 <div className="text-center py-8">
                                   <p className="text-sm text-muted-foreground">Webhook creation pending...</p>
