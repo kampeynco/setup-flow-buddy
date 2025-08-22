@@ -707,8 +707,8 @@ const Index = () => {
                           <div className="space-y-4 mt-4">
                             <div className="grid gap-4">
                               <div className="space-y-2">
-                                <Label htmlFor="billing-email">Email Address</Label>
-                                <Input id="billing-email" type="email" placeholder="billing@example.com" />
+                                <Label htmlFor="billing-name">Cardholder Name</Label>
+                                <Input id="billing-name" placeholder="Full name on card" />
                               </div>
                               <div className="space-y-2">
                                 <Label htmlFor="card-number">Card Number</Label>
@@ -723,10 +723,6 @@ const Index = () => {
                                   <Label htmlFor="cvc">CVC</Label>
                                   <Input id="cvc" placeholder="123" />
                                 </div>
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="billing-name">Cardholder Name</Label>
-                                <Input id="billing-name" placeholder="Full name on card" />
                               </div>
                             </div>
                             <div className="flex items-center justify-end space-x-2 pt-4">
