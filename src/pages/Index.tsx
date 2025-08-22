@@ -435,68 +435,10 @@ const Index = () => {
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
           <nav aria-label="Setup steps" className="bg-muted/20">
             <ol className="relative ml-2 border-l md:ml-4 border-border">
-              {/* Step 1 - Enter Committee Details */}
+              {/* Step 1 - Design Postcard */}
               <li className="relative pl-6 md:pl-8 py-6">
                 <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
                   1
-                </span>
-                <div className="flex items-start gap-4">
-                  <div className="flex-1">
-                    <p className="font-medium">Enter Committee Details</p>
-                    <div className="mt-3">
-                      <Dialog open={addressDialogOpen} onOpenChange={setAddressDialogOpen}>
-                        <DialogTrigger asChild>
-                          <Button size="sm">Enter Details</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Add Committee Address</DialogTitle>
-                            <DialogDescription>
-                              This will be used as the return address for undeliverable postcards.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                              <div className="grid gap-4 md:grid-cols-2">
-                                <div className="space-y-2 md:col-span-2">
-                                  <Label>Legal Committee Name</Label>
-                                  <Input placeholder="Committee Name" value={committeeName} onChange={(e) => setCommitteeName(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>Street</Label>
-                                  <Input placeholder="123 Main St" value={street} onChange={(e) => setStreet(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>Unit</Label>
-                                  <Input placeholder="Suite 100" value={unitAddr} onChange={(e) => setUnitAddr(e.target.value)} />
-                                </div>
-                                <div className="space-y-2 md:col-span-2">
-                                  <Label>City</Label>
-                                  <Input placeholder="Anytown" value={cityName} onChange={(e) => setCityName(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>State</Label>
-                                  <Input placeholder="CA" value={region} onChange={(e) => setRegion(e.target.value)} />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label>ZIP</Label>
-                                  <Input placeholder="90210" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
-                                </div>
-                              </div>
-                              <Button onClick={handleSaveAddress} disabled={savingAddress}>
-                                {savingAddress ? 'Saving...' : 'Save Address'}
-                              </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              {/* Steps 2 & 3 - Side by side */}
-              <li className="relative pl-6 md:pl-8 py-6">
-                <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
-                  2
                 </span>
                 <div className="flex items-start gap-4">
                   <div className="flex-1">
@@ -722,10 +664,10 @@ const Index = () => {
                 </div>
               </li>
 
-              {/* Step 3 - Add Billing */}
+              {/* Step 2 - Add Billing */}
               <li className="relative pl-6 md:pl-8 py-6">
                 <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
-                  3
+                  2
                 </span>
                 <div className="flex items-start gap-4">
                   <div className="flex-1">
@@ -874,6 +816,23 @@ const Index = () => {
                           </div>
                         </DialogContent>
                       </Dialog>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              {/* Step 3 - Add ActBlue */}
+              <li className="relative pl-6 md:pl-8 py-6">
+                <span className="absolute -left-3 md:-left-4 top-6 inline-flex h-8 w-8 items-center justify-center rounded-full border bg-card text-foreground shadow-sm">
+                  3
+                </span>
+                <div className="flex items-start gap-4">
+                  <div className="flex-1">
+                    <p className="font-medium">Add ActBlue</p>
+                    <div className="mt-3">
+                      <Button size="sm" onClick={() => document.getElementById('actblue')?.scrollIntoView({ behavior: 'smooth' })}>
+                        Configure ActBlue
+                      </Button>
                     </div>
                   </div>
                 </div>

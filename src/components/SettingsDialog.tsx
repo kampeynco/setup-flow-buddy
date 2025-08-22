@@ -62,82 +62,111 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="notifications" className="mt-2">
-          <TabsList className="w-full grid grid-cols-4">
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="style">Style</TabsTrigger>
-            <TabsTrigger value="billing">Billing</TabsTrigger>
-            <TabsTrigger value="account">Account</TabsTrigger>
+        <Tabs defaultValue="notifications" className="mt-2 flex gap-4">
+          <TabsList className="flex flex-col h-fit">
+            <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
+            <TabsTrigger value="style" className="w-full justify-start">Style</TabsTrigger>
+            <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="notifications" className="pt-4 min-h-[280px]">
-            <div className="space-y-6">
-              <div className="flex items-start justify-between gap-6">
-                <div className="space-y-1.5">
-                  <Label htmlFor="notify-mailings">Alerts for new mailings</Label>
-                  <p className="text-sm text-muted-foreground">Receive an alert when a new mailing is sent.</p>
+          <div className="flex-1">
+            <TabsContent value="notifications" className="pt-4 min-h-[280px] mt-0">
+              <div className="space-y-6">
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="notify-mailings">Alerts for new mailings</Label>
+                    <p className="text-sm text-muted-foreground">Receive an alert when a new mailing is sent.</p>
+                  </div>
+                  <Switch id="notify-mailings" checked={notifyMailings} onCheckedChange={setNotifyMailings} />
                 </div>
-                <Switch id="notify-mailings" checked={notifyMailings} onCheckedChange={setNotifyMailings} />
-              </div>
 
-              <div className="flex items-start justify-between gap-6">
-                <div className="space-y-1.5">
-                  <Label htmlFor="marketing-updates">Updates and marketing offers</Label>
-                  <p className="text-sm text-muted-foreground">Get product updates and occasional marketing offers.</p>
-                </div>
-                <Switch id="marketing-updates" checked={marketingUpdates} onCheckedChange={setMarketingUpdates} />
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="style" className="pt-4 min-h-[280px]">
-            {/* intentionally left empty */}
-          </TabsContent>
-          <TabsContent value="billing" className="pt-4 min-h-[280px]">
-            {/* intentionally left empty */}
-          </TabsContent>
-
-          <TabsContent value="account" className="pt-4 min-h-[280px]">
-            <div className="space-y-4">
-              <div className="rounded-md border p-4">
-                <h3 className="text-sm font-medium text-destructive">Delete account</h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  This action is permanent and will remove your data. Type DELETE to confirm.
-                </p>
-                <div className="mt-4 space-y-3">
-                  <Label htmlFor="confirm-delete">Type DELETE to confirm</Label>
-                  <Input
-                    id="confirm-delete"
-                    placeholder="DELETE"
-                    value={confirmText}
-                    onChange={(e) => setConfirmText(e.target.value)}
-                  />
-
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="destructive" disabled={confirmText !== "DELETE" || deleting}>
-                        {deleting ? "Deleting..." : "Delete account"}
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This will permanently delete your account and associated data. This cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDeleteAccount} disabled={deleting}>
-                          Confirm delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="marketing-updates">Updates and marketing offers</Label>
+                    <p className="text-sm text-muted-foreground">Get product updates and occasional marketing offers.</p>
+                  </div>
+                  <Switch id="marketing-updates" checked={marketingUpdates} onCheckedChange={setMarketingUpdates} />
                 </div>
               </div>
-            </div>
-          </TabsContent>
+            </TabsContent>
+
+            <TabsContent value="style" className="pt-4 min-h-[280px] mt-0">
+              {/* intentionally left empty */}
+            </TabsContent>
+
+            <TabsContent value="account" className="pt-4 min-h-[280px] mt-0">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Committee Details</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="committee-name">Legal Committee Name</Label>
+                      <Input id="committee-name" placeholder="Committee Name" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="street">Street</Label>
+                      <Input id="street" placeholder="123 Main St" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="unit">Unit</Label>
+                      <Input id="unit" placeholder="Suite 100" />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="city">City</Label>
+                      <Input id="city" placeholder="Anytown" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State</Label>
+                      <Input id="state" placeholder="CA" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="zip">ZIP</Label>
+                      <Input id="zip" placeholder="90210" />
+                    </div>
+                  </div>
+                  <Button>Save Details</Button>
+                </div>
+
+                <div className="rounded-md border p-4">
+                  <h3 className="text-sm font-medium text-destructive">Delete account</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    This action is permanent and will remove your data. Type DELETE to confirm.
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <Label htmlFor="confirm-delete">Type DELETE to confirm</Label>
+                    <Input
+                      id="confirm-delete"
+                      placeholder="DELETE"
+                      value={confirmText}
+                      onChange={(e) => setConfirmText(e.target.value)}
+                    />
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" disabled={confirmText !== "DELETE" || deleting}>
+                          {deleting ? "Deleting..." : "Delete account"}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete your account and associated data. This cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteAccount} disabled={deleting}>
+                            Confirm delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </div>
         </Tabs>
       </DialogContent>
     </Dialog>
