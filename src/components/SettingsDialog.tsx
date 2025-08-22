@@ -67,19 +67,13 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
             <TabsTrigger value="style" className="w-full justify-start">Style</TabsTrigger>
             <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
+            <TabsTrigger value="pause" className="w-full justify-start">Pause</TabsTrigger>
+            <TabsTrigger value="delete" className="w-full justify-start">Delete</TabsTrigger>
           </TabsList>
 
           <div className="flex-1">
             <TabsContent value="notifications" className="pt-4 min-h-[280px] mt-0">
               <div className="space-y-6">
-                <div className="flex items-start justify-between gap-6">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="notify-mailings">Alerts for new mailings</Label>
-                    <p className="text-sm text-muted-foreground">Receive an alert when a new mailing is sent.</p>
-                  </div>
-                  <Switch id="notify-mailings" checked={notifyMailings} onCheckedChange={setNotifyMailings} />
-                </div>
-
                 <div className="flex items-start justify-between gap-6">
                   <div className="space-y-1.5">
                     <Label htmlFor="marketing-updates">Updates and marketing offers</Label>
@@ -126,7 +120,23 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                   </div>
                   <Button>Save Details</Button>
                 </div>
+              </div>
+            </TabsContent>
 
+            <TabsContent value="pause" className="pt-4 min-h-[280px] mt-0">
+              <div className="space-y-6">
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="notify-mailings">Pause mailings</Label>
+                    <p className="text-sm text-muted-foreground">Turn off to pause all postcard mailings temporarily.</p>
+                  </div>
+                  <Switch id="notify-mailings" checked={notifyMailings} onCheckedChange={setNotifyMailings} />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="delete" className="pt-4 min-h-[280px] mt-0">
+              <div className="space-y-6">
                 <div className="rounded-md border p-4">
                   <h3 className="text-sm font-medium text-destructive">Delete account</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
