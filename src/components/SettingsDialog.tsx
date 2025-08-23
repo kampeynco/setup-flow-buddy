@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -35,6 +35,91 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
   const [marketingUpdates, setMarketingUpdates] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
+
+  // Profile/Sender form state
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [committeeName, setCommitteeName] = useState("");
+  const [street, setStreet] = useState("");
+  const [unit, setUnit] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+
+  // Fetch user profile data
+  const fetchProfile = async () => {
+    try {
+      setProfileLoading(true);
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('committee_name, street_address, city, state, postal_code')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return;
+      }
+
+      if (profile) {
+        setCommitteeName(profile.committee_name || "");
+        setStreet(profile.street_address || "");
+        setCity(profile.city || "");
+        setState(profile.state || "");
+        setZip(profile.postal_code || "");
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      toast.error('Failed to load profile data');
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  // Save profile data
+  const saveProfile = async () => {
+    try {
+      setSavingProfile(true);
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          committee_name: committeeName,
+          street_address: street,
+          city: city,
+          state: state,
+          postal_code: zip
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        console.error('Error saving profile:', error);
+        toast.error('Failed to save profile data');
+        return;
+      }
+
+      toast.success('Profile data saved successfully');
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast.error('Failed to save profile data');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  // Load profile data when dialog opens
+  useEffect(() => {
+    if (open) {
+      fetchProfile();
+    }
+  }, [open]);
 
   const handleDeleteAccount = async () => {
     try {
@@ -89,30 +174,71 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                   <div className="grid gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="committee-name">Legal Committee Name</Label>
-                      <Input id="committee-name" placeholder="Committee Name" />
+                      <Input 
+                        id="committee-name" 
+                        placeholder="Committee Name"
+                        value={committeeName}
+                        onChange={(e) => setCommitteeName(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="street">Street</Label>
-                      <Input id="street" placeholder="123 Main St" />
+                      <Input 
+                        id="street" 
+                        placeholder="123 Main St"
+                        value={street}
+                        onChange={(e) => setStreet(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="unit">Unit</Label>
-                      <Input id="unit" placeholder="Suite 100" />
+                      <Input 
+                        id="unit" 
+                        placeholder="Suite 100"
+                        value={unit}
+                        onChange={(e) => setUnit(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="city">City</Label>
-                      <Input id="city" placeholder="Anytown" />
+                      <Input 
+                        id="city" 
+                        placeholder="Anytown"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="state">State</Label>
-                      <Input id="state" placeholder="CA" />
+                      <Input 
+                        id="state" 
+                        placeholder="CA"
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="zip">ZIP</Label>
-                      <Input id="zip" placeholder="90210" />
+                      <Input 
+                        id="zip" 
+                        placeholder="90210"
+                        value={zip}
+                        onChange={(e) => setZip(e.target.value)}
+                        disabled={profileLoading}
+                      />
                     </div>
                   </div>
-                  <Button>Save Details</Button>
+                  <Button 
+                    onClick={saveProfile}
+                    disabled={profileLoading || savingProfile}
+                  >
+                    {profileLoading ? "Loading..." : savingProfile ? "Saving..." : "Save Details"}
+                  </Button>
                 </div>
               </div>
             </TabsContent>
