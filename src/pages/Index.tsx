@@ -515,16 +515,34 @@ const Index = () => {
                               <TabsContent value="draw" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-2">
-                                    <Checkbox
-                                      id="add-draw-signature"
-                                      checked={includeSignature && signatureMode === "draw"}
-                                      onCheckedChange={(v) => { 
-                                        const enabled = Boolean(v); 
-                                        setIncludeSignature(enabled); 
-                                        if (enabled) { setSignatureMode("draw"); } 
-                                      }}
-                                    />
-                                    <Label htmlFor="add-draw-signature">Add Draw Signature</Label>
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <div className="flex items-center gap-2">
+                                          <Checkbox
+                                            id="add-draw-signature"
+                                            checked={includeSignature && signatureMode === "draw"}
+                                            disabled={includeSignature && signatureMode !== "draw"}
+                                            onCheckedChange={(v) => { 
+                                              const enabled = Boolean(v); 
+                                              if (enabled) {
+                                                setIncludeSignature(true);
+                                                setSignatureMode("draw");
+                                              } else {
+                                                setIncludeSignature(false);
+                                                setSignatureMode(null);
+                                              }
+                                            }}
+                                          />
+                                          <Label htmlFor="add-draw-signature">Add Draw Signature</Label>
+                                        </div>
+                                      </TooltipTrigger>
+                                      {includeSignature && signatureMode !== "draw" && (
+                                        <TooltipContent>
+                                          <p>Only one signature type can be enabled at a time.</p>
+                                          <p>Disable the current signature to select this option.</p>
+                                        </TooltipContent>
+                                      )}
+                                    </Tooltip>
                                   </div>
 
                                   {includeSignature && signatureMode === "draw" && (
@@ -559,16 +577,34 @@ const Index = () => {
                               <TabsContent value="typed" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-2">
-                                    <Checkbox
-                                      id="add-typed-signature"
-                                      checked={includeSignature && signatureMode === "type"}
-                                      onCheckedChange={(v) => { 
-                                        const enabled = Boolean(v); 
-                                        setIncludeSignature(enabled); 
-                                        if (enabled) { setSignatureMode("type"); } 
-                                      }}
-                                    />
-                                    <Label htmlFor="add-typed-signature">Add Typed Signature</Label>
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <div className="flex items-center gap-2">
+                                          <Checkbox
+                                            id="add-typed-signature"
+                                            checked={includeSignature && signatureMode === "type"}
+                                            disabled={includeSignature && signatureMode !== "type"}
+                                            onCheckedChange={(v) => { 
+                                              const enabled = Boolean(v); 
+                                              if (enabled) {
+                                                setIncludeSignature(true);
+                                                setSignatureMode("type");
+                                              } else {
+                                                setIncludeSignature(false);
+                                                setSignatureMode(null);
+                                              }
+                                            }}
+                                          />
+                                          <Label htmlFor="add-typed-signature">Add Typed Signature</Label>
+                                        </div>
+                                      </TooltipTrigger>
+                                      {includeSignature && signatureMode !== "type" && (
+                                        <TooltipContent>
+                                          <p>Only one signature type can be enabled at a time.</p>
+                                          <p>Disable the current signature to select this option.</p>
+                                        </TooltipContent>
+                                      )}
+                                    </Tooltip>
                                   </div>
 
                                   {includeSignature && signatureMode === "type" && (
@@ -617,16 +653,34 @@ const Index = () => {
                               <TabsContent value="upload" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-2">
-                                    <Checkbox
-                                      id="add-upload-signature"
-                                      checked={includeSignature && signatureMode === "upload"}
-                                      onCheckedChange={(v) => { 
-                                        const enabled = Boolean(v); 
-                                        setIncludeSignature(enabled); 
-                                        if (enabled) { setSignatureMode("upload"); } 
-                                      }}
-                                    />
-                                    <Label htmlFor="add-upload-signature">Add Upload Signature</Label>
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <div className="flex items-center gap-2">
+                                          <Checkbox
+                                            id="add-upload-signature"
+                                            checked={includeSignature && signatureMode === "upload"}
+                                            disabled={includeSignature && signatureMode !== "upload"}
+                                            onCheckedChange={(v) => { 
+                                              const enabled = Boolean(v); 
+                                              if (enabled) {
+                                                setIncludeSignature(true);
+                                                setSignatureMode("upload");
+                                              } else {
+                                                setIncludeSignature(false);
+                                                setSignatureMode(null);
+                                              }
+                                            }}
+                                          />
+                                          <Label htmlFor="add-upload-signature">Add Upload Signature</Label>
+                                        </div>
+                                      </TooltipTrigger>
+                                      {includeSignature && signatureMode !== "upload" && (
+                                        <TooltipContent>
+                                          <p>Only one signature type can be enabled at a time.</p>
+                                          <p>Disable the current signature to select this option.</p>
+                                        </TooltipContent>
+                                      )}
+                                    </Tooltip>
                                   </div>
 
                                   {includeSignature && signatureMode === "upload" && (
