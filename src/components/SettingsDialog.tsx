@@ -84,10 +84,10 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             </TabsContent>
 
             <TabsContent value="sender" className="mt-0 h-full">
-              <div className="space-y-6">
+              <div className="space-y-6 max-w-md">
                 <div className="space-y-4">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2 md:col-span-2">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
                       <Label htmlFor="committee-name">Legal Committee Name</Label>
                       <Input id="committee-name" placeholder="Committee Name" />
                     </div>
@@ -99,7 +99,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                       <Label htmlFor="unit">Unit</Label>
                       <Input id="unit" placeholder="Suite 100" />
                     </div>
-                    <div className="space-y-2 md:col-span-2">
+                    <div className="space-y-2">
                       <Label htmlFor="city">City</Label>
                       <Input id="city" placeholder="Anytown" />
                     </div>
