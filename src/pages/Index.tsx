@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Copy, Check, Eye, EyeOff, ChevronDown, X } from "lucide-react";
+import { Copy, Check, Eye, EyeOff, ChevronDown, X, Info } from "lucide-react";
 import { toast } from "sonner";
 import PostcardPreview from "@/components/PostcardPreview";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -470,7 +470,18 @@ const Index = () => {
                                     <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
                                   </div>
                                   <div className="flex items-center gap-4">
-                                    <Label className="w-48">Background Size</Label>
+                                    <div className="flex items-center gap-2 w-48">
+                                      <Label>Background Size</Label>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          <p><strong>Center Contain:</strong> Centers the logo on the front of the postcard</p>
+                                          <p><strong>Full Cover:</strong> Covers the entire front of the postcard</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </div>
                                     <Select>
                                       <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Select size" />
