@@ -447,29 +447,33 @@ const Index = () => {
                         <DialogTrigger asChild>
                           <Button size="sm">Design</Button>
                         </DialogTrigger>
-                    <DialogContent className="max-h-[85vh] overflow-auto pb-0">
-                          <DialogHeader>
+                     <DialogContent className="sm:max-w-[720px] sm:h-[640px] flex flex-col">
+                          <DialogHeader className="flex-shrink-0">
                             <DialogTitle>Design Postcard</DialogTitle>
                             <DialogDescription>
                               Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                             </DialogDescription>
                           </DialogHeader>
-                          <Tabs defaultValue="front" className="mt-2">
-                            <TabsList>
-                              <TabsTrigger value="front">Front</TabsTrigger>
-                              <TabsTrigger value="back">Back</TabsTrigger>
+                          <Tabs defaultValue="front" className="flex gap-4 flex-1 min-h-0">
+                            <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
+                              <TabsTrigger value="front" className="w-full justify-start">Front</TabsTrigger>
+                              <TabsTrigger value="back" className="w-full justify-start">Back</TabsTrigger>
                             </TabsList>
-                            <TabsContent value="front" className="space-y-4 pt-4">
-                              <div className="flex items-center gap-4">
-                                <Label className="w-48">Committee Logo</Label>
-                                <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
-                              </div>
-                              <div className="flex items-center gap-4">
-                                <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
-                                <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
-                              </div>
-                            </TabsContent>
-                            <TabsContent value="back" className="space-y-4 pt-4">
+                            
+                            <div className="flex-1 overflow-auto min-h-0">
+                              <TabsContent value="front" className="mt-0 h-full">
+                                <div className="space-y-4">
+                                  <div className="flex items-center gap-4">
+                                    <Label className="w-48">Committee Logo</Label>
+                                    <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
+                                  </div>
+                                  <div className="flex items-center gap-4">
+                                    <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
+                                    <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
+                                  </div>
+                                </div>
+                              </TabsContent>
+                              <TabsContent value="back" className="mt-0 h-full">
                               <div className="space-y-2">
                                 <Label htmlFor="postcard-message">Message</Label>
                                 <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
@@ -633,10 +637,11 @@ const Index = () => {
                                   </div>
                                 )}
 
-                                  </div>
-                                )}
-                              </div>
-                            </TabsContent>
+                                   </div>
+                                 )}
+                               </div>
+                              </TabsContent>
+                            </div>
                           </Tabs>
                           <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
                             <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
