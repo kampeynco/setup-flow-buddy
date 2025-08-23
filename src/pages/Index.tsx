@@ -1050,8 +1050,10 @@ const Index = () => {
         </aside>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-6">
-          <DonationsTable />
+        <div className="flex-1">
+          <div className="p-6 pr-0">
+            <DonationsTable />
+          </div>
         </div>
       </main>
     </div>;
