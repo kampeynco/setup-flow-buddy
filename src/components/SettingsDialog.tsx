@@ -46,11 +46,12 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
   const [zip, setZip] = useState("");
 
   // Notification preferences state
-  const [notifyPending, setNotifyPending] = useState(true);
-  const [notifyProcessing, setNotifyProcessing] = useState(true);
-  const [notifyShipped, setNotifyShipped] = useState(true);
+  const [notifyReceived, setNotifyReceived] = useState(true);
+  const [notifyInProduction, setNotifyInProduction] = useState(true);
+  const [notifyMailed, setNotifyMailed] = useState(true);
+  const [notifyInTransit, setNotifyInTransit] = useState(true);
   const [notifyDelivered, setNotifyDelivered] = useState(true);
-  const [notifyFailed, setNotifyFailed] = useState(true);
+  const [notifyReturned, setNotifyReturned] = useState(true);
 
   // Fetch user profile data
   const fetchProfile = async () => {
@@ -178,42 +179,50 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                   
                   <div className="flex items-start justify-between gap-6">
                     <div className="space-y-1.5">
-                      <Label htmlFor="notify-pending">Pending Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards are pending processing.</p>
+                      <Label htmlFor="notify-received">Received Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when donations are received and postcards are pending.</p>
                     </div>
-                    <Switch id="notify-pending" checked={notifyPending} onCheckedChange={setNotifyPending} />
+                    <Switch id="notify-received" checked={notifyReceived} onCheckedChange={setNotifyReceived} />
                   </div>
 
                   <div className="flex items-start justify-between gap-6">
                     <div className="space-y-1.5">
-                      <Label htmlFor="notify-processing">Processing Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards are being processed.</p>
+                      <Label htmlFor="notify-production">In Production Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards are being processed or rendered.</p>
                     </div>
-                    <Switch id="notify-processing" checked={notifyProcessing} onCheckedChange={setNotifyProcessing} />
+                    <Switch id="notify-production" checked={notifyInProduction} onCheckedChange={setNotifyInProduction} />
                   </div>
 
                   <div className="flex items-start justify-between gap-6">
                     <div className="space-y-1.5">
-                      <Label htmlFor="notify-shipped">Shipped Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards have been shipped.</p>
+                      <Label htmlFor="notify-mailed">Mailed Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards have been mailed.</p>
                     </div>
-                    <Switch id="notify-shipped" checked={notifyShipped} onCheckedChange={setNotifyShipped} />
+                    <Switch id="notify-mailed" checked={notifyMailed} onCheckedChange={setNotifyMailed} />
+                  </div>
+
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-transit">In Transit Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards are in transit for delivery.</p>
+                    </div>
+                    <Switch id="notify-transit" checked={notifyInTransit} onCheckedChange={setNotifyInTransit} />
                   </div>
 
                   <div className="flex items-start justify-between gap-6">
                     <div className="space-y-1.5">
                       <Label htmlFor="notify-delivered">Delivered Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards have been delivered.</p>
+                      <p className="text-sm text-muted-foreground">Notify when postcards have been successfully delivered.</p>
                     </div>
                     <Switch id="notify-delivered" checked={notifyDelivered} onCheckedChange={setNotifyDelivered} />
                   </div>
 
                   <div className="flex items-start justify-between gap-6">
                     <div className="space-y-1.5">
-                      <Label htmlFor="notify-failed">Failed/Returned Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards fail to deliver or are returned.</p>
+                      <Label htmlFor="notify-returned">Returned Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards are returned to sender or re-routed.</p>
                     </div>
-                    <Switch id="notify-failed" checked={notifyFailed} onCheckedChange={setNotifyFailed} />
+                    <Switch id="notify-returned" checked={notifyReturned} onCheckedChange={setNotifyReturned} />
                   </div>
                 </div>
               </div>
