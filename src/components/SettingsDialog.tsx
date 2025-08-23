@@ -57,7 +57,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px] sm:h-[600px] flex flex-col">
+      <DialogContent className="sm:max-w-[560px] sm:h-[640px] flex flex-col">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
@@ -86,7 +86,6 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             <TabsContent value="sender" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium">Committee Details</h3>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2 md:col-span-2">
                       <Label htmlFor="committee-name">Legal Committee Name</Label>
