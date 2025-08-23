@@ -229,27 +229,25 @@ export function DonationsTable() {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                    {/* Left Column: Details */}
-                    <div className="space-y-3">
-                      <div>
-                        <h4 className="text-sm font-medium text-muted-foreground mb-1">
-                          Donor Address
-                        </h4>
-                        <p className="text-sm">{formatAddress(donation)}</p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="text-sm font-medium text-muted-foreground mb-1">
-                          Order Number
-                        </h4>
-                        <p className="text-sm font-mono">
-                          {donation.order_number || 'N/A'}
-                        </p>
-                      </div>
+                  <div className="space-y-4 pt-2">
+                    {/* Donor Details */}
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-1">
+                        Donor Address
+                      </h4>
+                      <p className="text-sm">{formatAddress(donation)}</p>
                     </div>
                     
-                    {/* Right Column: Progress Tracker */}
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-1">
+                        Order Number
+                      </h4>
+                      <p className="text-sm font-mono">
+                        {donation.order_number || 'N/A'}
+                      </p>
+                    </div>
+                    
+                    {/* Mailing Progress */}
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
                         Mailing Progress
