@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { StatusPill } from "./StatusPill";
-import { ProgressTracker } from "./ProgressTracker";
+import { VerticalProgressBar } from "./VerticalProgressBar";
 import { cn } from "@/lib/utils";
 
 interface DonationWithStatus {
@@ -254,7 +254,7 @@ export function DonationsTable() {
                       <h4 className="text-sm font-medium text-muted-foreground mb-3">
                         Mailing Progress
                       </h4>
-                      <ProgressTracker 
+                      <VerticalProgressBar 
                         currentStatus={getCurrentStatus(donation)}
                         isError={donation.is_error}
                       />
