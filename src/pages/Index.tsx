@@ -447,24 +447,25 @@ const Index = () => {
                         <DialogTrigger asChild>
                           <Button size="sm">Design</Button>
                         </DialogTrigger>
-                     <DialogContent className="sm:max-w-[720px] sm:h-[640px] flex flex-col">
-                          <DialogHeader className="flex-shrink-0">
+                     <DialogContent className="sm:max-w-[720px] sm:h-[640px] flex flex-col p-0">
+                          <DialogHeader className="flex-shrink-0 px-6 py-4 border-b">
                             <DialogTitle>Design Postcard</DialogTitle>
                             <DialogDescription>
                               Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                             </DialogDescription>
                           </DialogHeader>
-                          <Tabs defaultValue="image" className="flex gap-4 flex-1 min-h-0">
-                            <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
-                              <TabsTrigger value="image" className="w-full justify-start">Image</TabsTrigger>
-                              <TabsTrigger value="bgcolor" className="w-full justify-start">BG Color</TabsTrigger>
-                              <TabsTrigger value="message" className="w-full justify-start">Message</TabsTrigger>
-                              <TabsTrigger value="draw" className="w-full justify-start">Draw</TabsTrigger>
-                              <TabsTrigger value="typed" className="w-full justify-start">Typed</TabsTrigger>
-                              <TabsTrigger value="upload" className="w-full justify-start">Upload</TabsTrigger>
-                            </TabsList>
-                            
-                            <div className="flex-1 overflow-auto min-h-0">
+                          <div className="flex flex-1 min-h-0">
+                            <Tabs defaultValue="image" className="flex gap-4 w-full h-full">
+                              <TabsList className="flex flex-col h-fit self-start flex-shrink-0 m-4 mb-0">
+                                <TabsTrigger value="image" className="w-full justify-start">Image</TabsTrigger>
+                                <TabsTrigger value="bgcolor" className="w-full justify-start">BG Color</TabsTrigger>
+                                <TabsTrigger value="message" className="w-full justify-start">Message</TabsTrigger>
+                                <TabsTrigger value="draw" className="w-full justify-start">Draw</TabsTrigger>
+                                <TabsTrigger value="typed" className="w-full justify-start">Typed</TabsTrigger>
+                                <TabsTrigger value="upload" className="w-full justify-start">Upload</TabsTrigger>
+                              </TabsList>
+                              
+                              <div className="flex-1 overflow-auto min-h-0 px-4 py-4 pr-6">
                               <TabsContent value="image" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-4">
@@ -738,8 +739,9 @@ const Index = () => {
                                   )}
                                 </div>
                               </TabsContent>
-                            </div>
-                          </Tabs>
+                              </div>
+                            </Tabs>
+                          </div>
                           <div className="sticky bottom-0 border-t border-border bg-background px-6 py-4 flex items-center justify-between flex-shrink-0">
                             <div className="text-sm text-muted-foreground">
                               Changes will be applied to your postcard template
