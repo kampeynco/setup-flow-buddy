@@ -16,24 +16,29 @@ interface ActBlueContribution {
     country?: string
     email?: string
     phone?: string
-    employer?: string
-    occupation?: string
+    employerData?: {
+      employer?: string
+      occupation?: string
+    }
   }
   contribution: {
-    amount: number
-    date: string
-    recurring?: boolean
-    recurring_period?: string
-    order_number?: string
-    form_name?: string
+    createdAt: string
+    orderNumber?: string
+    contributionForm?: string
     refcode?: string
     refcode2?: string
-    refcode_custom?: string
-    lineitems?: Array<{
-      amount: number
-      entity_id: string
-    }>
+    status?: string
+    isRecurring?: boolean
+    recurringPeriod?: string
   }
+  lineitems: Array<{
+    amount: string
+    paidAt: string
+    entityId: number
+    paymentId: number
+    lineitemId: number
+    amountLessAbFees: string
+  }>
 }
 
 Deno.serve(async (req) => {
@@ -96,6 +101,19 @@ Deno.serve(async (req) => {
       )
     }
 
+    // Get the first lineitem for the donation amount and date
+    const firstLineitem = payload.lineitems[0]
+    if (!firstLineitem) {
+      console.error('No lineitems found in payload')
+      return new Response(
+        JSON.stringify({ error: 'No donation lineitems found' }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
     // Prepare donation data
     const donationData = {
       profile_id: defaultProfileId,
@@ -107,18 +125,18 @@ Deno.serve(async (req) => {
       donor_zip: payload.donor.zip,
       donor_country: payload.donor.country || 'US',
       donor_phone: payload.donor.phone,
-      employer: payload.donor.employer,
-      occupation: payload.donor.occupation,
-      amount: payload.contribution.amount,
-      donation_date: new Date(payload.contribution.date).toISOString(),
-      is_recurring: payload.contribution.recurring || false,
-      recurring_period: payload.contribution.recurring_period,
-      order_number: payload.contribution.order_number,
-      form_name: payload.contribution.form_name,
+      employer: payload.donor.employerData?.employer,
+      occupation: payload.donor.employerData?.occupation,
+      amount: parseFloat(firstLineitem.amount),
+      donation_date: new Date(firstLineitem.paidAt).toISOString(),
+      is_recurring: payload.contribution.isRecurring || false,
+      recurring_period: payload.contribution.recurringPeriod,
+      order_number: payload.contribution.orderNumber,
+      form_name: payload.contribution.contributionForm,
       refcode: payload.contribution.refcode,
       refcode2: payload.contribution.refcode2,
-      refcode_custom: payload.contribution.refcode_custom,
-      lineitem_id: payload.contribution.lineitems?.[0]?.entity_id,
+      refcode_custom: null,
+      lineitem_id: firstLineitem.lineitemId.toString(),
       donation_status: 'completed'
     }
 
