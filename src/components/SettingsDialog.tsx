@@ -41,10 +41,16 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
   const [savingProfile, setSavingProfile] = useState(false);
   const [committeeName, setCommitteeName] = useState("");
   const [street, setStreet] = useState("");
-  const [unit, setUnit] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
+
+  // Notification preferences state
+  const [notifyPending, setNotifyPending] = useState(true);
+  const [notifyProcessing, setNotifyProcessing] = useState(true);
+  const [notifyShipped, setNotifyShipped] = useState(true);
+  const [notifyDelivered, setNotifyDelivered] = useState(true);
+  const [notifyFailed, setNotifyFailed] = useState(true);
 
   // Fetch user profile data
   const fetchProfile = async () => {
@@ -165,6 +171,51 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                   </div>
                   <Switch id="marketing-updates" checked={marketingUpdates} onCheckedChange={setMarketingUpdates} />
                 </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-sm font-medium">Mailing Status Notifications</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Get notified when your postcard status changes.</p>
+                  
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-pending">Pending Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards are pending processing.</p>
+                    </div>
+                    <Switch id="notify-pending" checked={notifyPending} onCheckedChange={setNotifyPending} />
+                  </div>
+
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-processing">Processing Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards are being processed.</p>
+                    </div>
+                    <Switch id="notify-processing" checked={notifyProcessing} onCheckedChange={setNotifyProcessing} />
+                  </div>
+
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-shipped">Shipped Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards have been shipped.</p>
+                    </div>
+                    <Switch id="notify-shipped" checked={notifyShipped} onCheckedChange={setNotifyShipped} />
+                  </div>
+
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-delivered">Delivered Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards have been delivered.</p>
+                    </div>
+                    <Switch id="notify-delivered" checked={notifyDelivered} onCheckedChange={setNotifyDelivered} />
+                  </div>
+
+                  <div className="flex items-start justify-between gap-6">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="notify-failed">Failed/Returned Status</Label>
+                      <p className="text-sm text-muted-foreground">Notify when postcards fail to deliver or are returned.</p>
+                    </div>
+                    <Switch id="notify-failed" checked={notifyFailed} onCheckedChange={setNotifyFailed} />
+                  </div>
+                </div>
               </div>
             </TabsContent>
 
@@ -189,16 +240,6 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                         placeholder="123 Main St"
                         value={street}
                         onChange={(e) => setStreet(e.target.value)}
-                        disabled={profileLoading}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="unit">Unit</Label>
-                      <Input 
-                        id="unit" 
-                        placeholder="Suite 100"
-                        value={unit}
-                        onChange={(e) => setUnit(e.target.value)}
                         disabled={profileLoading}
                       />
                     </div>
