@@ -84,7 +84,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             </TabsContent>
 
             <TabsContent value="sender" className="mt-0 h-full">
-              <div className="space-y-6 max-w-md">
+              <div className="space-y-6 max-w-md mx-auto">
                 <div className="space-y-4">
                   <div className="grid gap-4">
                     <div className="space-y-2">
