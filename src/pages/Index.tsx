@@ -666,7 +666,7 @@ const Index = () => {
                               </TabsContent>
                             </div>
                           </Tabs>
-                          <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end">
+                          <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end flex-shrink-0">
                             <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
                           </div>
                         </DialogContent>
