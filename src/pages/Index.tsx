@@ -503,7 +503,7 @@ const Index = () => {
                                 </div>
                               </TabsContent>
                               <TabsContent value="message" className="mt-0 h-full">
-                                <div className="space-y-4">
+                                <div className="space-y-4 max-w-md">
                                   <div className="space-y-2">
                                     <Label htmlFor="postcard-message">Message</Label>
                                     <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
