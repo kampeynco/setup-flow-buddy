@@ -454,41 +454,52 @@ const Index = () => {
                               Configure your postcard template. Switch between Front and Back, adjust design options, and compose the default thank-you message.
                             </DialogDescription>
                           </DialogHeader>
-                          <Tabs defaultValue="front" className="flex gap-4 flex-1 min-h-0">
+                          <Tabs defaultValue="image" className="flex gap-4 flex-1 min-h-0">
                             <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
-                              <TabsTrigger value="front" className="w-full justify-start">Front</TabsTrigger>
-                              <TabsTrigger value="back" className="w-full justify-start">Back</TabsTrigger>
+                              <TabsTrigger value="image" className="w-full justify-start">Image</TabsTrigger>
+                              <TabsTrigger value="bgcolor" className="w-full justify-start">BG Color</TabsTrigger>
+                              <TabsTrigger value="message" className="w-full justify-start">Message</TabsTrigger>
+                              <TabsTrigger value="signature" className="w-full justify-start">Signature</TabsTrigger>
                             </TabsList>
                             
                             <div className="flex-1 overflow-auto min-h-0">
-                              <TabsContent value="front" className="mt-0 h-full">
+                              <TabsContent value="image" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-4">
                                     <Label className="w-48">Committee Logo</Label>
                                     <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
                                   </div>
+                                </div>
+                              </TabsContent>
+                              <TabsContent value="bgcolor" className="mt-0 h-full">
+                                <div className="space-y-4">
                                   <div className="flex items-center gap-4">
                                     <Label htmlFor="front-bg-color" className="w-48">Front background color</Label>
                                     <Input id="front-bg-color" type="color" aria-label="Choose front background color" className="h-10 w-12 p-1" />
                                   </div>
                                 </div>
                               </TabsContent>
-                              <TabsContent value="back" className="mt-0 h-full">
-                              <div className="space-y-2">
-                                <Label htmlFor="postcard-message">Message</Label>
-                                <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
-
-                                <div className="flex items-center gap-2">
-                                  <Checkbox
-                                    id="add-signature"
-                                    checked={includeSignature}
-                                    onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
-                                  />
-                                  <Label htmlFor="add-signature">Add Signature</Label>
+                              <TabsContent value="message" className="mt-0 h-full">
+                                <div className="space-y-4">
+                                  <div className="space-y-2">
+                                    <Label htmlFor="postcard-message">Message</Label>
+                                    <Textarea id="postcard-message" placeholder="Write your postcard message..." rows={6} />
+                                  </div>
                                 </div>
+                              </TabsContent>
+                              <TabsContent value="signature" className="mt-0 h-full">
+                                <div className="space-y-4">
+                                  <div className="flex items-center gap-2">
+                                    <Checkbox
+                                      id="add-signature"
+                                      checked={includeSignature}
+                                      onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
+                                    />
+                                    <Label htmlFor="add-signature">Add Signature</Label>
+                                  </div>
 
-                                {includeSignature && (
-                                  <div className="mt-2 space-y-4 rounded-md border p-4">
+                                  {includeSignature && (
+                                    <div className="mt-2 space-y-4 rounded-md border p-4">
                                     <div>
                                       
                                       <ToggleGroup
