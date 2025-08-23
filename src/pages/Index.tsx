@@ -459,7 +459,9 @@ const Index = () => {
                               <TabsTrigger value="image" className="w-full justify-start">Image</TabsTrigger>
                               <TabsTrigger value="bgcolor" className="w-full justify-start">BG Color</TabsTrigger>
                               <TabsTrigger value="message" className="w-full justify-start">Message</TabsTrigger>
-                              <TabsTrigger value="signature" className="w-full justify-start">Signature</TabsTrigger>
+                              <TabsTrigger value="draw" className="w-full justify-start">Draw</TabsTrigger>
+                              <TabsTrigger value="typed" className="w-full justify-start">Typed</TabsTrigger>
+                              <TabsTrigger value="upload" className="w-full justify-start">Upload</TabsTrigger>
                             </TabsList>
                             
                             <div className="flex-1 overflow-auto min-h-0">
@@ -510,170 +512,177 @@ const Index = () => {
                                   </div>
                                 </div>
                               </TabsContent>
-                              <TabsContent value="signature" className="mt-0 h-full">
+                              <TabsContent value="draw" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-2">
                                     <Checkbox
-                                      id="add-signature"
-                                      checked={includeSignature}
-                                      onCheckedChange={(v) => { const enabled = Boolean(v); setIncludeSignature(enabled); if (enabled) { setSignatureMode("draw"); } }}
+                                      id="add-draw-signature"
+                                      checked={includeSignature && signatureMode === "draw"}
+                                      onCheckedChange={(v) => { 
+                                        const enabled = Boolean(v); 
+                                        setIncludeSignature(enabled); 
+                                        if (enabled) { setSignatureMode("draw"); } 
+                                      }}
                                     />
-                                    <Label htmlFor="add-signature">Add Signature</Label>
+                                    <Label htmlFor="add-draw-signature">Add Draw Signature</Label>
                                   </div>
 
-                                  {includeSignature && (
-                                    <div className="mt-2 space-y-4 rounded-md border p-4">
-                                    <div>
-                                      
-                                      <ToggleGroup
-                                        type="single"
-                                        value={signatureMode ?? undefined}
-                                        onValueChange={(val) => {
-                                          const next = (val as "draw" | "type" | "upload") || null;
-                                          setSignatureMode(next);
-                                          setSignaturePreview(null);
-                                          setUploadedSignature(null);
-                                          setUploadedFileName(null);
-                                          if (uploadInputRef.current) uploadInputRef.current.value = "";
-                                          if (next !== "draw") {
-                                            clearCanvas();
-                                          }
-                                        }}
-                                        className="flex flex-wrap gap-2"
-                                      >
-                                        <ToggleGroupItem value="draw" aria-label="Draw signature" className="px-4 py-6">
-                                          Draw Signature
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem value="type" aria-label="Type signature" className="px-4 py-6">
-                                          Type Signature
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem value="upload" aria-label="Upload signature" className="px-4 py-6">
-                                          Upload Signature
-                                        </ToggleGroupItem>
-                                      </ToggleGroup>
-                                    </div>
-
-                                    {signatureMode === "draw" && (
-                                      <div className="space-y-3">
-                                        <div className="flex items-center gap-4">
-                                          <Label htmlFor="pen-color" className="w-48">Pen color</Label>
-                                          <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
-                                          <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
-                                        </div>
-                                        <div className="rounded-md border bg-background p-2">
-                                          <canvas
-                                            ref={drawCanvasRef}
-                                            className="w-full max-w-full touch-none"
-                                            onPointerDown={handlePointer("down")}
-                                            onPointerMove={handlePointer("move")}
-                                            onPointerUp={handlePointer("up")}
-                                            onPointerLeave={handlePointer("up")}
-                                          />
-                                        </div>
+                                  {includeSignature && signatureMode === "draw" && (
+                                    <div className="space-y-3">
+                                      <div className="flex items-center gap-4">
+                                        <Label htmlFor="pen-color" className="w-48">Pen color</Label>
+                                        <Input id="pen-color" type="color" value={penColor} onChange={(e) => setPenColor(e.target.value)} className="h-10 w-12 p-1" />
+                                        <Button type="button" variant="secondary" onClick={clearCanvas}>Clear</Button>
                                       </div>
-                                    )}
-
-                                    {signatureMode === "type" && (
-                                      <div className="space-y-3">
-                                        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label htmlFor="typed-signature" className="sm:w-48 shrink-0">Signature text</Label>
-                                          <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="w-full sm:flex-1 min-w-0 max-w-full" />
-                                        </div>
-                                         <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label className="sm:w-48 shrink-0">Font</Label>
-                                          <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
-                                            <SelectTrigger className="w-full sm:w-[200px] min-w-0"><SelectValue placeholder="Choose font" /></SelectTrigger>
-                                            <SelectContent>
-                                              <SelectItem value="cursive">Cursive</SelectItem>
-                                              <SelectItem value="serif">Serif</SelectItem>
-                                              <SelectItem value="sans-serif">Sans-serif</SelectItem>
-                                            </SelectContent>
-                                          </Select>
-                                        </div>
-                                         <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                                          <Label className="sm:w-48 shrink-0">Size</Label>
-                                          <div className="w-full sm:w=[240px] min-w-0">
-                                            <Slider value={[typedSize]} min={16} max={40} step={1} onValueChange={(v) => setTypedSize(v[0])} />
-                                          </div>
-                                          <span className="text-sm text-muted-foreground">{typedSize}px</span>
-                                        </div>
+                                      <div className="rounded-md border bg-background p-2">
+                                        <canvas
+                                          ref={drawCanvasRef}
+                                          className="w-full max-w-full touch-none"
+                                          onPointerDown={handlePointer("down")}
+                                          onPointerMove={handlePointer("move")}
+                                          onPointerUp={handlePointer("up")}
+                                          onPointerLeave={handlePointer("up")}
+                                        />
                                       </div>
-                                    )}
-
-                                    {signatureMode === "upload" && (
-                                      <div className="space-y-3">
-                                        <div className="flex items-center gap-4 min-w-0">
-                                          <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
-                                          <div className="flex items-center gap-2 min-w-0">
-                                            <Input
-                                              id="signature-upload"
-                                              type="file"
-                                              accept="image/png,image/jpeg"
-                                              onChange={handleUpload}
-                                              className="max-w-xs"
-                                              ref={uploadInputRef}
-                                            />
-                                            {uploadedFileName && (
-                                              <div className="flex items-center gap-1 min-w-0">
-                                                <span
-                                                  className="truncate text-sm text-muted-foreground max-w-[200px]"
-                                                  title={uploadedFileName}
-                                                >
-                                                  {uploadedFileName}
-                                                </span>
-                                                <Button
-                                                  type="button"
-                                                  variant="ghost"
-                                                  size="icon"
-                                                  aria-label="Remove uploaded file"
-                                                  title="Remove uploaded file"
-                                                  onClick={() => {
-                                                    setUploadedSignature(null);
-                                                    setSignaturePreview(null);
-                                                    setUploadedFileName(null);
-                                                    if (uploadInputRef.current) {
-                                                      uploadInputRef.current.value = "";
-                                                      uploadInputRef.current.focus();
-                                                    }
-                                                  }}
-                                                >
-                                                  <X className="h-4 w-4" />
-                                                </Button>
-                                              </div>
-                                            )}
+                                      {signaturePreview && (
+                                        <div className="space-y-2">
+                                          <Label className="block">Signature preview</Label>
+                                          <div className="rounded-md border bg-card p-3">
+                                            <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
                                           </div>
                                         </div>
-                                      </div>
-                                    )}
-
-                                {/* Live preview */}
-                                {signatureMode && (
-                                  <div className="space-y-2">
-                                    <Label className="block">Signature preview</Label>
-                                    <div className="rounded-md border bg-card p-3">
-                                      {signatureMode === "type" ? (
-                                        <div
-                                          className="max-w-full truncate flex items-center h-14"
-                                          style={{
-                                            fontFamily: typedFont,
-                                            fontSize: typedSize,
-                                            lineHeight: 1,
-                                          }}
-                                        >
-                                          {typedSignature}
-                                        </div>
-                                      ) : signaturePreview ? (
-                                        <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
-                                      ) : (
-                                        <p className="text-sm text-muted-foreground">No signature yet. Use a method above to create or upload one.</p>
                                       )}
                                     </div>
+                                  )}
+                                </div>
+                              </TabsContent>
+                              <TabsContent value="typed" className="mt-0 h-full">
+                                <div className="space-y-4">
+                                  <div className="flex items-center gap-2">
+                                    <Checkbox
+                                      id="add-typed-signature"
+                                      checked={includeSignature && signatureMode === "type"}
+                                      onCheckedChange={(v) => { 
+                                        const enabled = Boolean(v); 
+                                        setIncludeSignature(enabled); 
+                                        if (enabled) { setSignatureMode("type"); } 
+                                      }}
+                                    />
+                                    <Label htmlFor="add-typed-signature">Add Typed Signature</Label>
                                   </div>
-                                )}
 
-                                   </div>
-                                 )}
-                               </div>
+                                  {includeSignature && signatureMode === "type" && (
+                                    <div className="space-y-3">
+                                      <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                        <Label htmlFor="typed-signature" className="sm:w-48 shrink-0">Signature text</Label>
+                                        <Input id="typed-signature" value={typedSignature} onChange={(e) => setTypedSignature(e.target.value)} className="w-full sm:flex-1 min-w-0 max-w-full" />
+                                      </div>
+                                      <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                        <Label className="sm:w-48 shrink-0">Font</Label>
+                                        <Select value={typedFont} onValueChange={(v) => setTypedFont(v as any)}>
+                                          <SelectTrigger className="w-full sm:w-[200px] min-w-0"><SelectValue placeholder="Choose font" /></SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="cursive">Cursive</SelectItem>
+                                            <SelectItem value="serif">Serif</SelectItem>
+                                            <SelectItem value="sans-serif">Sans-serif</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                                        <Label className="sm:w-48 shrink-0">Size</Label>
+                                        <div className="w-full sm:w=[240px] min-w-0">
+                                          <Slider value={[typedSize]} min={16} max={40} step={1} onValueChange={(v) => setTypedSize(v[0])} />
+                                        </div>
+                                        <span className="text-sm text-muted-foreground">{typedSize}px</span>
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label className="block">Signature preview</Label>
+                                        <div className="rounded-md border bg-card p-3">
+                                          <div
+                                            className="max-w-full truncate flex items-center h-14"
+                                            style={{
+                                              fontFamily: typedFont,
+                                              fontSize: typedSize,
+                                              lineHeight: 1,
+                                            }}
+                                          >
+                                            {typedSignature}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </TabsContent>
+                              <TabsContent value="upload" className="mt-0 h-full">
+                                <div className="space-y-4">
+                                  <div className="flex items-center gap-2">
+                                    <Checkbox
+                                      id="add-upload-signature"
+                                      checked={includeSignature && signatureMode === "upload"}
+                                      onCheckedChange={(v) => { 
+                                        const enabled = Boolean(v); 
+                                        setIncludeSignature(enabled); 
+                                        if (enabled) { setSignatureMode("upload"); } 
+                                      }}
+                                    />
+                                    <Label htmlFor="add-upload-signature">Add Upload Signature</Label>
+                                  </div>
+
+                                  {includeSignature && signatureMode === "upload" && (
+                                    <div className="space-y-3">
+                                      <div className="flex items-center gap-4 min-w-0">
+                                        <Label htmlFor="signature-upload" className="w-48">Upload image</Label>
+                                        <div className="flex items-center gap-2 min-w-0">
+                                          <Input
+                                            id="signature-upload"
+                                            type="file"
+                                            accept="image/png,image/jpeg"
+                                            onChange={handleUpload}
+                                            className="max-w-xs"
+                                            ref={uploadInputRef}
+                                          />
+                                          {uploadedFileName && (
+                                            <div className="flex items-center gap-1 min-w-0">
+                                              <span
+                                                className="truncate text-sm text-muted-foreground max-w-[200px]"
+                                                title={uploadedFileName}
+                                              >
+                                                {uploadedFileName}
+                                              </span>
+                                              <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="icon"
+                                                aria-label="Remove uploaded file"
+                                                title="Remove uploaded file"
+                                                onClick={() => {
+                                                  setUploadedSignature(null);
+                                                  setSignaturePreview(null);
+                                                  setUploadedFileName(null);
+                                                  if (uploadInputRef.current) {
+                                                    uploadInputRef.current.value = "";
+                                                    uploadInputRef.current.focus();
+                                                  }
+                                                }}
+                                              >
+                                                <X className="h-4 w-4" />
+                                              </Button>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                      {signaturePreview && (
+                                        <div className="space-y-2">
+                                          <Label className="block">Signature preview</Label>
+                                          <div className="rounded-md border bg-card p-3">
+                                            <img src={signaturePreview} alt="Signature preview image" className="h-16 w-auto object-contain" loading="lazy" />
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
                               </TabsContent>
                             </div>
                           </Tabs>
