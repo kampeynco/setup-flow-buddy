@@ -57,14 +57,14 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px] sm:h-[480px] flex flex-col">
+      <DialogContent className="sm:max-w-[560px] sm:h-[600px] flex flex-col">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="account" className="flex gap-4 flex-1 min-h-0">
+        <Tabs defaultValue="sender" className="flex gap-4 flex-1 min-h-0">
           <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
-            <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
+            <TabsTrigger value="sender" className="w-full justify-start">Sender</TabsTrigger>
             <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
             <TabsTrigger value="pause" className="w-full justify-start">Pause</TabsTrigger>
             <TabsTrigger value="delete" className="w-full justify-start">Delete</TabsTrigger>
@@ -83,7 +83,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
               </div>
             </TabsContent>
 
-            <TabsContent value="account" className="mt-0 h-full">
+            <TabsContent value="sender" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium">Committee Details</h3>
