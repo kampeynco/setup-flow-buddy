@@ -740,8 +740,25 @@ const Index = () => {
                               </TabsContent>
                             </div>
                           </Tabs>
-                          <div className="sticky bottom-0 border-t border-border bg-background px-4 py-3 flex items-center justify-end flex-shrink-0">
-                            <Button onClick={() => toast.success("Design saved (demo)")} size="sm">Save</Button>
+                          <div className="sticky bottom-0 border-t border-border bg-background px-6 py-4 flex items-center justify-between flex-shrink-0">
+                            <div className="text-sm text-muted-foreground">
+                              Changes will be applied to your postcard template
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <Button 
+                                variant="outline" 
+                                onClick={() => {
+                                  // Reset form or close dialog logic here
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                              <Button 
+                                onClick={() => toast.success("Design saved successfully!")}
+                              >
+                                Save Changes
+                              </Button>
+                            </div>
                           </div>
                         </DialogContent>
                       </Dialog>
