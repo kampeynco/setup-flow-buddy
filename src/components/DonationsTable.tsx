@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { StatusPill } from "./StatusPill";
 import { HorizontalProgressBar } from "./HorizontalProgressBar";
 import { cn } from "@/lib/utils";
@@ -25,6 +27,7 @@ interface DonationWithStatus {
 export function DonationsTable() {
   const [donations, setDonations] = useState<DonationWithStatus[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchDonations();
@@ -176,6 +179,17 @@ export function DonationsTable() {
     return 'Received';
   };
 
+  // Filter donations based on search query
+  const filteredDonations = donations.filter(donation => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    const donorName = donation.donor_name?.toLowerCase() || '';
+    const orderNumber = donation.order_number?.toLowerCase() || '';
+    
+    return donorName.includes(query) || orderNumber.includes(query);
+  });
+
   return (
     <Card className="h-full">
       <CardHeader>
@@ -185,6 +199,17 @@ export function DonationsTable() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Search by donor name or order number..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+
         {loading ? (
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -194,16 +219,27 @@ export function DonationsTable() {
               </div>
             ))}
           </div>
-        ) : donations.length === 0 ? (
+        ) : filteredDonations.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-muted-foreground">No donations received yet</p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Donations will appear here once your ActBlue integration is active
-            </p>
+            {searchQuery.trim() ? (
+              <>
+                <p className="text-muted-foreground">No donations found matching "{searchQuery}"</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Try searching by donor name or order number
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-muted-foreground">No donations received yet</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Donations will appear here once your ActBlue integration is active
+                </p>
+              </>
+            )}
           </div>
         ) : (
           <Accordion type="multiple" className="space-y-2">
-            {donations.map((donation) => (
+            {filteredDonations.map((donation) => (
               <AccordionItem 
                 key={donation.id} 
                 value={donation.id}
