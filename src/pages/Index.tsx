@@ -119,12 +119,48 @@ const Index = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes in milliseconds
 
+  // User profile state
+  const [userProfile, setUserProfile] = useState<{ email?: string; committee_name?: string } | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
   const handleSignOut = async () => {
     try {
       cleanupAuthState();
       try { await supabase.auth.signOut({ scope: 'global' }); } catch {}
     } finally {
       window.location.href = "/auth";
+    }
+  };
+
+  // Fetch user profile data
+  const fetchUserProfile = async () => {
+    try {
+      setProfileLoading(true);
+      
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Get profile data
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('committee_name')
+        .eq('id', user.id)
+        .single();
+
+      setUserProfile({
+        email: user.email,
+        committee_name: profile?.committee_name
+      });
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      // Fallback to just user email
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserProfile({ email: user.email });
+      }
+    } finally {
+      setProfileLoading(false);
     }
   };
 
@@ -173,6 +209,11 @@ const Index = () => {
         clearTimeout(timeoutRef.current);
       }
     };
+  }, []);
+
+  // Load user profile on mount
+  useEffect(() => {
+    fetchUserProfile();
   }, []);
 
   // Load profile address fields
@@ -410,9 +451,14 @@ const Index = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="gap-2 bg-card text-primary hover:bg-card/90">
                 <Avatar className="h-6 w-6">
-                  <AvatarFallback>L</AvatarFallback>
+                  <AvatarFallback>
+                    {profileLoading ? 'L' : (userProfile?.committee_name || userProfile?.email)?.charAt(0).toUpperCase() || 'L'}
+                  </AvatarFallback>
                 </Avatar>
-                Account
+                {profileLoading 
+                  ? 'Loading...' 
+                  : (userProfile?.committee_name || userProfile?.email || 'Account')
+                }
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
