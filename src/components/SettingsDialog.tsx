@@ -57,13 +57,13 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px] sm:h-[480px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[560px] sm:h-[480px] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="notifications" className="flex gap-4 h-full">
-          <TabsList className="flex flex-col h-fit self-start">
+        <Tabs defaultValue="notifications" className="flex gap-4 flex-1 min-h-0">
+          <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
             <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
             <TabsTrigger value="style" className="w-full justify-start">Style</TabsTrigger>
             <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
@@ -71,7 +71,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             <TabsTrigger value="delete" className="w-full justify-start">Delete</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto min-h-0">
             <TabsContent value="notifications" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="flex items-start justify-between gap-6">
