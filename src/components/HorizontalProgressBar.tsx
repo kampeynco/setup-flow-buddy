@@ -119,18 +119,17 @@ export function HorizontalProgressBar({ currentStatus, isError = false }: Horizo
             )}>
               {step.label}
             </div>
-            <div className={cn(
-              "text-xs transition-colors duration-300",
-              isError && isCurrent(index) ? 
-                "text-destructive/80" :
-              isCompleted(index) ? 
-                "text-green-600 dark:text-green-400" :
-              isCurrent(index) ? 
-                "text-blue-600 dark:text-blue-300" :
-                "text-muted-foreground/70"
-            )}>
-              {step.description}
-            </div>
+            {/* Only show description for current step */}
+            {isCurrent(index) && (
+              <div className={cn(
+                "text-xs transition-colors duration-300",
+                isError ? 
+                  "text-destructive/80" :
+                  "text-blue-600 dark:text-blue-300"
+              )}>
+                {step.description}
+              </div>
+            )}
             {isCurrent(index) && !isError && (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 mt-1">
                 Current
