@@ -122,7 +122,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                 <div className="flex items-start justify-between gap-6">
                   <div className="space-y-1.5">
                     <Label htmlFor="notify-mailings">Pause mailings</Label>
-                    <p className="text-sm text-muted-foreground">Turn off to pause all postcard mailings temporarily.</p>
+                    <p className="text-sm text-muted-foreground">Turn on to pause all postcard mailings temporarily.</p>
                   </div>
                   <Switch id="notify-mailings" checked={notifyMailings} onCheckedChange={setNotifyMailings} />
                 </div>
