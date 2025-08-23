@@ -62,11 +62,10 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="notifications" className="flex gap-4 flex-1 min-h-0">
+        <Tabs defaultValue="account" className="flex gap-4 flex-1 min-h-0">
           <TabsList className="flex flex-col h-fit self-start flex-shrink-0">
-            <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
-            <TabsTrigger value="style" className="w-full justify-start">Style</TabsTrigger>
             <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
+            <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
             <TabsTrigger value="pause" className="w-full justify-start">Pause</TabsTrigger>
             <TabsTrigger value="delete" className="w-full justify-start">Delete</TabsTrigger>
           </TabsList>
@@ -82,10 +81,6 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
                   <Switch id="marketing-updates" checked={marketingUpdates} onCheckedChange={setMarketingUpdates} />
                 </div>
               </div>
-            </TabsContent>
-
-            <TabsContent value="style" className="mt-0 h-full">
-              {/* intentionally left empty */}
             </TabsContent>
 
             <TabsContent value="account" className="mt-0 h-full">
