@@ -74,9 +74,27 @@ Deno.serve(async (req) => {
       )
     }
 
-    // For now, we'll create a default profile_id - in production this should map to the actual user
-    // This is a placeholder that should be updated based on your authentication system
-    const defaultProfileId = '00000000-0000-0000-0000-000000000000'
+    // Use the existing profile ID for Julian for U.S. Senate
+    // In production, this should map donations to the correct user based on refcode or other identifiers
+    const defaultProfileId = 'bfcee165-f32d-48af-8f27-a3533541f807'
+    
+    // Verify the profile exists before proceeding
+    const { data: profileCheck, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', defaultProfileId)
+      .single()
+    
+    if (profileError || !profileCheck) {
+      console.error('Profile not found:', profileError)
+      return new Response(
+        JSON.stringify({ error: 'Invalid profile configuration', details: profileError?.message }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
 
     // Prepare donation data
     const donationData = {
