@@ -466,8 +466,20 @@ const Index = () => {
                               <TabsContent value="image" className="mt-0 h-full">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-4">
-                                    <Label className="w-48">Committee Logo</Label>
+                                    <Label className="w-48">Background Image</Label>
                                     <Input type="file" accept="image/png, image/svg+xml" className="max-w-xs" />
+                                  </div>
+                                  <div className="flex items-center gap-4">
+                                    <Label className="w-48">Background Size</Label>
+                                    <Select>
+                                      <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Select size" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="contain">Center Contain</SelectItem>
+                                        <SelectItem value="cover">Full Cover</SelectItem>
+                                      </SelectContent>
+                                    </Select>
                                   </div>
                                 </div>
                               </TabsContent>
