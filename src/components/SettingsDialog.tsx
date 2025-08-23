@@ -57,7 +57,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px]">
+      <DialogContent className="sm:max-w-[560px] sm:h-[480px]">
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
