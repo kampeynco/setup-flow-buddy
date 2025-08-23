@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,9 +35,17 @@ export function DonationsTable() {
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
     "Received", "In Production", "Mailed", "In Transit", "Delivered"
   ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  
+  const ITEMS_PER_PAGE = 10;
 
   useEffect(() => {
+    setCurrentPage(1); // Reset to first page when filters change
     fetchDonations();
+  }, [searchQuery, selectedStatuses, currentPage]);
+
+  useEffect(() => {
     
     // Subscribe to changes in donations, postcards, and tracking_events
     const channel = supabase
@@ -77,6 +86,20 @@ export function DonationsTable() {
 
   const fetchDonations = async () => {
     try {
+      setLoading(true);
+      
+      // Calculate pagination range
+      const from = (currentPage - 1) * ITEMS_PER_PAGE;
+      const to = from + ITEMS_PER_PAGE - 1;
+
+      // First get the total count for pagination
+      const { count } = await supabase
+        .from('donations')
+        .select('*', { count: 'exact', head: true });
+
+      setTotalCount(count || 0);
+
+      // Then fetch the paginated data
       const { data, error } = await supabase
         .from('donations')
         .select(`
@@ -100,7 +123,7 @@ export function DonationsTable() {
           )
         `)
         .order('donation_date', { ascending: false })
-        .limit(50);
+        .range(from, to);
 
       if (error) throw error;
 
@@ -209,6 +232,13 @@ export function DonationsTable() {
         ? prev.filter(s => s !== status)
         : [...prev, status]
     );
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const MAILING_STATUSES = ["Received", "In Production", "Mailed", "In Transit", "Delivered"];
@@ -297,8 +327,9 @@ export function DonationsTable() {
             )}
           </div>
         ) : (
-          <Accordion type="multiple" className="space-y-2">
-            {filteredDonations.map((donation) => (
+          <>
+            <Accordion type="multiple" className="space-y-2">
+              {filteredDonations.map((donation) => (
               <AccordionItem 
                 key={donation.id} 
                 value={donation.id}
@@ -357,6 +388,42 @@ export function DonationsTable() {
               </AccordionItem>
             ))}
           </Accordion>
+          
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-6">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(page)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+          </>
         )}
       </CardContent>
     </Card>
