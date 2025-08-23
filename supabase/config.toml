@@ -1,1 +1,4 @@
 project_id = "qnsodkdsjfrfjahnczwn"
+
+[functions.handle-actblue-webhook]
+verify_jwt = false
