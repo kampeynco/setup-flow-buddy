@@ -742,7 +742,7 @@ const Index = () => {
                               </div>
                             </Tabs>
                           </div>
-                          <div className="sticky bottom-0 border-t border-border bg-background px-6 py-4 flex items-center justify-between flex-shrink-0">
+                          <div className="border-t border-border bg-background px-6 py-4 flex items-center justify-between flex-shrink-0">
                             <div className="text-sm text-muted-foreground">
                               Changes will be applied to your postcard template
                             </div>
