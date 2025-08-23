@@ -62,8 +62,8 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="notifications" className="mt-2 flex gap-4">
-          <TabsList className="flex flex-col h-fit">
+        <Tabs defaultValue="notifications" className="flex gap-4 h-full">
+          <TabsList className="flex flex-col h-fit self-start">
             <TabsTrigger value="notifications" className="w-full justify-start">Notifications</TabsTrigger>
             <TabsTrigger value="style" className="w-full justify-start">Style</TabsTrigger>
             <TabsTrigger value="account" className="w-full justify-start">Account</TabsTrigger>
@@ -71,8 +71,8 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
             <TabsTrigger value="delete" className="w-full justify-start">Delete</TabsTrigger>
           </TabsList>
 
-          <div className="flex-1">
-            <TabsContent value="notifications" className="pt-4 min-h-[280px] mt-0">
+          <div className="flex-1 overflow-auto">
+            <TabsContent value="notifications" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="flex items-start justify-between gap-6">
                   <div className="space-y-1.5">
@@ -84,11 +84,11 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
               </div>
             </TabsContent>
 
-            <TabsContent value="style" className="pt-4 min-h-[280px] mt-0">
+            <TabsContent value="style" className="mt-0 h-full">
               {/* intentionally left empty */}
             </TabsContent>
 
-            <TabsContent value="account" className="pt-4 min-h-[280px] mt-0">
+            <TabsContent value="account" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium">Committee Details</h3>
@@ -123,7 +123,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
               </div>
             </TabsContent>
 
-            <TabsContent value="pause" className="pt-4 min-h-[280px] mt-0">
+            <TabsContent value="pause" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="flex items-start justify-between gap-6">
                   <div className="space-y-1.5">
@@ -135,7 +135,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
               </div>
             </TabsContent>
 
-            <TabsContent value="delete" className="pt-4 min-h-[280px] mt-0">
+            <TabsContent value="delete" className="mt-0 h-full">
               <div className="space-y-6">
                 <div className="rounded-md border p-4">
                   <h3 className="text-sm font-medium text-destructive">Delete account</h3>
