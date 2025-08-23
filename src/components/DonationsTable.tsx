@@ -4,7 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Search, Filter } from "lucide-react";
 import { StatusPill } from "./StatusPill";
 import { HorizontalProgressBar } from "./HorizontalProgressBar";
 import { cn } from "@/lib/utils";
@@ -28,6 +31,9 @@ export function DonationsTable() {
   const [donations, setDonations] = useState<DonationWithStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
+    "Received", "In Production", "Mailed", "In Transit", "Delivered"
+  ]);
 
   useEffect(() => {
     fetchDonations();
@@ -179,16 +185,33 @@ export function DonationsTable() {
     return 'Received';
   };
 
-  // Filter donations based on search query
+  // Filter donations based on search query and selected statuses
   const filteredDonations = donations.filter(donation => {
-    if (!searchQuery.trim()) return true;
+    // Search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      const donorName = donation.donor_name?.toLowerCase() || '';
+      const orderNumber = donation.order_number?.toLowerCase() || '';
+      
+      if (!donorName.includes(query) && !orderNumber.includes(query)) {
+        return false;
+      }
+    }
     
-    const query = searchQuery.toLowerCase();
-    const donorName = donation.donor_name?.toLowerCase() || '';
-    const orderNumber = donation.order_number?.toLowerCase() || '';
-    
-    return donorName.includes(query) || orderNumber.includes(query);
+    // Status filter
+    const currentStatus = getCurrentStatus(donation);
+    return selectedStatuses.includes(currentStatus);
   });
+
+  const handleStatusToggle = (status: string) => {
+    setSelectedStatuses(prev => 
+      prev.includes(status) 
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
+    );
+  };
+
+  const MAILING_STATUSES = ["Received", "In Production", "Mailed", "In Transit", "Delivered"];
 
   return (
     <Card className="h-full">
@@ -199,15 +222,52 @@ export function DonationsTable() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* Search Bar */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Search by donor name or order number..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+        {/* Search Bar and Filter */}
+        <div className="flex gap-3 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search by donor name or order number..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="shrink-0">
+                <Filter className="h-4 w-4 mr-2" />
+                Filter
+                {selectedStatuses.length < MAILING_STATUSES.length && (
+                  <span className="ml-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
+                    {selectedStatuses.length}
+                  </span>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 bg-background border shadow-lg z-50">
+              <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="p-2 space-y-2">
+                {MAILING_STATUSES.map((status) => (
+                  <div key={status} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={status}
+                      checked={selectedStatuses.includes(status)}
+                      onCheckedChange={() => handleStatusToggle(status)}
+                    />
+                    <label
+                      htmlFor={status}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      {status}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {loading ? (
