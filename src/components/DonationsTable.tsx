@@ -237,8 +237,7 @@ export function DonationsTable() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="shrink-0">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
+                <Filter className="h-4 w-4" />
                 {selectedStatuses.length < MAILING_STATUSES.length && (
                   <span className="ml-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
                     {selectedStatuses.length}
