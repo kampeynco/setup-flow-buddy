@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
@@ -231,6 +231,47 @@ export type Database = {
           },
         ]
       }
+      notification_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          loops_event_id: string | null
+          loops_sent: boolean | null
+          profile_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          loops_event_id?: string | null
+          loops_sent?: boolean | null
+          profile_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          loops_event_id?: string | null
+          loops_sent?: boolean | null
+          profile_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_events_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       postcards: {
         Row: {
           billing_reported: boolean | null
@@ -282,16 +323,21 @@ export type Database = {
           committee_type: string | null
           country: string | null
           created_at: string
+          email_notifications: boolean | null
           id: string
           lob_address_id: string | null
+          loops_contact_id: string | null
+          marketing_emails: boolean | null
           organization_name: string | null
           postal_code: string | null
           source_id: string | null
           state: string | null
+          status_updates: boolean | null
           street_address: string | null
           updated_at: string
           webhook_password: string | null
           webhook_url: string | null
+          weekly_digest: boolean | null
         }
         Insert: {
           address_verified?: boolean | null
@@ -302,16 +348,21 @@ export type Database = {
           committee_type?: string | null
           country?: string | null
           created_at?: string
+          email_notifications?: boolean | null
           id: string
           lob_address_id?: string | null
+          loops_contact_id?: string | null
+          marketing_emails?: boolean | null
           organization_name?: string | null
           postal_code?: string | null
           source_id?: string | null
           state?: string | null
+          status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
           webhook_password?: string | null
           webhook_url?: string | null
+          weekly_digest?: boolean | null
         }
         Update: {
           address_verified?: boolean | null
@@ -322,16 +373,21 @@ export type Database = {
           committee_type?: string | null
           country?: string | null
           created_at?: string
+          email_notifications?: boolean | null
           id?: string
           lob_address_id?: string | null
+          loops_contact_id?: string | null
+          marketing_emails?: boolean | null
           organization_name?: string | null
           postal_code?: string | null
           source_id?: string | null
           state?: string | null
+          status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
           webhook_password?: string | null
           webhook_url?: string | null
+          weekly_digest?: boolean | null
         }
         Relationships: []
       }

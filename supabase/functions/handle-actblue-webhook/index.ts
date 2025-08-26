@@ -179,6 +179,30 @@ Deno.serve(async (req) => {
       console.log('Postcard created successfully:', postcard.id)
     }
 
+    // Send notification to Loops.so about the new donation
+    try {
+      await supabase.functions.invoke('send-loops-notification', {
+        body: {
+          action: 'send_event',
+          profileId: defaultProfileId,
+          data: {
+            eventName: 'donation_received',
+            eventProperties: {
+              donationAmount: donationData.amount,
+              donorName: donationData.donor_name,
+              donorState: donationData.donor_state,
+              orderNumber: donationData.order_number,
+              donationDate: donationData.donation_date
+            }
+          }
+        }
+      });
+      console.log('Donation notification sent to Loops');
+    } catch (notificationError) {
+      console.error('Failed to send donation notification:', notificationError);
+      // Don't fail the webhook if notification fails
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true, 

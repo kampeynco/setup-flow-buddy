@@ -46,12 +46,10 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
   const [zip, setZip] = useState("");
 
   // Notification preferences state
-  const [notifyReceived, setNotifyReceived] = useState(true);
-  const [notifyInProduction, setNotifyInProduction] = useState(true);
-  const [notifyMailed, setNotifyMailed] = useState(true);
-  const [notifyInTransit, setNotifyInTransit] = useState(true);
-  const [notifyDelivered, setNotifyDelivered] = useState(true);
-  const [notifyReturned, setNotifyReturned] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [marketingEmails, setMarketingEmails] = useState(true);
+  const [statusUpdates, setStatusUpdates] = useState(true);
+  const [weeklyDigest, setWeeklyDigest] = useState(true);
 
   // Fetch user profile data
   const fetchProfile = async () => {
@@ -63,7 +61,7 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
 
       const { data: profile, error } = await supabase
         .from('profiles')
-        .select('committee_name, street_address, city, state, postal_code')
+        .select('committee_name, street_address, city, state, postal_code, email_notifications, marketing_emails, status_updates, weekly_digest')
         .eq('id', user.id)
         .maybeSingle();
 
@@ -78,6 +76,13 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
         setCity(profile.city || "");
         setState(profile.state || "");
         setZip(profile.postal_code || "");
+        
+        // Set notification preferences
+        setEmailNotifications(profile.email_notifications ?? true);
+        setMarketingEmails(profile.marketing_emails ?? true);
+        setStatusUpdates(profile.status_updates ?? true);
+        setWeeklyDigest(profile.weekly_digest ?? true);
+        setMarketingUpdates(profile.marketing_emails ?? false);
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -118,6 +123,54 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
       toast.error('Failed to save profile data');
     } finally {
       setSavingProfile(false);
+    }
+  };
+
+  // Save notification preferences
+  const saveNotificationPreferences = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          email_notifications: emailNotifications,
+          marketing_emails: marketingEmails,
+          status_updates: statusUpdates,
+          weekly_digest: weeklyDigest
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        console.error('Error saving notification preferences:', error);
+        toast.error('Failed to save notification preferences');
+        return;
+      }
+
+      // Sync contact with Loops.so
+      try {
+        await supabase.functions.invoke('send-loops-notification', {
+          body: {
+            action: 'update_contact',
+            profileId: user.id,
+            data: {
+              subscribed: marketingEmails,
+              emailNotifications: emailNotifications,
+              statusUpdates: statusUpdates,
+              weeklyDigest: weeklyDigest
+            }
+          }
+        });
+      } catch (loopsError) {
+        console.error('Failed to sync with Loops:', loopsError);
+        // Don't show error to user as the main preferences were saved
+      }
+
+      toast.success('Notification preferences saved');
+    } catch (error) {
+      console.error('Error saving notification preferences:', error);
+      toast.error('Failed to save notification preferences');
     }
   };
 
@@ -167,64 +220,39 @@ export default function SettingsDialog({ open, onOpenChange }: SettingsDialogPro
               <div className="space-y-6">
                 <div className="flex items-start justify-between gap-6">
                   <div className="space-y-1.5">
-                    <Label htmlFor="marketing-updates">Updates and marketing offers</Label>
+                    <Label htmlFor="email-notifications">Email Notifications</Label>
+                    <p className="text-sm text-muted-foreground">Receive all email notifications from the app.</p>
+                  </div>
+                  <Switch id="email-notifications" checked={emailNotifications} onCheckedChange={setEmailNotifications} />
+                </div>
+
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="marketing-emails">Marketing & Updates</Label>
                     <p className="text-sm text-muted-foreground">Get product updates and occasional marketing offers.</p>
                   </div>
-                  <Switch id="marketing-updates" checked={marketingUpdates} onCheckedChange={setMarketingUpdates} />
+                  <Switch id="marketing-emails" checked={marketingEmails} onCheckedChange={setMarketingEmails} />
                 </div>
-                
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium">Mailing Status Notifications</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Get notified when your postcard status changes.</p>
-                  
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-received">Received Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when donations are received and postcards are pending.</p>
-                    </div>
-                    <Switch id="notify-received" checked={notifyReceived} onCheckedChange={setNotifyReceived} />
-                  </div>
 
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-production">In Production Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards are being processed or rendered.</p>
-                    </div>
-                    <Switch id="notify-production" checked={notifyInProduction} onCheckedChange={setNotifyInProduction} />
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="status-updates">Status Updates</Label>
+                    <p className="text-sm text-muted-foreground">Get notified when donation and postcard status changes.</p>
                   </div>
-
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-mailed">Mailed Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards have been mailed.</p>
-                    </div>
-                    <Switch id="notify-mailed" checked={notifyMailed} onCheckedChange={setNotifyMailed} />
-                  </div>
-
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-transit">In Transit Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards are in transit for delivery.</p>
-                    </div>
-                    <Switch id="notify-transit" checked={notifyInTransit} onCheckedChange={setNotifyInTransit} />
-                  </div>
-
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-delivered">Delivered Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards have been successfully delivered.</p>
-                    </div>
-                    <Switch id="notify-delivered" checked={notifyDelivered} onCheckedChange={setNotifyDelivered} />
-                  </div>
-
-                  <div className="flex items-start justify-between gap-6">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="notify-returned">Returned Status</Label>
-                      <p className="text-sm text-muted-foreground">Notify when postcards are returned to sender or re-routed.</p>
-                    </div>
-                    <Switch id="notify-returned" checked={notifyReturned} onCheckedChange={setNotifyReturned} />
-                  </div>
+                  <Switch id="status-updates" checked={statusUpdates} onCheckedChange={setStatusUpdates} />
                 </div>
+
+                <div className="flex items-start justify-between gap-6">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="weekly-digest">Weekly Digest</Label>
+                    <p className="text-sm text-muted-foreground">Receive weekly summary of donations and postcard activity.</p>
+                  </div>
+                  <Switch id="weekly-digest" checked={weeklyDigest} onCheckedChange={setWeeklyDigest} />
+                </div>
+
+                <Button onClick={saveNotificationPreferences} className="w-full">
+                  Save Notification Preferences
+                </Button>
               </div>
             </TabsContent>
 
