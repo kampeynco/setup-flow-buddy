@@ -912,8 +912,8 @@ const Index = () => {
                                         className="flex flex-col items-start p-4 h-auto text-left border-2 border-muted bg-card data-[state=on]:border-primary data-[state=on]:bg-primary/5 data-[state=on]:shadow-md data-[state=on]:ring-2 data-[state=on]:ring-primary/20 hover:bg-muted/30 transition-all duration-200 cursor-pointer"
                                       >
                                         <div className="font-semibold">Pro</div>
-                                        <div className="text-2xl font-bold">$99</div>
-                                        <div className="text-sm text-muted-foreground">per month</div>
+                                         <div className="text-2xl font-bold">$99</div>
+                                         <div className="text-sm text-muted-foreground">per month (7-day free trial)</div>
                                       </ToggleGroupItem>
                                     </TooltipTrigger>
                                      <TooltipContent side="top" className="max-w-[280px]">
@@ -952,32 +952,52 @@ const Index = () => {
                               </TooltipProvider>
                             </div>
                             
-                            <div className="grid gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="billing-name">Cardholder Name</Label>
-                                <Input id="billing-name" placeholder="Full name on card" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="card-number">Card Number</Label>
-                                <Input id="card-number" placeholder="1234 5678 9012 3456" />
-                              </div>
-                              <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                  <Label htmlFor="expiry">Expiry Date</Label>
-                                  <Input id="expiry" placeholder="MM/YY" />
-                                </div>
-                                <div className="space-y-2">
-                                  <Label htmlFor="cvc">CVC</Label>
-                                  <Input id="cvc" placeholder="123" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex items-center justify-end space-x-2 pt-4">
-                              <Button variant="outline">Cancel</Button>
-                              <Button onClick={() => toast.success("Billing information saved (demo)")}>
-                                Save Billing Info
-                              </Button>
-                            </div>
+                             <div className="space-y-4">
+                               <div className="bg-secondary/20 border border-secondary/40 rounded-lg p-4">
+                                 <div className="font-medium mb-2">Plan Summary:</div>
+                                 {selectedPlan === "free" ? (
+                                   <div className="text-sm space-y-1">
+                                     <div>✓ Free monthly subscription</div>
+                                     <div>✓ $1.99 per mailing</div>
+                                     <div>✓ Standard class mail delivery</div>
+                                   </div>
+                                 ) : (
+                                   <div className="text-sm space-y-1">
+                                     <div>✓ $99/month after 7-day free trial</div>
+                                     <div>✓ $0.99 per mailing (save $1.00 per mailing!)</div>
+                                     <div>✓ Priority features and support</div>
+                                   </div>
+                                 )}
+                               </div>
+                             </div>
+                             <div className="flex items-center justify-end space-x-2 pt-4">
+                               <Button variant="outline">Cancel</Button>
+                               <Button 
+                                 onClick={async () => {
+                                   try {
+                                     const planId = selectedPlan === "free" ? 1 : 2;
+                                     const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+                                       body: { planId }
+                                     });
+                                     
+                                     if (error) throw error;
+                                     
+                                     if (data.redirect_url) {
+                                       // For free plan, redirect directly
+                                       window.location.href = data.redirect_url;
+                                     } else if (data.url) {
+                                       // For pro plan, open Stripe checkout
+                                       window.open(data.url, '_blank');
+                                     }
+                                   } catch (error) {
+                                     console.error('Error creating checkout session:', error);
+                                     toast.error('Failed to start checkout process');
+                                   }
+                                 }}
+                               >
+                                 {selectedPlan === "free" ? "Activate Free Plan" : "Start 7-Day Free Trial"}
+                               </Button>
+                             </div>
                           </div>
                         </DialogContent>
                       </Dialog>

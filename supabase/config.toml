@@ -5,3 +5,15 @@ verify_jwt = false
 
 [functions.send-loops-notification]
 verify_jwt = false
+
+[functions.create-checkout-session]
+verify_jwt = false
+
+[functions.handle-stripe-webhook]
+verify_jwt = false
+
+[functions.create-usage-charge]
+verify_jwt = false
+
+[functions.customer-portal]
+verify_jwt = false

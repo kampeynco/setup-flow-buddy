@@ -67,6 +67,52 @@ Deno.serve(async (req) => {
     const payload = await req.json() as ActBlueContribution
     console.log('Received payload:', JSON.stringify(payload, null, 2))
 
+    // Background function to monitor postcard status changes and trigger usage billing
+    async function monitorPostcardForUsageBilling(postcardId: string) {
+      const maxRetries = 10;
+      const retryDelay = 30000; // 30 seconds
+      
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+          // Check postcard status
+          const { data: postcard, error } = await supabase
+            .from('postcards')
+            .select('status, usage_billed')
+            .eq('id', postcardId)
+            .single();
+
+          if (error) {
+            console.error(`Error checking postcard status (attempt ${attempt + 1}):`, error);
+            continue;
+          }
+
+          // If postcard is in production status and not yet billed
+          if (['processing', 'rendered'].includes(postcard.status) && !postcard.usage_billed) {
+            console.log(`Postcard ${postcardId} is in production (${postcard.status}), triggering usage billing`);
+            
+            // Trigger usage billing
+            try {
+              await supabase.functions.invoke('create-usage-charge', {
+                body: { postcardId }
+              });
+              console.log(`Usage billing triggered for postcard ${postcardId}`);
+              break; // Exit monitoring loop
+            } catch (billingError) {
+              console.error(`Failed to trigger usage billing for postcard ${postcardId}:`, billingError);
+            }
+          } else if (postcard.usage_billed) {
+            console.log(`Postcard ${postcardId} already billed, stopping monitoring`);
+            break;
+          }
+
+          // Wait before next check
+          await new Promise(resolve => setTimeout(resolve, retryDelay));
+        } catch (error) {
+          console.error(`Error in postcard monitoring (attempt ${attempt + 1}):`, error);
+        }
+      }
+    }
+
     // Validate required fields
     if (!payload.donor || !payload.contribution) {
       console.error('Missing required donor or contribution data')
@@ -201,6 +247,11 @@ Deno.serve(async (req) => {
     } catch (notificationError) {
       console.error('Failed to send donation notification:', notificationError);
       // Don't fail the webhook if notification fails
+    }
+
+    // Set up background task to monitor postcard status for usage billing
+    if (postcard?.id) {
+      EdgeRuntime.waitUntil(monitorPostcardForUsageBilling(postcard.id));
     }
 
     return new Response(
