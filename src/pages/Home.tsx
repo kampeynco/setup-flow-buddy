@@ -9,6 +9,7 @@ import PostcardPreview from "@/components/PostcardPreview";
 import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import logoIcon from "@/assets/logo_icon_white.svg";
 import logoIconRegular from "@/assets/logo_icon_regular.svg";
 function useSEO({
@@ -509,17 +510,23 @@ export default function Home() {
             <Card className="relative">
               <CardHeader className="text-center pb-4">
                 <CardTitle className="text-xl font-semibold">Pay as You Go</CardTitle>
-                <div className="text-4xl font-bold mt-2">
-                  $50<span className="text-lg font-normal text-muted-foreground"> initial</span>
+                <div className="text-4xl font-bold mt-2 flex items-center justify-center gap-2">
+                  $0<span className="text-lg font-normal text-muted-foreground">/month</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>$50 charge processed on activation & when balance falls below $10</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
                 <p className="text-sm text-muted-foreground mt-2">No monthly fee, pay for usage</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-3">
-                  <li className="flex items-center gap-3">
-                    <Info className="h-4 w-4 text-blue-600 shrink-0" strokeWidth={2.5} />
-                    <span className="text-sm font-medium">$50 charge on activation & when balance &lt; $10</span>
-                  </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
                     <span className="text-sm">$1.99 per postcard sent</span>
