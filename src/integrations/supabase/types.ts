@@ -280,8 +280,10 @@ export type Database = {
           expected_delivery_date: string | null
           id: string
           status: string | null
+          stripe_invoice_item_id: string | null
           tracking_number: string | null
           updated_at: string
+          usage_billed: boolean | null
         }
         Insert: {
           billing_reported?: boolean | null
@@ -290,8 +292,10 @@ export type Database = {
           expected_delivery_date?: string | null
           id?: string
           status?: string | null
+          stripe_invoice_item_id?: string | null
           tracking_number?: string | null
           updated_at?: string
+          usage_billed?: boolean | null
         }
         Update: {
           billing_reported?: boolean | null
@@ -300,8 +304,10 @@ export type Database = {
           expected_delivery_date?: string | null
           id?: string
           status?: string | null
+          stripe_invoice_item_id?: string | null
           tracking_number?: string | null
           updated_at?: string
+          usage_billed?: boolean | null
         }
         Relationships: [
           {
@@ -598,6 +604,53 @@ export type Database = {
           },
         ]
       }
+      usage_charges: {
+        Row: {
+          amount: number
+          charged_at: string
+          created_at: string
+          currency: string | null
+          id: string
+          plan_type: string
+          postcard_id: string
+          profile_id: string
+          stripe_invoice_item_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          charged_at?: string
+          created_at?: string
+          currency?: string | null
+          id?: string
+          plan_type: string
+          postcard_id: string
+          profile_id: string
+          stripe_invoice_item_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          charged_at?: string
+          created_at?: string
+          currency?: string | null
+          id?: string
+          plan_type?: string
+          postcard_id?: string
+          profile_id?: string
+          stripe_invoice_item_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_charges_postcard_id_fkey"
+            columns: ["postcard_id"]
+            isOneToOne: false
+            referencedRelation: "postcards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_subscriptions: {
         Row: {
           created_at: string
@@ -609,6 +662,8 @@ export type Database = {
           status: string
           stripe_customer_id: string
           stripe_subscription_id: string
+          trial_end: string | null
+          trial_used: boolean | null
           updated_at: string
         }
         Insert: {
@@ -621,6 +676,8 @@ export type Database = {
           status: string
           stripe_customer_id: string
           stripe_subscription_id: string
+          trial_end?: string | null
+          trial_used?: boolean | null
           updated_at?: string
         }
         Update: {
@@ -633,6 +690,8 @@ export type Database = {
           status?: string
           stripe_customer_id?: string
           stripe_subscription_id?: string
+          trial_end?: string | null
+          trial_used?: boolean | null
           updated_at?: string
         }
         Relationships: [
