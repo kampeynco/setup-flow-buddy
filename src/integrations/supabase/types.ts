@@ -341,7 +341,6 @@ export type Database = {
           status_updates: boolean | null
           street_address: string | null
           updated_at: string
-          webhook_password: string | null
           webhook_url: string | null
           weekly_digest: boolean | null
         }
@@ -366,7 +365,6 @@ export type Database = {
           status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
-          webhook_password?: string | null
           webhook_url?: string | null
           weekly_digest?: boolean | null
         }
@@ -391,7 +389,6 @@ export type Database = {
           status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
-          webhook_password?: string | null
           webhook_url?: string | null
           weekly_digest?: boolean | null
         }
@@ -711,6 +708,41 @@ export type Database = {
           },
         ]
       }
+      webhook_credentials: {
+        Row: {
+          created_at: string
+          id: string
+          password_hash: string
+          profile_id: string
+          salt: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          password_hash: string
+          profile_id: string
+          salt: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          password_hash?: string
+          profile_id?: string
+          salt?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhook_credentials_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -719,6 +751,14 @@ export type Database = {
       get_user_count: {
         Args: Record<PropertyKey, never>
         Returns: number
+      }
+      hash_password_with_salt: {
+        Args: { password: string; salt: string }
+        Returns: string
+      }
+      verify_password: {
+        Args: { hash: string; password: string; salt: string }
+        Returns: boolean
       }
     }
     Enums: {
