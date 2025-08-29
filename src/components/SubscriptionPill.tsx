@@ -28,7 +28,7 @@ export function SubscriptionPill() {
     return (
       <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
         <Zap className="w-3 h-3 mr-1" />
-        Free
+        Pay as You Go
       </Badge>
     );
   }

@@ -62,45 +62,17 @@ serve(async (req) => {
     };
 
     if (planData.name === "Free") {
-      // For Free plan, just create customer record - no subscription needed
-      if (!customerId) {
-        const customer = await stripe.customers.create({
-          email: user.email,
-          metadata: { userId: user.id, planId: planId.toString() }
-        });
-        customerId = customer.id;
-      }
-      
-      // Store customer info for future usage billing
-      const supabaseService = createClient(
-        Deno.env.get("SUPABASE_URL") ?? "",
-        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-        { auth: { persistSession: false } }
-      );
-      
-      await supabaseService.from("user_subscriptions").upsert({
-        profile_id: user.id,
-        plan_id: planId,
-        stripe_customer_id: customerId,
-        stripe_subscription_id: null,
-        status: "active",
-        current_period_start: new Date().toISOString(),
-        current_period_end: null, // No end date for free plan
-        trial_end: null,
-        trial_used: false
-      }, { 
-        onConflict: 'profile_id',
-        ignoreDuplicates: false 
-      });
-
-      return new Response(JSON.stringify({ 
-        success: true, 
-        message: "Free plan activated",
-        redirect_url: `${req.headers.get("origin")}/dashboard?checkout=success`
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
+      // For Pay as You Go plan, use setup mode to collect payment method
+      sessionConfig = {
+        ...sessionConfig,
+        mode: "setup",
+        payment_method_types: ["card"],
+        metadata: {
+          userId: user.id,
+          planId: planId.toString(),
+          planType: "pay_as_you_go"
+        }
+      };
     } else {
       // For Pro plan, create subscription with 7-day trial
       sessionConfig = {

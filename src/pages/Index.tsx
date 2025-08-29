@@ -872,18 +872,22 @@ const Index = () => {
                                         value="free" 
                                         className="flex flex-col items-start p-4 h-auto text-left border-2 border-muted bg-card data-[state=on]:border-primary data-[state=on]:bg-primary/5 data-[state=on]:shadow-md data-[state=on]:ring-2 data-[state=on]:ring-primary/20 hover:bg-muted/30 transition-all duration-200 cursor-pointer"
                                       >
-                                        <div className="font-semibold">Free</div>
-                                        <div className="text-2xl font-bold">$0</div>
-                                        <div className="text-sm text-muted-foreground">forever</div>
+                                        <div className="font-semibold">Pay as You Go</div>
+                                        <div className="text-2xl font-bold">$50</div>
+                                        <div className="text-sm text-muted-foreground">initial charge</div>
                                       </ToggleGroupItem>
                                     </TooltipTrigger>
                                     <TooltipContent side="top" className="max-w-[280px]">
-                                      <div className="space-y-1">
-                                        <p className="font-semibold">Free Plan Includes:</p>
+                                       <div className="space-y-1">
+                                        <p className="font-semibold">Pay as You Go Plan:</p>
                                         <ul className="text-sm space-y-1">
                                           <li className="flex items-center gap-2">
+                                            <Info className="h-3 w-3 text-blue-600 shrink-0" strokeWidth={2.5} />
+                                            <span className="font-medium">$50 charge on activation & when balance &lt; $10</span>
+                                          </li>
+                                          <li className="flex items-center gap-2">
                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
-                                            <span>$1.99 per postcard</span>
+                                            <span>$1.99 per postcard sent</span>
                                           </li>
                                           <li className="flex items-center gap-2">
                                             <Check className="h-3 w-3 text-green-600 shrink-0" strokeWidth={2.5} />
@@ -1000,7 +1004,7 @@ const Index = () => {
                                    }
                                  }}
                                >
-                                 {selectedPlan === "free" ? "Activate Free Plan" : "Start 7-Day Free Trial"}
+                                 {selectedPlan === "free" ? "Set Up Pay as You Go" : "Start 7-Day Free Trial"}
                                </Button>
                              </div>
                           </div>

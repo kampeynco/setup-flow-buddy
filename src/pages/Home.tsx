@@ -8,7 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import PostcardPreview from "@/components/PostcardPreview";
 import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
 import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
-import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X } from "lucide-react";
+import { Check, Plus, Minus, Settings, ArrowRight, Palette, Truck, Zap, TrendingDown, BarChart3, Building2, Shield, Star, X, Info } from "lucide-react";
 import logoIcon from "@/assets/logo_icon_white.svg";
 import logoIconRegular from "@/assets/logo_icon_regular.svg";
 function useSEO({
@@ -61,10 +61,10 @@ export default function Home() {
         applicationCategory: 'MarketingAutomation',
         offers: [{
           '@type': 'Offer',
-          name: 'Free',
+          name: 'Pay as You Go',
           price: '0',
           priceCurrency: 'USD',
-          description: 'Usage $1.99 per postcard. Standard class mail (up to 10 business days).'
+          description: '$50 initial charge, $1.99 per postcard. Standard class mail (up to 10 business days).'
         }, {
           '@type': 'Offer',
           name: 'Pro',
@@ -91,10 +91,10 @@ export default function Home() {
         }, {
           '@type': 'Question',
           name: 'How fast is delivery?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).'
-          }
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Our Pay as You Go plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).'
+            }
         }]
       }]
     }
@@ -149,7 +149,7 @@ export default function Home() {
                   <Button variant="ghost" className={scrolled ? "" : "text-white hover:bg-white/20"}>Login</Button>
                 </Link>
                 <Link to="/auth?mode=signup">
-                  <Button variant="yellow" className="font-semibold">Create Free Account</Button>
+                  <Button variant="yellow" className="font-semibold">Get Started</Button>
                 </Link>
               </>
             )}
@@ -174,7 +174,7 @@ export default function Home() {
               </p>
               
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <Link to="/auth?mode=signup"><Button variant="yellow" size="lg">Create Free Account Today</Button></Link>
+                <Link to="/auth?mode=signup"><Button variant="yellow" size="lg">Get Started Today</Button></Link>
                 <a href="#pricing" className="text-sm underline underline-offset-4 text-white/90 hover:text-white">See pricing</a>
               </div>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm text-white/80">
@@ -508,17 +508,21 @@ export default function Home() {
           <div className="mt-6 grid md:grid-cols-2 gap-6 items-stretch max-w-4xl mx-auto">
             <Card className="relative">
               <CardHeader className="text-center pb-4">
-                <CardTitle className="text-xl font-semibold">Free</CardTitle>
+                <CardTitle className="text-xl font-semibold">Pay as You Go</CardTitle>
                 <div className="text-4xl font-bold mt-2">
-                  $0<span className="text-lg font-normal text-muted-foreground">/month</span>
+                  $50<span className="text-lg font-normal text-muted-foreground"> initial</span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">Perfect for getting started</p>
+                <p className="text-sm text-muted-foreground mt-2">No monthly fee, pay for usage</p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3">
+                    <Info className="h-4 w-4 text-blue-600 shrink-0" strokeWidth={2.5} />
+                    <span className="text-sm font-medium">$50 charge on activation & when balance &lt; $10</span>
+                  </li>
+                  <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
-                    <span className="text-sm">$1.99 per postcard</span>
+                    <span className="text-sm">$1.99 per postcard sent</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="h-4 w-4 text-green-600 shrink-0" strokeWidth={2.5} />
@@ -543,9 +547,9 @@ export default function Home() {
                 </ul>
                 <div className="space-y-2">
                   <Link to="/dashboard" className="block">
-                    <Button variant="outline" className="w-full">Create Free Account</Button>
+                    <Button variant="outline" className="w-full">Get Started</Button>
                   </Link>
-                  <p className="text-xs text-muted-foreground text-center">No setup fees, cancel anytime</p>
+                  <p className="text-xs text-muted-foreground text-center">Payment details required, cancel anytime</p>
                 </div>
               </CardContent>
             </Card>
@@ -630,7 +634,7 @@ export default function Home() {
                   How fast is delivery?
                 </AccordionTrigger>
                 <AccordionContent className="pb-4 text-muted-foreground">
-                  Our Free plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
+                  Our Pay as You Go plan uses Standard Class (up to 10 business days). While, Pro plans use First Class (3 business days or less).
                 </AccordionContent>
               </AccordionItem>
 
@@ -648,7 +652,7 @@ export default function Home() {
                   Do you add your branding to the postcards?
                 </AccordionTrigger>
                 <AccordionContent className="pb-4 text-muted-foreground">
-                  Free accounts include small Thank Donors branding on postcards. Pro account users can remove all Thank Donors branding for completely custom postcards with only your committee branding.
+                  Pay as You Go accounts include small Thank Donors branding on postcards. Pro account users can remove all Thank Donors branding for completely custom postcards with only your committee branding.
                 </AccordionContent>
               </AccordionItem>
 
