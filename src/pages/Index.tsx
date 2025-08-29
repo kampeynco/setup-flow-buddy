@@ -270,7 +270,7 @@ const Index = () => {
       // Ensure profile exists
       const { data: existing, error: selectError } = await supabase
         .from('profiles')
-        .select('id, webhook_url, webhook_password')
+        .select('id, webhook_url')
         .eq('id', userId)
         .maybeSingle();
 
@@ -286,13 +286,13 @@ const Index = () => {
         }
         const { data: refetched } = await supabase
           .from('profiles')
-          .select('id, webhook_url, webhook_password')
+          .select('id, webhook_url')
           .eq('id', userId)
           .maybeSingle();
         profile = refetched || null;
       }
 
-      if (!profile?.webhook_url || !profile?.webhook_password) {
+      if (!profile?.webhook_url) {
         if (!userEmail) {
           toast.error('Missing account email. Please sign out and sign back in.');
           setLoadingWebhook(false);
@@ -315,14 +315,14 @@ const Index = () => {
         toast.success('Webhook created');
         const { data: after } = await supabase
           .from('profiles')
-          .select('webhook_url, webhook_password')
+          .select('webhook_url')
           .eq('id', userId)
           .maybeSingle();
         setActblueEndpoint(after?.webhook_url || '');
-        setActbluePassword(after?.webhook_password || '');
+        setActbluePassword('(Encrypted - not displayed for security)');
       } else {
         setActblueEndpoint(profile.webhook_url || '');
-        setActbluePassword(profile.webhook_password || '');
+        setActbluePassword('(Encrypted - not displayed for security)');
       }
     } catch (e) {
       console.error('Provisioning error', e);

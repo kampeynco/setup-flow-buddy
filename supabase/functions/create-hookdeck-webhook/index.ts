@@ -44,22 +44,57 @@ function randomPassword(bytes = 24) {
 async function getExistingProfile(user_id: string) {
   const { data, error } = await adminClient
     .from("profiles")
-    .select("id, webhook_url, webhook_password, source_id")
+    .select("id, webhook_url, source_id")
     .eq("id", user_id)
     .maybeSingle();
   if (error) throw error;
-  return data as { id: string; webhook_url?: string | null; webhook_password?: string | null; source_id?: string | null } | null;
+  
+  // Check if webhook credentials exist
+  const { data: credData, error: credError } = await adminClient
+    .from("webhook_credentials")
+    .select("password_hash")
+    .eq("profile_id", user_id)
+    .maybeSingle();
+    
+  const hasPassword = credData?.password_hash ? true : false;
+  
+  return data ? { ...data, webhook_password: hasPassword } : null;
 }
 
 async function upsertProfileWebhook(user_id: string, webhook_url: string, webhook_password: string, source_id: string) {
-  const { data, error } = await adminClient
+  // Generate a random salt
+  const salt = randomPassword(16);
+  
+  // Hash the password with salt
+  const { data: hashData, error: hashError } = await adminClient.rpc('hash_password_with_salt', {
+    password: webhook_password,
+    salt: salt
+  });
+  
+  if (hashError) throw hashError;
+  
+  // Update profile with webhook URL and source ID
+  const { data: profileData, error: profileError } = await adminClient
     .from("profiles")
-    .update({ webhook_url, webhook_password, source_id })
+    .update({ webhook_url, source_id })
     .eq("id", user_id)
     .select("id")
     .maybeSingle();
-  if (error) throw error;
-  return data;
+  
+  if (profileError) throw profileError;
+  
+  // Store encrypted password in webhook_credentials table
+  const { data: credData, error: credError } = await adminClient
+    .from("webhook_credentials")
+    .upsert({
+      profile_id: user_id,
+      password_hash: hashData,
+      salt: salt
+    }, { onConflict: 'profile_id' });
+    
+  if (credError) throw credError;
+  
+  return profileData;
 }
 
 async function createHookdeckConnection({ name, destination_id }: { name: string; destination_id: string }) {

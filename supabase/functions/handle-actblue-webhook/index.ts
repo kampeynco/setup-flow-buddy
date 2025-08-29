@@ -125,23 +125,42 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Use the existing profile ID for Julian for U.S. Senate
-    // In production, this should map donations to the correct user based on refcode or other identifiers
-    const defaultProfileId = 'bfcee165-f32d-48af-8f27-a3533541f807'
+    // Map donations to the correct user based on refcode
+    let profileId = null;
+    const refcode = payload.contribution.refcode;
     
-    // Verify the profile exists before proceeding
-    const { data: profileCheck, error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('id', defaultProfileId)
-      .single()
+    if (refcode) {
+      // Look up profile by refcode in campaign_mappings
+      const { data: mappingData, error: mappingError } = await supabase
+        .from('campaign_mappings')
+        .select('profile_id')
+        .eq('refcode', refcode)
+        .maybeSingle();
+      
+      if (mappingData) {
+        profileId = mappingData.profile_id;
+      }
+    }
     
-    if (profileError || !profileCheck) {
-      console.error('Profile not found:', profileError)
+    // Fallback to default mapping if no refcode match found
+    if (!profileId) {
+      const { data: defaultMapping, error: defaultError } = await supabase
+        .from('campaign_mappings')
+        .select('profile_id')
+        .eq('refcode', 'julian-for-senate')
+        .maybeSingle();
+        
+      if (defaultMapping) {
+        profileId = defaultMapping.profile_id;
+      }
+    }
+    
+    if (!profileId) {
+      console.error('No valid profile mapping found for refcode:', refcode)
       return new Response(
-        JSON.stringify({ error: 'Invalid profile configuration', details: profileError?.message }),
+        JSON.stringify({ error: 'No valid campaign mapping found', refcode }),
         { 
-          status: 500, 
+          status: 400, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
         }
       )
@@ -162,7 +181,7 @@ Deno.serve(async (req) => {
 
     // Prepare donation data
     const donationData = {
-      profile_id: defaultProfileId,
+      profile_id: profileId,
       donor_name: `${payload.donor.firstname} ${payload.donor.lastname}`,
       donor_email: payload.donor.email,
       donor_address: payload.donor.addr1,
@@ -230,7 +249,7 @@ Deno.serve(async (req) => {
       await supabase.functions.invoke('send-loops-notification', {
         body: {
           action: 'send_event',
-          profileId: defaultProfileId,
+          profileId: profileId,
           data: {
             eventName: 'donation_received',
             eventProperties: {
