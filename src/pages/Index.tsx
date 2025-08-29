@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SettingsDialog from "@/components/SettingsDialog";
 import { DonationsTable } from "@/components/DonationsTable";
+import { SubscriptionPill } from "@/components/SubscriptionPill";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanupAuthState } from "@/lib/utils";
 
@@ -447,27 +448,31 @@ const Index = () => {
   return <div className="min-h-screen">
       <header className="sticky top-0 z-50 bg-primary border-b">
         <div className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:px-0 py-3 flex items-center justify-between">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 bg-card text-primary hover:bg-card/90">
-                <Avatar className="h-6 w-6">
-                  <AvatarFallback>
-                    {profileLoading ? 'L' : (userProfile?.committee_name || userProfile?.email)?.charAt(0).toUpperCase() || 'L'}
-                  </AvatarFallback>
-                </Avatar>
-                {profileLoading 
-                  ? 'Loading...' 
-                  : (userProfile?.committee_name || userProfile?.email || 'Account')
-                }
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="z-50 bg-popover">
-              <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={handleSignOut}>Log out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2 bg-card text-primary hover:bg-card/90">
+                  <Avatar className="h-6 w-6">
+                    <AvatarFallback>
+                      {profileLoading ? 'L' : (userProfile?.committee_name || userProfile?.email)?.charAt(0).toUpperCase() || 'L'}
+                    </AvatarFallback>
+                  </Avatar>
+                  {profileLoading 
+                    ? 'Loading...' 
+                    : (userProfile?.committee_name || userProfile?.email || 'Account')
+                  }
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="z-50 bg-popover">
+                <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleSignOut}>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
+            <SubscriptionPill />
+          </div>
 
           <Button className="bg-card text-primary hover:bg-card/90">Get Free Month</Button>
         </div>
