@@ -88,6 +88,9 @@ serve(async (req) => {
         current_period_end: null, // No end date for free plan
         trial_end: null,
         trial_used: false
+      }, { 
+        onConflict: 'profile_id',
+        ignoreDuplicates: false 
       });
 
       return new Response(JSON.stringify({ 
