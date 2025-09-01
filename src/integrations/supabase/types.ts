@@ -400,6 +400,8 @@ export type Database = {
           lob_address_id: string | null
           loops_contact_id: string | null
           marketing_emails: boolean | null
+          onboarding_completed: boolean | null
+          onboarding_step: number | null
           organization_name: string | null
           postal_code: string | null
           source_id: string | null
@@ -407,6 +409,7 @@ export type Database = {
           status_updates: boolean | null
           street_address: string | null
           updated_at: string
+          webhook_setup_completed: boolean | null
           webhook_url: string | null
           weekly_digest: boolean | null
         }
@@ -424,6 +427,8 @@ export type Database = {
           lob_address_id?: string | null
           loops_contact_id?: string | null
           marketing_emails?: boolean | null
+          onboarding_completed?: boolean | null
+          onboarding_step?: number | null
           organization_name?: string | null
           postal_code?: string | null
           source_id?: string | null
@@ -431,6 +436,7 @@ export type Database = {
           status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
+          webhook_setup_completed?: boolean | null
           webhook_url?: string | null
           weekly_digest?: boolean | null
         }
@@ -448,6 +454,8 @@ export type Database = {
           lob_address_id?: string | null
           loops_contact_id?: string | null
           marketing_emails?: boolean | null
+          onboarding_completed?: boolean | null
+          onboarding_step?: number | null
           organization_name?: string | null
           postal_code?: string | null
           source_id?: string | null
@@ -455,6 +463,7 @@ export type Database = {
           status_updates?: boolean | null
           street_address?: string | null
           updated_at?: string
+          webhook_setup_completed?: boolean | null
           webhook_url?: string | null
           weekly_digest?: boolean | null
         }

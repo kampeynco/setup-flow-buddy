@@ -51,17 +51,31 @@ export default function Auth() {
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const checkUserAndRedirect = async (session: any) => {
       if (session?.user) {
-        // Redirect authenticated users
-        window.location.href = "/dashboard";
+        // Check if user has completed onboarding
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('onboarding_completed, webhook_setup_completed')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.onboarding_completed) {
+          window.location.href = "/dashboard";
+        } else if (profile?.webhook_setup_completed) {
+          window.location.href = "/onboarding/step-1";
+        } else {
+          window.location.href = "/onboarding/webhook";
+        }
       }
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      checkUserAndRedirect(session);
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        window.location.href = "/dashboard";
-      }
+      checkUserAndRedirect(session);
     });
 
     return () => subscription.unsubscribe();
@@ -88,10 +102,25 @@ export default function Auth() {
     try {
       cleanupAuthState();
       try { await supabase.auth.signOut({ scope: 'global' }); } catch {}
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
+      
+      // Check onboarding status
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarding_completed, webhook_setup_completed')
+        .eq('id', data.user.id)
+        .single();
+
       toast.success("Signed in");
-      window.location.href = "/dashboard";
+      
+      if (profile?.onboarding_completed) {
+        window.location.href = "/dashboard";
+      } else if (profile?.webhook_setup_completed) {
+        window.location.href = "/onboarding/step-1";
+      } else {
+        window.location.href = "/onboarding/webhook";
+      }
     } catch (err: any) {
       toast.error(err?.message || "Unable to sign in");
     } finally {

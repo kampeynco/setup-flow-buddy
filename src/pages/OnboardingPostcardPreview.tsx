@@ -1,0 +1,258 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { OnboardingLayout } from "./OnboardingLayout";
+
+export default function OnboardingPostcardPreview() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [senderInfo, setSenderInfo] = useState({
+    committeeName: "",
+    streetAddress: "",
+    city: "",
+    state: "",
+    postalCode: ""
+  });
+  const [postcardSettings, setPostcardSettings] = useState({
+    backgroundColor: "#ffffff",
+    textColor: "#333333",
+    messageText: "Thank you for your generous donation! Your support makes our campaign possible."
+  });
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          navigate("/auth");
+          return;
+        }
+
+        // Load profile data
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (profile) {
+          // Check if user should be here
+          if (profile.onboarding_completed) {
+            navigate("/dashboard");
+            return;
+          }
+          if (profile.onboarding_step < 2) {
+            navigate("/onboarding/step-1");
+            return;
+          }
+
+          setSenderInfo({
+            committeeName: profile.committee_name || "",
+            streetAddress: profile.street_address || "",
+            city: profile.city || "",
+            state: profile.state || "",
+            postalCode: profile.postal_code || ""
+          });
+
+          // Load existing template if available
+          const { data: template } = await supabase
+            .from('templates')
+            .select('*')
+            .eq('profile_id', user.id)
+            .eq('template_name', 'Onboarding Default')
+            .single();
+
+          if (template) {
+            setPostcardSettings({
+              backgroundColor: template.frontpsc_background_color || "#ffffff",
+              textColor: template.frontpsc_text_color || "#333333",
+              messageText: template.frontpsc_background_text || "Thank you for your generous donation! Your support makes our campaign possible."
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+      }
+    };
+
+    loadProfile();
+  }, [navigate]);
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+        return;
+      }
+
+      // Save template
+      const { error: templateError } = await supabase
+        .from('templates')
+        .upsert({
+          profile_id: user.id,
+          template_name: 'Onboarding Default',
+          frontpsc_background_color: postcardSettings.backgroundColor,
+          frontpsc_text_color: postcardSettings.textColor,
+          frontpsc_background_text: postcardSettings.messageText,
+          frontpsc_bg_type: 'color'
+        });
+
+      if (templateError) {
+        toast.error("Failed to save template");
+        return;
+      }
+
+      // Update onboarding step
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ onboarding_step: 3 })
+        .eq('id', user.id);
+
+      if (profileError) {
+        toast.error("Failed to update progress");
+        return;
+      }
+
+      toast.success("Template saved!");
+      navigate("/onboarding/step-3");
+    } catch (error) {
+      console.error('Error saving template:', error);
+      toast.error("Failed to save template");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigate("/onboarding/step-1");
+  };
+
+  return (
+    <OnboardingLayout
+      currentStep={3}
+      totalSteps={4}
+      title="Postcard Preview"
+      description="See how your postcards will look and customize the message"
+      onBack={handleBack}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Customization Panel */}
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Customize Your Postcard</h3>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="message-text">Thank You Message</Label>
+                <Textarea
+                  id="message-text"
+                  value={postcardSettings.messageText}
+                  onChange={(e) => setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }))}
+                  placeholder="Enter your thank you message..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="bg-color">Background Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="bg-color"
+                      type="color"
+                      value={postcardSettings.backgroundColor}
+                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                      className="w-12 h-10 p-1 rounded"
+                    />
+                    <Input
+                      value={postcardSettings.backgroundColor}
+                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                      placeholder="#ffffff"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="text-color">Text Color</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="text-color"
+                      type="color"
+                      value={postcardSettings.textColor}
+                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, textColor: e.target.value }))}
+                      className="w-12 h-10 p-1 rounded"
+                    />
+                    <Input
+                      value={postcardSettings.textColor}
+                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, textColor: e.target.value }))}
+                      placeholder="#333333"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Preview Panel */}
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Preview</h3>
+            
+            {/* Postcard Preview */}
+            <div className="aspect-[3/2] border-2 border-dashed border-border rounded-lg overflow-hidden">
+              <div 
+                className="w-full h-full flex items-center justify-center p-4"
+                style={{ 
+                  backgroundColor: postcardSettings.backgroundColor,
+                  color: postcardSettings.textColor
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-lg font-semibold mb-2">
+                    {senderInfo.committeeName || "Your Committee Name"}
+                  </div>
+                  <div className="text-sm mb-4">
+                    {postcardSettings.messageText}
+                  </div>
+                  <div className="text-xs text-opacity-75" style={{ color: postcardSettings.textColor }}>
+                    {senderInfo.streetAddress && (
+                      <div>{senderInfo.streetAddress}</div>
+                    )}
+                    {(senderInfo.city || senderInfo.state || senderInfo.postalCode) && (
+                      <div>
+                        {senderInfo.city}{senderInfo.city && senderInfo.state ? ', ' : ''}{senderInfo.state} {senderInfo.postalCode}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 text-xs text-muted-foreground text-center">
+              This is a simplified preview. The actual postcard will include donor information and mailing details.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="flex justify-end mt-8">
+        <Button 
+          onClick={handleSave}
+          disabled={loading}
+          className="min-w-32"
+        >
+          {loading ? "Saving..." : "Continue"}
+        </Button>
+      </div>
+    </OnboardingLayout>
+  );
+}
