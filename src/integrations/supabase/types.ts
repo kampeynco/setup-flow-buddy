@@ -813,25 +813,22 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          password_hash: string
           profile_id: string
-          salt: string
+          raw_password: string
           updated_at: string
         }
         Insert: {
           created_at?: string
           id?: string
-          password_hash: string
           profile_id: string
-          salt: string
+          raw_password: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           id?: string
-          password_hash?: string
           profile_id?: string
-          salt?: string
+          raw_password?: string
           updated_at?: string
         }
         Relationships: [
@@ -852,14 +849,6 @@ export type Database = {
       get_user_count: {
         Args: Record<PropertyKey, never>
         Returns: number
-      }
-      hash_password_with_salt: {
-        Args: { password: string; salt: string }
-        Returns: string
-      }
-      verify_password: {
-        Args: { hash: string; password: string; salt: string }
-        Returns: boolean
       }
     }
     Enums: {

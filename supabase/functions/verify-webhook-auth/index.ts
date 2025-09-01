@@ -27,10 +27,10 @@ serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    // Get the stored password hash and salt
+    // Get the stored raw password
     const { data: credData, error: credError } = await supabase
       .from("webhook_credentials")
-      .select("password_hash, salt")
+      .select("raw_password")
       .eq("profile_id", profileId)
       .maybeSingle();
 
@@ -41,20 +41,8 @@ serve(async (req) => {
       });
     }
 
-    // Verify the password
-    const { data: isValid, error: verifyError } = await supabase.rpc('verify_password', {
-      password: providedPassword,
-      hash: credData.password_hash,
-      salt: credData.salt
-    });
-
-    if (verifyError) {
-      console.error("Password verification error:", verifyError);
-      return new Response(JSON.stringify({ valid: false, error: "Verification failed" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 500,
-      });
-    }
+    // Compare the raw passwords directly
+    const isValid = providedPassword === credData.raw_password;
 
     return new Response(JSON.stringify({ valid: isValid }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
