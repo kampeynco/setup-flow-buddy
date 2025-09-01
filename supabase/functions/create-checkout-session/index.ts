@@ -15,6 +15,15 @@ serve(async (req) => {
   try {
     const { planId } = await req.json();
     
+    // Check Stripe API key first
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    console.log("Stripe key exists:", !!stripeKey);
+    console.log("Stripe key length:", stripeKey?.length || 0);
+    
+    if (!stripeKey) {
+      throw new Error("STRIPE_SECRET_KEY not configured");
+    }
+    
     // Get user authentication
     const authHeader = req.headers.get("Authorization")!;
     const token = authHeader.replace("Bearer ", "");
@@ -36,13 +45,19 @@ serve(async (req) => {
       .from("subscription_plans")
       .select("*")
       .eq("id", planId)
-      .single();
+      .maybeSingle();
       
-    if (planError || !planData) {
+    if (planError) {
+      console.error("Plan query error:", planError);
+      throw new Error("Error fetching plan details");
+    }
+    
+    if (!planData) {
+      console.error("No plan found for ID:", planId);
       throw new Error("Invalid plan selected");
     }
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+    const stripe = new Stripe(stripeKey, {
       apiVersion: "2023-10-16",
     });
 
