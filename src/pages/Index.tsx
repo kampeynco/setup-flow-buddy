@@ -300,12 +300,14 @@ const Index = () => {
           return;
         }
         toast.info('Creating your ActBlue webhook...');
+        console.log('Calling create-hookdeck-webhook with:', { user_id: userId, email: userEmail });
         const { data: fnData, error: fnError } = await supabase.functions.invoke('create-hookdeck-webhook', {
           body: {
             user_id: userId,
             email: userEmail,
           },
         });
+        console.log('Function response:', { fnData, fnError });
         if (fnError) {
           console.error('Webhook creation error', fnError, fnData);
           const serverMessage = (fnData as any)?.error || (fnError as any)?.message || 'Failed to create webhook.';
