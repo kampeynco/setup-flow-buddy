@@ -100,6 +100,7 @@ const Index = () => {
   const [actblueUsername, setActblueUsername] = useState("");
   const [actbluePassword, setActbluePassword] = useState("");
   const [loadingWebhook, setLoadingWebhook] = useState(true);
+  const [fetchingPassword, setFetchingPassword] = useState(false);
 
   // Address form state
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -133,6 +134,24 @@ const Index = () => {
     }
   };
 
+  // Fetch webhook password
+  const fetchWebhookPassword = async () => {
+    setFetchingPassword(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('get-webhook-credentials');
+      if (error) {
+        console.error('Error fetching webhook password:', error);
+        return 'Unable to retrieve password';
+      }
+      return data?.password || 'No password found';
+    } catch (error) {
+      console.error('Error fetching webhook password:', error);
+      return 'Unable to retrieve password';
+    } finally {
+      setFetchingPassword(false);
+    }
+  };
+
   // Fetch user profile data
   const fetchUserProfile = async () => {
     try {
@@ -145,7 +164,7 @@ const Index = () => {
       // Get profile data
       const { data: profile } = await supabase
         .from('profiles')
-        .select('committee_name')
+        .select('committee_name, webhook_url')
         .eq('id', user.id)
         .single();
 
@@ -153,6 +172,12 @@ const Index = () => {
         email: user.email,
         committee_name: profile?.committee_name
       });
+
+      // If webhook exists, fetch the password
+      if (profile?.webhook_url) {
+        const password = await fetchWebhookPassword();
+        setActbluePassword(password);
+      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
       // Fallback to just user email
@@ -322,10 +347,16 @@ const Index = () => {
           .eq('id', userId)
           .maybeSingle();
         setActblueEndpoint(after?.webhook_url || '');
-        setActbluePassword('(Encrypted - not displayed for security)');
+        
+        // Fetch the actual password
+        const password = await fetchWebhookPassword();
+        setActbluePassword(password);
       } else {
         setActblueEndpoint(profile.webhook_url || '');
-        setActbluePassword('(Encrypted - not displayed for security)');
+        
+        // Fetch the actual password
+        const password = await fetchWebhookPassword();
+        setActbluePassword(password);
       }
     } catch (e) {
       console.error('Provisioning error', e);
@@ -1065,7 +1096,7 @@ const Index = () => {
                                 <div className="space-y-4">
                                   <CopyField id="endpoint" label="Endpoint URL" value={actblueEndpoint} type="url" />
                                   <CopyField id="username" label="Username" value={actblueUsername} />
-                                  <CopyField id="password" label="Password" value={actbluePassword} type="password" />
+                                  <CopyField id="password" label="Password" value={fetchingPassword ? 'Loading password...' : actbluePassword} type="password" />
                                 </div>
                               )}
                             </TabsContent>
