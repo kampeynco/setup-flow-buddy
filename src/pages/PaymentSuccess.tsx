@@ -65,7 +65,7 @@ export function PaymentSuccess() {
   }, [sessionId, toast]);
 
   const handleContinue = () => {
-    navigate("/", { replace: true });
+    navigate("/dashboard", { replace: true });
   };
 
   if (processing) {
