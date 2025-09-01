@@ -19,14 +19,14 @@ serve(async (req) => {
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     console.log("Stripe key exists:", !!stripeKey);
     console.log("Stripe key length:", stripeKey?.length || 0);
-    console.log("Stripe key prefix:", stripeKey?.substring(0, 8));
+    console.log("Stripe key prefix:", stripeKey?.substring(0, 15));
     
     if (!stripeKey) {
       throw new Error("STRIPE_SECRET_KEY not configured");
     }
     
     if (!stripeKey.startsWith('sk_test_') && !stripeKey.startsWith('sk_live_')) {
-      throw new Error("Invalid Stripe API key format. Must start with sk_test_ or sk_live_");
+      throw new Error(`Invalid Stripe API key format. Key starts with: ${stripeKey?.substring(0, 15)}`);
     }
     
     // Get user authentication
