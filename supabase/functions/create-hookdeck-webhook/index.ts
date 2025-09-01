@@ -240,20 +240,27 @@ async function updateHookdeckSourceAuth(sourceId: string, username: string, pass
 }
 
 serve(async (req) => {
+  console.log("=== CREATE-HOOKDECK-WEBHOOK FUNCTION START ===");
+  
   if (req.method === "OPTIONS") {
+    console.log("Handling OPTIONS request");
     return new Response(null, { headers: corsHeaders });
   }
 
   if (req.method !== "POST") {
+    console.log("Invalid method:", req.method);
     return jsonResponse({ error: "Method not allowed" }, { status: 405 });
   }
 
   try {
+    console.log("Starting webhook creation process...");
+    
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       console.log("Missing Authorization header");
       return jsonResponse({ error: "Missing Authorization header" }, { status: 401 });
     }
+    console.log("Authorization header present");
 
     console.log("Parsing request body...");
     const requestBody = await req.json().catch((e) => {
@@ -262,7 +269,13 @@ serve(async (req) => {
     });
     
     const { user_id, email } = requestBody;
-    console.log("Request body parsed:", { user_id: user_id ? "present" : "missing", email: email ? "present" : "missing", emailType: typeof email, emailValue: email });
+    console.log("Request body parsed:", { 
+      user_id: user_id ? "present" : "missing", 
+      email: email ? "present" : "missing", 
+      emailType: typeof email, 
+      emailValue: email,
+      fullBody: requestBody
+    });
 
     if (!user_id || typeof user_id !== "string") {
       console.log("Invalid user_id:", { user_id, type: typeof user_id });
@@ -287,12 +300,25 @@ serve(async (req) => {
       console.log("Invalid email:", { email, type: typeof email, truthiness: !!email });
       return jsonResponse({ error: "Missing email (username for basic auth)" }, { status: 400 });
     }
+    console.log("Email validated successfully:", email);
 
     // Generate a secure password server-side
+    console.log("Generating secure password...");
     const password = randomPassword(24);
+    console.log("Password generated, length:", password.length);
 
     // Create a Hookdeck connection (creates a Source automatically)
+    console.log("Creating Hookdeck connection...", { 
+      name: user_id, 
+      destination_id: HOOKDECK_DESTINATION_ID,
+      hasApiKey: !!HOOKDECK_API_KEY 
+    });
     const connection = await createHookdeckConnection({ name: user_id, destination_id: HOOKDECK_DESTINATION_ID });
+    console.log("Hookdeck connection created:", { 
+      hasSource: !!connection?.source,
+      hasSources: !!connection?.sources,
+      sourcesLength: Array.isArray(connection?.sources) ? connection.sources.length : 0
+    });
 
     // Extract source id and url from the connection response
     let sourceId = "";
@@ -300,9 +326,11 @@ serve(async (req) => {
     if (connection?.source) {
       sourceId = connection.source.id ?? "";
       webhookUrl = connection.source.url ?? "";
+      console.log("Using connection.source:", { sourceId, webhookUrl });
     } else if (Array.isArray(connection?.sources) && connection.sources.length > 0) {
       sourceId = connection.sources[0].id ?? "";
       webhookUrl = connection.sources[0].url ?? "";
+      console.log("Using connection.sources[0]:", { sourceId, webhookUrl });
     }
 
     if (!sourceId || !webhookUrl) {
@@ -311,11 +339,16 @@ serve(async (req) => {
     }
 
     // Update source with Basic Auth credentials
+    console.log("Updating Hookdeck source with auth...", { sourceId, username: email });
     await updateHookdeckSourceAuth(sourceId, email, password);
+    console.log("Hookdeck source auth updated successfully");
 
     // Persist to profile
+    console.log("Persisting webhook data to profile...");
     await upsertProfileWebhook(user_id, webhookUrl, password, sourceId);
+    console.log("Profile webhook data persisted successfully");
 
+    console.log("=== WEBHOOK CREATION COMPLETED SUCCESSFULLY ===");
     return jsonResponse({ status: "ok", webhook_url: webhookUrl });
   } catch (e) {
     console.error("create-hookdeck-webhook error:", e);
