@@ -214,23 +214,40 @@ serve(async (req) => {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
+      console.log("Missing Authorization header");
       return jsonResponse({ error: "Missing Authorization header" }, { status: 401 });
     }
 
-    const { user_id, email } = await req.json().catch(() => ({ user_id: undefined, email: undefined }));
+    console.log("Parsing request body...");
+    const requestBody = await req.json().catch((e) => {
+      console.error("Failed to parse request body:", e);
+      return { user_id: undefined, email: undefined };
+    });
+    
+    const { user_id, email } = requestBody;
+    console.log("Request body parsed:", { user_id: user_id ? "present" : "missing", email: email ? "present" : "missing", emailType: typeof email, emailValue: email });
 
     if (!user_id || typeof user_id !== "string") {
+      console.log("Invalid user_id:", { user_id, type: typeof user_id });
       return jsonResponse({ error: "Invalid or missing user_id" }, { status: 400 });
     }
 
     // Idempotency: if profile already has webhook details, return early
+    console.log("Checking existing profile for user:", user_id);
     const existing = await getExistingProfile(user_id);
+    console.log("Existing profile check result:", { 
+      hasWebhookUrl: !!existing?.webhook_url, 
+      hasWebhookPassword: !!existing?.webhook_password,
+      existing 
+    });
+    
     if (existing?.webhook_url && existing?.webhook_password) {
       console.log("Webhook already provisioned for", user_id);
       return jsonResponse({ status: "already_provisioned", webhook_url: existing.webhook_url });
     }
 
     if (!email || typeof email !== "string") {
+      console.log("Invalid email:", { email, type: typeof email, truthiness: !!email });
       return jsonResponse({ error: "Missing email (username for basic auth)" }, { status: 400 });
     }
 
