@@ -38,6 +38,9 @@ interface ActBlueContribution {
     paymentId: number
     lineitemId: number
     amountLessAbFees: string
+    committeeName: string
+    fecId?: string
+    sequence?: number
   }>
 }
 
@@ -125,48 +128,7 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Map donations to the correct user based on refcode
-    let profileId = null;
-    const refcode = payload.contribution.refcode;
-    
-    if (refcode) {
-      // Look up profile by refcode in campaign_mappings
-      const { data: mappingData, error: mappingError } = await supabase
-        .from('campaign_mappings')
-        .select('profile_id')
-        .eq('refcode', refcode)
-        .maybeSingle();
-      
-      if (mappingData) {
-        profileId = mappingData.profile_id;
-      }
-    }
-    
-    // Fallback to default mapping if no refcode match found
-    if (!profileId) {
-      const { data: defaultMapping, error: defaultError } = await supabase
-        .from('campaign_mappings')
-        .select('profile_id')
-        .eq('refcode', 'julian-for-senate')
-        .maybeSingle();
-        
-      if (defaultMapping) {
-        profileId = defaultMapping.profile_id;
-      }
-    }
-    
-    if (!profileId) {
-      console.error('No valid profile mapping found for refcode:', refcode)
-      return new Response(
-        JSON.stringify({ error: 'No valid campaign mapping found', refcode }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    // Get the first lineitem for the donation amount and date
+    // Get the first lineitem to extract committee name
     const firstLineitem = payload.lineitems[0]
     if (!firstLineitem) {
       console.error('No lineitems found in payload')
@@ -178,6 +140,56 @@ Deno.serve(async (req) => {
         }
       )
     }
+
+    // Map donations to the correct user based on committee name
+    const committeeName = firstLineitem.committeeName;
+    
+    if (!committeeName) {
+      console.error('No committeeName found in lineitem')
+      return new Response(
+        JSON.stringify({ error: 'No committee name found in donation' }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    console.log('Looking up profile for committee:', committeeName)
+
+    // Look up profile by committee name
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('committee_name', committeeName)
+      .maybeSingle();
+    
+    if (profileError) {
+      console.error('Error looking up profile:', profileError)
+      return new Response(
+        JSON.stringify({ error: 'Database error looking up committee', details: profileError.message }),
+        { 
+          status: 500, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+    
+    if (!profile) {
+      console.error('No profile found for committee name:', committeeName)
+      return new Response(
+        JSON.stringify({ error: 'No profile found for committee', committeeName }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      )
+    }
+
+    const profileId = profile.id;
+    console.log('Found profile ID:', profileId, 'for committee:', committeeName)
+
+    // We already have firstLineitem from above
 
     // Prepare donation data
     const donationData = {
