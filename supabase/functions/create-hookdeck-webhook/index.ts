@@ -71,14 +71,34 @@ async function upsertProfileWebhook(user_id: string, webhook_url: string, webhoo
     
     // Hash the password with salt
     console.log("Calling hash_password_with_salt RPC...");
+    console.log("RPC parameters:", { 
+      password: "***redacted***", 
+      salt: salt,
+      passwordLength: webhook_password.length,
+      saltLength: salt.length 
+    });
+    
     const { data: hashData, error: hashError } = await adminClient.rpc('hash_password_with_salt', {
       password: webhook_password,
       salt: salt
     });
     
-    console.log("Hash RPC result:", { hashData, hashError });
+    console.log("Hash RPC result:", { 
+      hasData: !!hashData, 
+      dataLength: hashData?.length || 0,
+      error: hashError,
+      errorMessage: hashError?.message,
+      errorCode: hashError?.code,
+      errorDetails: hashError?.details 
+    });
+    
     if (hashError) {
-      console.error("Hash password error:", hashError);
+      console.error("Hash password error details:", {
+        message: hashError.message,
+        code: hashError.code,
+        details: hashError.details,
+        hint: hashError.hint
+      });
       throw new Error(`Failed to hash password: ${hashError.message}`);
     }
     
@@ -86,6 +106,8 @@ async function upsertProfileWebhook(user_id: string, webhook_url: string, webhoo
       console.error("No hash data returned from RPC");
       throw new Error("Hash function returned null");
     }
+    
+    console.log("Hash successful, proceeding to profile update...");
     
     // Update profile with webhook URL and source ID
     console.log("Updating profile with webhook_url and source_id...");
@@ -109,14 +131,25 @@ async function upsertProfileWebhook(user_id: string, webhook_url: string, webhoo
       password_hash: hashData,
       salt: salt
     };
-    console.log("Credentials payload:", { ...credentialsPayload, password_hash: "***redacted***" });
+    console.log("Credentials payload:", { 
+      profile_id: user_id, 
+      password_hash: "***redacted***", 
+      salt: "***redacted***",
+      hashLength: hashData.length,
+      saltLength: salt.length 
+    });
     
     const { data: credData, error: credError } = await adminClient
       .from("webhook_credentials")
       .upsert(credentialsPayload, { onConflict: 'profile_id' })
       .select("*");
       
-    console.log("Webhook credentials upsert result:", { credData, credError });
+    console.log("Webhook credentials upsert result:", { 
+      hasData: !!credData, 
+      dataCount: credData?.length || 0,
+      error: credError 
+    });
+    
     if (credError) {
       console.error("Webhook credentials upsert error:", credError);
       throw new Error(`Failed to upsert webhook credentials: ${credError.message}`);
@@ -125,7 +158,11 @@ async function upsertProfileWebhook(user_id: string, webhook_url: string, webhoo
     console.log("Successfully completed upsertProfileWebhook");
     return profileData;
   } catch (error) {
-    console.error("Error in upsertProfileWebhook:", error);
+    console.error("Error in upsertProfileWebhook:", {
+      errorType: error.constructor.name,
+      message: error.message,
+      stack: error.stack?.substring(0, 500) // Limit stack trace length
+    });
     throw error;
   }
 }
