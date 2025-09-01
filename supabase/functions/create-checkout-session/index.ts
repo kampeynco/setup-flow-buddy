@@ -13,29 +13,55 @@ serve(async (req) => {
   }
 
   try {
-    const { planId } = await req.json();
+    console.log("=== STRIPE KEY DEBUG START ===");
     
-    // Check Stripe API key first
+    // First, let's check all environment variables
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    console.log("Stripe key exists:", !!stripeKey);
-    console.log("Stripe key length:", stripeKey?.length || 0);
-    console.log("Stripe key prefix:", stripeKey?.substring(0, 15));
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
+    
+    console.log("Environment check:");
+    console.log("- STRIPE_SECRET_KEY exists:", !!stripeKey);
+    console.log("- STRIPE_SECRET_KEY length:", stripeKey?.length || 0);
+    console.log("- STRIPE_SECRET_KEY first 15 chars:", stripeKey?.substring(0, 15) || "undefined");
+    console.log("- SUPABASE_URL exists:", !!supabaseUrl);
+    console.log("- SUPABASE_ANON_KEY exists:", !!supabaseKey);
     
     if (!stripeKey) {
-      throw new Error("STRIPE_SECRET_KEY not configured");
+      console.error("STRIPE_SECRET_KEY is null or undefined");
+      throw new Error("STRIPE_SECRET_KEY not found in environment");
     }
     
-    if (!stripeKey.startsWith('sk_test_') && !stripeKey.startsWith('sk_live_')) {
-      throw new Error(`Invalid Stripe API key format. Key starts with: ${stripeKey?.substring(0, 15)}`);
+    // Test Stripe initialization
+    console.log("Initializing Stripe with key...");
+    const stripe = new Stripe(stripeKey, {
+      apiVersion: "2023-10-16",
+    });
+    
+    console.log("Stripe initialized successfully");
+    
+    // Test a simple Stripe API call
+    console.log("Testing Stripe API with key...");
+    try {
+      const testCustomers = await stripe.customers.list({ limit: 1 });
+      console.log("Stripe API test successful, found", testCustomers.data.length, "customers");
+    } catch (stripeError) {
+      console.error("Stripe API test failed:", stripeError.message);
+      throw new Error(`Stripe API error: ${stripeError.message}`);
     }
+    
+    console.log("=== STRIPE KEY DEBUG END ===");
+    
+    // If we get here, Stripe is working - continue with original logic
+    const { planId } = await req.json();
     
     // Get user authentication
     const authHeader = req.headers.get("Authorization")!;
     const token = authHeader.replace("Bearer ", "");
     
     const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+      supabaseUrl ?? "",
+      supabaseKey ?? ""
     );
     
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
@@ -61,10 +87,6 @@ serve(async (req) => {
       console.error("No plan found for ID:", planId);
       throw new Error("Invalid plan selected");
     }
-
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2023-10-16",
-    });
 
     // Check if customer exists
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
