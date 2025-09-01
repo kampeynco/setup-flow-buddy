@@ -81,18 +81,108 @@ serve(async (req) => {
       throw new Error("No active subscription found");
     }
 
+    // Calculate charge amount based on plan
+    const chargeAmount = subscription.plan.per_mailing_fee; // Keep as dollars for balance operations
+    const planType = subscription.plan.name.toLowerCase();
+
+    // For Pay as You Go (Free plan), deduct from account balance instead of Stripe charging
+    if (subscription.plan.name === "Free") {
+      // Check account balance
+      const { data: balance } = await supabase
+        .from("account_balances")
+        .select("current_balance")
+        .eq("profile_id", profileId)
+        .single();
+
+      if (!balance) {
+        throw new Error("No account balance found");
+      }
+
+      const currentBalance = parseFloat(balance.current_balance);
+      if (currentBalance < chargeAmount) {
+        throw new Error(`Insufficient balance. Current: $${currentBalance}, Required: $${chargeAmount}`);
+      }
+
+      // Deduct from balance
+      const newBalance = currentBalance - chargeAmount;
+      await supabase
+        .from("account_balances")
+        .update({ current_balance: newBalance })
+        .eq("profile_id", profileId);
+
+      // Record the balance transaction
+      await supabase
+        .from("balance_transactions")
+        .insert({
+          profile_id: profileId,
+          transaction_type: "usage",
+          amount: -chargeAmount,
+          balance_after: newBalance,
+          description: `Postcard mailing charge - $${chargeAmount}`,
+          postcard_id: postcardId
+        });
+
+      // Record usage charge (no Stripe invoice for balance deduction)
+      await supabase.from("usage_charges").insert({
+        profile_id: profileId,
+        postcard_id: postcardId,
+        amount: chargeAmount,
+        stripe_invoice_item_id: null,
+        plan_type: planType
+      });
+
+      // Mark postcard as billed
+      await supabase
+        .from("postcards")
+        .update({ 
+          usage_billed: true
+        })
+        .eq("id", postcardId);
+
+      // Check if auto top-up needed (balance < $10)
+      let autoTopupTriggered = false;
+      if (newBalance < 10) {
+        const { data: balanceRecord } = await supabase
+          .from("account_balances")
+          .select("auto_topup_enabled")
+          .eq("profile_id", profileId)
+          .single();
+
+        if (balanceRecord?.auto_topup_enabled) {
+          // Trigger auto top-up via the manage-account-balance function
+          const topupResponse = await supabase.functions.invoke('manage-account-balance', {
+            body: {
+              action: 'auto_topup',
+              userId: profileId
+            }
+          });
+          autoTopupTriggered = !topupResponse.error;
+        }
+      }
+
+      console.log(`Usage deducted from balance for postcard ${postcardId}: $${chargeAmount}. New balance: $${newBalance}`);
+
+      return new Response(JSON.stringify({ 
+        success: true,
+        amount: chargeAmount,
+        payment_method: "account_balance",
+        new_balance: newBalance,
+        auto_topup_triggered: autoTopupTriggered
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    } 
+    
+    // For Pro users, continue with Stripe invoice billing
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
 
-    // Calculate charge amount based on plan
-    const chargeAmount = subscription.plan.per_mailing_fee * 100; // Convert to cents
-    const planType = subscription.plan.name.toLowerCase();
-
     // Create invoice item for usage charge
     const invoiceItem = await stripe.invoiceItems.create({
       customer: subscription.stripe_customer_id,
-      amount: chargeAmount,
+      amount: Math.round(chargeAmount * 100), // Convert to cents for Stripe
       currency: "usd",
       description: `Postcard mailing - ${subscription.plan.name} plan`,
       metadata: {
@@ -116,7 +206,7 @@ serve(async (req) => {
     await supabase.from("usage_charges").insert({
       profile_id: profileId,
       postcard_id: postcardId,
-      amount: subscription.plan.per_mailing_fee,
+      amount: chargeAmount,
       stripe_invoice_item_id: invoiceItem.id,
       plan_type: planType
     });
@@ -130,11 +220,12 @@ serve(async (req) => {
       })
       .eq("id", postcardId);
 
-    console.log(`Usage charge created for postcard ${postcardId}: $${subscription.plan.per_mailing_fee}`);
+    console.log(`Usage charge created for postcard ${postcardId}: $${chargeAmount}`);
 
     return new Response(JSON.stringify({ 
       success: true,
-      amount: subscription.plan.per_mailing_fee,
+      amount: chargeAmount,
+      payment_method: "stripe_invoice",
       invoiceItemId: invoiceItem.id
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

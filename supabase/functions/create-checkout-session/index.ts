@@ -57,20 +57,33 @@ serve(async (req) => {
     let sessionConfig: any = {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      success_url: `${req.headers.get("origin")}/dashboard?checkout=success`,
+      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get("origin")}/dashboard?checkout=canceled`,
     };
 
     if (planData.name === "Free") {
-      // For Pay as You Go plan, use setup mode to collect payment method
+      // For Pay as You Go plan, create $50 initial charge
       sessionConfig = {
         ...sessionConfig,
-        mode: "setup",
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: { 
+                name: "Pay as You Go - Initial Account Balance",
+                description: "$50 credit added to your account balance"
+              },
+              unit_amount: 5000, // $50.00 in cents
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "payment",
         payment_method_types: ["card"],
         metadata: {
           userId: user.id,
           planId: planId.toString(),
-          planType: "pay_as_you_go"
+          planType: "pay_as_you_go_initial"
         }
       };
     } else {

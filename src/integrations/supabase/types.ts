@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_balances: {
+        Row: {
+          auto_topup_enabled: boolean
+          created_at: string
+          current_balance: number
+          id: string
+          last_topup_at: string | null
+          profile_id: string
+          updated_at: string
+        }
+        Insert: {
+          auto_topup_enabled?: boolean
+          created_at?: string
+          current_balance?: number
+          id?: string
+          last_topup_at?: string | null
+          profile_id: string
+          updated_at?: string
+        }
+        Update: {
+          auto_topup_enabled?: boolean
+          created_at?: string
+          current_balance?: number
+          id?: string
+          last_topup_at?: string | null
+          profile_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      balance_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          description: string | null
+          id: string
+          postcard_id: string | null
+          profile_id: string
+          stripe_payment_intent_id: string | null
+          transaction_type: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          postcard_id?: string | null
+          profile_id: string
+          stripe_payment_intent_id?: string | null
+          transaction_type: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          postcard_id?: string | null
+          profile_id?: string
+          stripe_payment_intent_id?: string | null
+          transaction_type?: string
+        }
+        Relationships: []
+      }
       campaign_mappings: {
         Row: {
           campaign_name: string | null
