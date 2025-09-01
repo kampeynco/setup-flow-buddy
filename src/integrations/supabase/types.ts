@@ -80,41 +80,6 @@ export type Database = {
         }
         Relationships: []
       }
-      campaign_mappings: {
-        Row: {
-          campaign_name: string | null
-          created_at: string
-          id: string
-          profile_id: string
-          refcode: string
-          updated_at: string
-        }
-        Insert: {
-          campaign_name?: string | null
-          created_at?: string
-          id?: string
-          profile_id: string
-          refcode: string
-          updated_at?: string
-        }
-        Update: {
-          campaign_name?: string | null
-          created_at?: string
-          id?: string
-          profile_id?: string
-          refcode?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "campaign_mappings_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       csvs: {
         Row: {
           created_at: string
