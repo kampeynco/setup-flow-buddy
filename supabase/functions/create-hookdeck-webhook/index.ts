@@ -62,39 +62,72 @@ async function getExistingProfile(user_id: string) {
 }
 
 async function upsertProfileWebhook(user_id: string, webhook_url: string, webhook_password: string, source_id: string) {
-  // Generate a random salt
-  const salt = randomPassword(16);
+  console.log("Starting upsertProfileWebhook for user:", user_id);
   
-  // Hash the password with salt
-  const { data: hashData, error: hashError } = await adminClient.rpc('hash_password_with_salt', {
-    password: webhook_password,
-    salt: salt
-  });
-  
-  if (hashError) throw hashError;
-  
-  // Update profile with webhook URL and source ID
-  const { data: profileData, error: profileError } = await adminClient
-    .from("profiles")
-    .update({ webhook_url, source_id })
-    .eq("id", user_id)
-    .select("id")
-    .maybeSingle();
-  
-  if (profileError) throw profileError;
-  
-  // Store encrypted password in webhook_credentials table
-  const { data: credData, error: credError } = await adminClient
-    .from("webhook_credentials")
-    .upsert({
+  try {
+    // Generate a random salt
+    const salt = randomPassword(16);
+    console.log("Generated salt length:", salt.length);
+    
+    // Hash the password with salt
+    console.log("Calling hash_password_with_salt RPC...");
+    const { data: hashData, error: hashError } = await adminClient.rpc('hash_password_with_salt', {
+      password: webhook_password,
+      salt: salt
+    });
+    
+    console.log("Hash RPC result:", { hashData, hashError });
+    if (hashError) {
+      console.error("Hash password error:", hashError);
+      throw new Error(`Failed to hash password: ${hashError.message}`);
+    }
+    
+    if (!hashData) {
+      console.error("No hash data returned from RPC");
+      throw new Error("Hash function returned null");
+    }
+    
+    // Update profile with webhook URL and source ID
+    console.log("Updating profile with webhook_url and source_id...");
+    const { data: profileData, error: profileError } = await adminClient
+      .from("profiles")
+      .update({ webhook_url, source_id })
+      .eq("id", user_id)
+      .select("id")
+      .maybeSingle();
+    
+    console.log("Profile update result:", { profileData, profileError });
+    if (profileError) {
+      console.error("Profile update error:", profileError);
+      throw new Error(`Failed to update profile: ${profileError.message}`);
+    }
+    
+    // Store encrypted password in webhook_credentials table
+    console.log("Upserting webhook credentials...");
+    const credentialsPayload = {
       profile_id: user_id,
       password_hash: hashData,
       salt: salt
-    }, { onConflict: 'profile_id' });
+    };
+    console.log("Credentials payload:", { ...credentialsPayload, password_hash: "***redacted***" });
     
-  if (credError) throw credError;
-  
-  return profileData;
+    const { data: credData, error: credError } = await adminClient
+      .from("webhook_credentials")
+      .upsert(credentialsPayload, { onConflict: 'profile_id' })
+      .select("*");
+      
+    console.log("Webhook credentials upsert result:", { credData, credError });
+    if (credError) {
+      console.error("Webhook credentials upsert error:", credError);
+      throw new Error(`Failed to upsert webhook credentials: ${credError.message}`);
+    }
+    
+    console.log("Successfully completed upsertProfileWebhook");
+    return profileData;
+  } catch (error) {
+    console.error("Error in upsertProfileWebhook:", error);
+    throw error;
+  }
 }
 
 async function createHookdeckConnection({ name, destination_id }: { name: string; destination_id: string }) {
