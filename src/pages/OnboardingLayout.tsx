@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -75,15 +74,39 @@ export function OnboardingLayout({
         </div>
       </header>
 
-      {/* Progress Bar */}
-      <div className="border-b bg-card/30">
-        <div className="container max-w-4xl mx-auto px-4 py-3">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="font-medium">{title}</span>
-              <span className="text-muted-foreground">{Math.round(progressPercentage)}% complete</span>
-            </div>
-            <Progress value={progressPercentage} className="h-2" />
+      {/* Steps indicator */}
+      <div className="border-b bg-card/20">
+        <div className="container max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center space-x-8">
+            {stepTitles.map((stepTitle, index) => {
+              const stepNumber = index + 1;
+              const isActive = stepNumber === currentStep;
+              const isCompleted = stepNumber < currentStep;
+              
+              return (
+                <div key={stepNumber} className="flex items-center">
+                  <div className="flex items-center space-x-2">
+                    <div className={`
+                      w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                      ${isCompleted 
+                        ? 'bg-primary text-primary-foreground' 
+                        : isActive 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-muted text-muted-foreground'
+                      }
+                    `}>
+                      {isCompleted ? '✓' : stepNumber}
+                    </div>
+                    <span className={`text-sm ${isActive ? 'font-medium' : 'text-muted-foreground'}`}>
+                      {stepTitle}
+                    </span>
+                  </div>
+                  {index < stepTitles.length - 1 && (
+                    <div className="w-8 h-px bg-border ml-4" />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
