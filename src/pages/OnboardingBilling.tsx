@@ -83,9 +83,9 @@ export default function OnboardingBilling() {
       }
 
       if (selectedPlan === "pro") {
-        // Create Stripe checkout session
+        // Create Stripe checkout session for Pro plan
         const { data, error } = await supabase.functions.invoke('create-checkout-session', {
-          body: { plan_type: 'pro' }
+          body: { planId: 2 } // Pro plan ID
         });
 
         if (error) {
@@ -110,22 +110,35 @@ export default function OnboardingBilling() {
           setTimeout(() => navigate("/dashboard"), 2000);
         }
       } else {
-        // Free plan - just complete onboarding
-        const { error } = await supabase
-          .from('profiles')
-          .update({ 
-            onboarding_completed: true,
-            onboarding_step: 4 
-          })
-          .eq('id', user.id);
+        // Free plan - set up pay as you go with billing
+        const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+          body: { planId: 1 } // Free/Pay as you go plan ID
+        });
 
         if (error) {
-          toast.error("Failed to complete setup");
+          toast.error("Failed to create checkout session");
           return;
         }
 
-        toast.success("Setup completed! Welcome to Thank Donors!");
-        navigate("/dashboard");
+        if (data?.redirect_url) {
+          // For free plan, redirect directly to payment setup
+          window.location.href = data.redirect_url;
+        } else if (data?.url) {
+          // Fallback: open in new tab
+          window.open(data.url, '_blank');
+          
+          // Mark onboarding as completed and redirect
+          await supabase
+            .from('profiles')
+            .update({ 
+              onboarding_completed: true,
+              onboarding_step: 4 
+            })
+            .eq('id', user.id);
+
+          toast.success("Setting up your Pay as You Go account...");
+          setTimeout(() => navigate("/dashboard"), 2000);
+        }
       }
     } catch (error) {
       console.error('Error completing onboarding:', error);
