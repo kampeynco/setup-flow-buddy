@@ -43,12 +43,13 @@ serve(async (req) => {
 
     console.log(`Processing payment for user ${userId}, planId: ${planId}, planType: ${planType}`);
 
+    let responseData;
     if (planType === "pay_as_you_go_initial") {
       // Handle Pay as You Go initial payment
-      await handlePayAsYouGoPayment(supabaseClient, userId, session, planId);
+      responseData = await handlePayAsYouGoPayment(supabaseClient, userId, session, planId);
     } else if (session.mode === "subscription") {
       // Handle Pro subscription
-      await handleProSubscription(supabaseClient, userId, session, planId);
+      responseData = await handleProSubscription(supabaseClient, userId, session, planId);
     } else {
       throw new Error(`Unsupported payment type: ${planType || session.mode}`);
     }
@@ -56,9 +57,8 @@ serve(async (req) => {
     console.log(`Payment processed successfully for user ${userId}`);
 
     return new Response(JSON.stringify({ 
-      success: true, 
-      balance: null, // Will be set by individual handlers
-      credited: null 
+      success: true,
+      ...responseData
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
@@ -148,6 +148,13 @@ async function handlePayAsYouGoPayment(supabaseClient: any, userId: string, sess
   }
 
   console.log(`Credited $${creditAmount} to user ${userId}. New balance: $${newBalance}`);
+  
+  return {
+    planType: "pay_as_you_go",
+    balance: newBalance,
+    credited: creditAmount,
+    planName: planData?.name || "Pay as You Go"
+  };
 }
 
 async function handleProSubscription(supabaseClient: any, userId: string, session: any, planId: string) {
@@ -158,15 +165,15 @@ async function handleProSubscription(supabaseClient: any, userId: string, sessio
     .eq("id", planId || 2) // Default to Pro plan (id: 2) if no planId
     .single();
 
+  // Get subscription details from Stripe
+  const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+    apiVersion: "2023-10-16",
+  });
+  
+  const stripeSubscription = await stripe.subscriptions.retrieve(session.subscription);
+
   if (planData) {
     console.log(`Creating subscription for Pro plan: ${planData.name}`);
-    
-    // Get subscription details from Stripe
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2023-10-16",
-    });
-    
-    const stripeSubscription = await stripe.subscriptions.retrieve(session.subscription);
     
     const { error: subscriptionError } = await supabaseClient
       .from("user_subscriptions")
@@ -191,4 +198,16 @@ async function handleProSubscription(supabaseClient: any, userId: string, sessio
   }
 
   console.log(`Pro subscription created successfully for user ${userId}`);
+  
+  return {
+    planType: "pro_subscription",
+    planName: planData?.name || "Pro",
+    subscriptionDetails: {
+      stripe_subscription_id: session.subscription,
+      current_period_start: new Date(stripeSubscription.current_period_start * 1000).toISOString(),
+      current_period_end: new Date(stripeSubscription.current_period_end * 1000).toISOString(),
+      trial_end: stripeSubscription.trial_end ? new Date(stripeSubscription.trial_end * 1000).toISOString() : null,
+      has_trial: !!stripeSubscription.trial_end
+    }
+  };
 }

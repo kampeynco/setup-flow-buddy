@@ -15,6 +15,9 @@ export function PaymentSuccess() {
   const [error, setError] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
   const [credited, setCredited] = useState<number | null>(null);
+  const [planType, setPlanType] = useState<string | null>(null);
+  const [planName, setPlanName] = useState<string | null>(null);
+  const [subscriptionDetails, setSubscriptionDetails] = useState<any>(null);
 
   const sessionId = searchParams.get("session_id");
 
@@ -37,8 +40,11 @@ export function PaymentSuccess() {
 
         if (data.success) {
           setSuccess(true);
+          setPlanType(data.planType);
+          setPlanName(data.planName);
           setBalance(data.balance);
           setCredited(data.credited);
+          setSubscriptionDetails(data.subscriptionDetails);
           
           // Mark onboarding as completed
           const { data: { user } } = await supabase.auth.getUser();
@@ -52,9 +58,13 @@ export function PaymentSuccess() {
               .eq('id', user.id);
           }
           
+          const toastDescription = data.planType === "pay_as_you_go" 
+            ? `$${data.credited} has been credited to your account.`
+            : `Your ${data.planName} subscription is now active!`;
+            
           toast({
             title: "Payment Successful!",
-            description: `$${data.credited} has been credited to your account.`,
+            description: toastDescription,
           });
         } else {
           throw new Error("Payment processing failed");
@@ -92,7 +102,7 @@ export function PaymentSuccess() {
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-muted-foreground">
-              We're setting up your Pay as You Go account. This will just take a moment...
+              We're processing your payment and setting up your account. This will just take a moment...
             </p>
           </CardContent>
         </Card>
@@ -145,10 +155,10 @@ export function PaymentSuccess() {
           <CardContent className="space-y-6">
             <div className="text-center space-y-2">
               <p className="text-muted-foreground">
-                Your Pay as You Go account has been activated successfully.
+                Your {planName} {planType === "pay_as_you_go" ? "account has been activated" : "subscription is now active"} successfully.
               </p>
               
-              {credited && balance && (
+              {planType === "pay_as_you_go" && credited && balance && (
                 <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-4">
                   <div className="flex items-center justify-center gap-2 text-green-700 dark:text-green-300 mb-2">
                     <Wallet className="w-4 h-4" />
@@ -164,15 +174,42 @@ export function PaymentSuccess() {
                   </div>
                 </div>
               )}
+
+              {planType === "pro_subscription" && subscriptionDetails && (
+                <div className="bg-purple-50 dark:bg-purple-950 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400 mb-2">
+                      {subscriptionDetails.has_trial ? "Trial Started!" : "Subscription Active!"}
+                    </div>
+                    {subscriptionDetails.has_trial && subscriptionDetails.trial_end && (
+                      <p className="text-sm text-purple-600/80 dark:text-purple-400/80">
+                        Your free trial ends on {new Date(subscriptionDetails.trial_end).toLocaleDateString()}
+                      </p>
+                    )}
+                    <p className="text-sm text-purple-600/80 dark:text-purple-400/80 mt-1">
+                      Billing period: {new Date(subscriptionDetails.current_period_start).toLocaleDateString()} - {new Date(subscriptionDetails.current_period_end).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <h4 className="font-medium text-blue-700 dark:text-blue-300 mb-2">What's Next?</h4>
-              <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
-                <li>• Start sending postcards for $1.99 each</li>
-                <li>• Your balance will auto-recharge when it falls below $10</li>
-                <li>• View your usage and balance anytime in your dashboard</li>
-              </ul>
+              {planType === "pay_as_you_go" ? (
+                <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                  <li>• Start sending postcards for $1.99 each</li>
+                  <li>• Your balance will auto-recharge when it falls below $10</li>
+                  <li>• View your usage and balance anytime in your dashboard</li>
+                </ul>
+              ) : (
+                <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                  <li>• Start sending unlimited postcards</li>
+                  <li>• Access advanced features and analytics</li>
+                  <li>• Manage your subscription anytime in your dashboard</li>
+                  {subscriptionDetails?.has_trial && <li>• No charges until your trial ends</li>}
+                </ul>
+              )}
             </div>
 
             <Button onClick={handleContinue} className="w-full">
