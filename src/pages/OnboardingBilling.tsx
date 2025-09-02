@@ -212,29 +212,33 @@ export default function OnboardingBilling() {
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   <Zap className="h-5 w-5 text-yellow-500" />
-                  Pay-as-you-go
+                  Pay as You Go
                 </CardTitle>
-                <Badge variant="secondary">Free to Start</Badge>
+                <Badge variant="secondary">$0/month</Badge>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
                   <div className="text-2xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  <div className="text-sm text-muted-foreground">$0.75 per postcard sent</div>
+                  <div className="text-sm text-muted-foreground">$1.99 per postcard sent</div>
                 </div>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    No monthly commitment
+                    Standard class mail (7-10 days)
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Pay only for what you use
+                    6x9 postcards
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Perfect for small campaigns
+                    Basic branding options
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-green-500" />
+                    Email support
                   </li>
                 </ul>
               </div>
@@ -243,44 +247,52 @@ export default function OnboardingBilling() {
 
           {/* Pro Plan */}
           <Card 
-            className={`cursor-pointer transition-all ${
+            className={`cursor-pointer transition-all relative border-primary bg-primary/5 ${
               selectedPlan === "pro" 
                 ? "ring-2 ring-primary border-primary" 
                 : "hover:border-primary/50"
             }`}
             onClick={() => handlePlanSelect("pro")}
           >
-            <CardHeader>
-              <div className="flex items-center justify-between">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
+                Most Popular
+              </span>
+            </div>
+            <CardHeader className="pt-6">
+              <div className="flex items-center justify-center">
                 <CardTitle className="flex items-center gap-2">
                   <CreditCard className="h-5 w-5 text-primary" />
                   Pro Plan
                 </CardTitle>
-                <Badge>Most Popular</Badge>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <div className="text-2xl font-bold">$39<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  <div className="text-sm text-muted-foreground">$0.65 per postcard sent</div>
+                  <div className="text-2xl font-bold">$99<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                  <div className="text-sm text-muted-foreground">$0.99 per postcard (50% savings)</div>
                 </div>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Lower per-postcard cost
+                    First class mail (3-5 days)
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Priority support
+                    6x9 postcards
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Advanced analytics
+                    Custom branding options
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-green-500" />
-                    Best for active campaigns
+                    Email and Phone support
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-green-500" />
+                    Remove Thank Donors branding
                   </li>
                 </ul>
               </div>
@@ -305,17 +317,17 @@ export default function OnboardingBilling() {
             {loading 
               ? "Processing..." 
               : selectedPlan === "pro" 
-                ? "Start Pro Plan" 
-                : "Start Free Plan"
+                ? "Start 7-Day Pro Trial" 
+                : "Get Started"
             }
           </Button>
         </div>
 
         {/* Note */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>You can change your plan anytime from your dashboard.</p>
+          <p>No setup fees, cancel anytime</p>
           {selectedPlan === "pro" && (
-            <p className="mt-1">You'll be redirected to Stripe to complete your subscription.</p>
+            <p className="mt-1">You'll be redirected to Stripe to complete your 7-day trial.</p>
           )}
         </div>
       </div>
