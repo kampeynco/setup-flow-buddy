@@ -13,6 +13,10 @@ serve(async (req) => {
   }
 
   try {
+    console.log("=== CREATE CHECKOUT SESSION START ===");
+    console.log("Request method:", req.method);
+    console.log("Request URL:", req.url);
+    
     console.log("=== STRIPE KEY DEBUG START ===");
     
     // First, let's check all environment variables
@@ -52,9 +56,15 @@ serve(async (req) => {
     
     console.log("=== STRIPE KEY DEBUG END ===");
     
-    // If we get here, Stripe is working - continue with original logic
+    // Parse request body
+    console.log("Parsing request body...");
     const requestBody = await req.json();
+    console.log("Request body received:", JSON.stringify(requestBody));
     const { planId, cancelUrl } = requestBody;
+    
+    if (!planId) {
+      throw new Error("planId is required");
+    }
     
     // Get user authentication
     const authHeader = req.headers.get("Authorization")!;
