@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { OnboardingLayout } from "./OnboardingLayout";
@@ -295,111 +296,81 @@ export default function OnboardingPostcardPreview() {
       description="See how your postcards will look and customize the message"
       onBack={handleBack}
     >
-      <div className="space-y-8">
-        {/* Customization Panel */}
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Customize Your Postcard</h3>
-            
-            {tab === "front" ? (
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="message-text">Thank You Message</Label>
-                  <Textarea
-                    id="message-text"
-                    value={postcardSettings.messageText}
-                    onChange={(e) => setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }))}
-                    placeholder="Enter your thank you message..."
-                    rows={3}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="bg-color">Background Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="bg-color"
-                        type="color"
-                        value={postcardSettings.backgroundColor}
-                        onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                        className="w-12 h-10 p-1 rounded"
-                      />
-                      <Input
-                        value={postcardSettings.backgroundColor}
-                        onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                        placeholder="#ffffff"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="text-color">Text Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="text-color"
-                        type="color"
-                        value={postcardSettings.textColor}
-                        onChange={(e) => setPostcardSettings(prev => ({ ...prev, textColor: e.target.value }))}
-                        className="w-12 h-10 p-1 rounded"
-                      />
-                      <Input
-                        value={postcardSettings.textColor}
-                        onChange={(e) => setPostcardSettings(prev => ({ ...prev, textColor: e.target.value }))}
-                        placeholder="#333333"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div className="text-sm text-muted-foreground">
-                  <p>The back of your postcard contains the mailing area with:</p>
-                  <ul className="list-disc list-inside mt-2 space-y-1">
-                    <li>Your committee details (top-left)</li>
-                    <li>Mailing barcode for postal processing</li>
-                    <li>Donor address details (bottom-left)</li>
-                    <li>Postage indicia (top-right)</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-muted rounded-lg">
-                  <p className="text-sm text-muted-foreground">
-                    The back layout is automatically formatted according to USPS standards and cannot be customized.
-                  </p>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Preview Panel - Full Width */}
-        <div className="relative flex flex-col h-full">
-          {/* Controls */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+      {/* Preview Panel - Full Width */}
+      <div className="relative flex flex-col h-full">
+        {/* Controls */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+          <div className="flex items-center gap-4">
             <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
               <TabsList>
                 <TabsTrigger value="front">Front</TabsTrigger>
                 <TabsTrigger value="back">Back</TabsTrigger>
               </TabsList>
             </Tabs>
+            
+            {/* Contextual Controls */}
+            {tab === "front" ? (
+              <div className="flex items-center gap-3">
+                <div className="flex gap-2">
+                  <Input
+                    type="color"
+                    value={postcardSettings.backgroundColor}
+                    onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                    className="w-10 h-10 p-1 rounded"
+                  />
+                  <Input
+                    value={postcardSettings.backgroundColor}
+                    onChange={(e) => setPostcardSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                    placeholder="#ffffff"
+                    className="w-24"
+                  />
+                </div>
+                <Button variant="outline" size="sm">
+                  Upload
+                </Button>
+                <Button variant="outline" size="sm">
+                  Position
+                </Button>
+              </div>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    Thank You Message
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Thank You Message</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <Textarea
+                      value={postcardSettings.messageText}
+                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }))}
+                      placeholder="Enter your thank you message..."
+                      rows={4}
+                    />
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
+        </div>
 
-          {/* Preview area */}
-          <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
-            <div className="flex h-full w-full items-start justify-center overflow-hidden">
-              <div
-                className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
-                style={{ transform: scale }}
-              >
-                <FrontCanvas />
-              </div>
-              <div
-                className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
-                style={{ transform: scale }}
-              >
-                <BackCanvas />
-              </div>
+        {/* Preview area */}
+        <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
+          <div className="flex h-full w-full items-start justify-center overflow-hidden">
+            <div
+              className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
+              style={{ transform: scale }}
+            >
+              <FrontCanvas />
+            </div>
+            <div
+              className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
+              style={{ transform: scale }}
+            >
+              <BackCanvas />
             </div>
           </div>
         </div>
