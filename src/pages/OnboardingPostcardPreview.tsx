@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { OnboardingLayout } from "./OnboardingLayout";
@@ -132,6 +133,9 @@ export default function OnboardingPostcardPreview() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<"front" | "back">("front");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imagePosition, setImagePosition] = useState<string>("cover");
   const [senderInfo, setSenderInfo] = useState({
     committeeName: "",
     streetAddress: "",
@@ -288,6 +292,22 @@ export default function OnboardingPostcardPreview() {
     navigate("/onboarding/step-1");
   };
 
+  const handleImageUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+      toast.success("Image uploaded successfully!");
+    }
+  };
+
   return (
     <OnboardingLayout
       currentStep={3}
@@ -325,12 +345,25 @@ export default function OnboardingPostcardPreview() {
                     className="w-24"
                   />
                 </div>
-                <Button variant="outline" size="sm">
-                  Upload
+                <Button variant="outline" size="sm" onClick={handleImageUpload}>
+                  {selectedImage ? "Change Image" : "Upload"}
                 </Button>
-                <Button variant="outline" size="sm">
-                  Position
-                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <Select value={imagePosition} onValueChange={setImagePosition}>
+                  <SelectTrigger className="w-24 h-8">
+                    <SelectValue placeholder="Position" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border border-border shadow-lg z-50">
+                    <SelectItem value="cover">Cover</SelectItem>
+                    <SelectItem value="center">Center</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             ) : (
               <Dialog>
