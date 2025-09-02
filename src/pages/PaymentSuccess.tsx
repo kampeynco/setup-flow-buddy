@@ -40,6 +40,18 @@ export function PaymentSuccess() {
           setBalance(data.balance);
           setCredited(data.credited);
           
+          // Mark onboarding as completed
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            await supabase
+              .from('profiles')
+              .update({ 
+                onboarding_completed: true,
+                onboarding_step: 4 
+              })
+              .eq('id', user.id);
+          }
+          
           toast({
             title: "Payment Successful!",
             description: `$${data.credited} has been credited to your account.`,

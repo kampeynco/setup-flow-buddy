@@ -96,18 +96,7 @@ export default function OnboardingBilling() {
         if (data?.url) {
           // Open Stripe checkout in new tab
           window.open(data.url, '_blank');
-          
-          // Mark onboarding as completed and redirect
-          await supabase
-            .from('profiles')
-            .update({ 
-              onboarding_completed: true,
-              onboarding_step: 4 
-            })
-            .eq('id', user.id);
-
           toast.success("Redirecting to Stripe checkout...");
-          setTimeout(() => navigate("/dashboard"), 2000);
         }
       } else {
         // Free plan - set up pay as you go with billing
@@ -126,18 +115,7 @@ export default function OnboardingBilling() {
         } else if (data?.url) {
           // Fallback: open in new tab
           window.open(data.url, '_blank');
-          
-          // Mark onboarding as completed and redirect
-          await supabase
-            .from('profiles')
-            .update({ 
-              onboarding_completed: true,
-              onboarding_step: 4 
-            })
-            .eq('id', user.id);
-
           toast.success("Setting up your Pay as You Go account...");
-          setTimeout(() => navigate("/dashboard"), 2000);
         }
       }
     } catch (error) {
