@@ -225,6 +225,16 @@ export default function OnboardingPostcardPreview() {
               textColor: template.frontpsc_text_color || "#333333",
               messageText: template.frontpsc_background_text || "Thank you for your generous donation! Your support makes our campaign possible."
             });
+            
+            // Load saved image if exists
+            if (template.frontpsc_background_image) {
+              setSelectedImage(template.frontpsc_background_image);
+            }
+            
+            // Load image position
+            if (template.frontpsc_background_size) {
+              setImagePosition(template.frontpsc_background_size);
+            }
           }
         }
       } catch (error) {
@@ -244,10 +254,50 @@ export default function OnboardingPostcardPreview() {
         return;
       }
 
+      let imageUrl = null;
+      
+      // Upload image to storage if one was selected
+      if (selectedImage && selectedImage.startsWith('data:')) {
+        try {
+          // Convert data URL to blob
+          const response = await fetch(selectedImage);
+          const blob = await response.blob();
+          
+          // Generate unique filename
+          const fileExt = blob.type.split('/')[1] || 'jpg';
+          const fileName = `${user.id}/onboarding-${Date.now()}.${fileExt}`;
+          
+          // Upload to storage
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('templates')
+            .upload(fileName, blob, {
+              contentType: blob.type,
+              upsert: true
+            });
+            
+          if (uploadError) {
+            console.error('Upload error:', uploadError);
+            toast.error("Failed to upload image");
+            return;
+          }
+          
+          // Get public URL
+          const { data: { publicUrl } } = supabase.storage
+            .from('templates')
+            .getPublicUrl(fileName);
+            
+          imageUrl = publicUrl;
+        } catch (uploadError) {
+          console.error('Error uploading image:', uploadError);
+          toast.error("Failed to upload image");
+          return;
+        }
+      }
+
       // Check if template already exists
       const { data: existingTemplate, error: fetchError } = await supabase
         .from('templates')
-        .select('id')
+        .select('id, frontpsc_background_image')
         .eq('profile_id', user.id)
         .eq('template_name', 'Onboarding Default')
         .single();
@@ -264,12 +314,24 @@ export default function OnboardingPostcardPreview() {
         frontpsc_background_color: postcardSettings.backgroundColor,
         frontpsc_text_color: postcardSettings.textColor,
         frontpsc_background_text: postcardSettings.messageText,
-        frontpsc_bg_type: 'color'
+        frontpsc_bg_type: imageUrl || selectedImage ? 'image' : 'color',
+        frontpsc_background_image: imageUrl || selectedImage || null,
+        frontpsc_background_size: imagePosition
       };
 
       let templateError;
       
       if (existingTemplate) {
+        // Delete old image if replacing with new one
+        if (imageUrl && existingTemplate.frontpsc_background_image) {
+          const oldFileName = existingTemplate.frontpsc_background_image.split('/').pop();
+          if (oldFileName && !existingTemplate.frontpsc_background_image.startsWith('data:')) {
+            await supabase.storage
+              .from('templates')
+              .remove([`${user.id}/${oldFileName}`]);
+          }
+        }
+        
         // Update existing template
         const { error } = await supabase
           .from('templates')
