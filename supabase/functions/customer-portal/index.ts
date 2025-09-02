@@ -21,20 +21,20 @@ serve(async (req) => {
       throw new Error("STRIPE_SECRET_KEY not configured");
     }
 
-    // Get user authentication
+    // Get user authentication using anon key
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       throw new Error("No authorization header");
     }
     
     const token = authHeader.replace("Bearer ", "");
-    const supabaseClient = createClient(
+    const supabaseAuth = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? ""
     );
     
     console.log("Authenticating user...");
-    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
+    const { data: userData, error: userError } = await supabaseAuth.auth.getUser(token);
     if (userError || !userData?.user) {
       console.error("Auth failed:", userError);
       throw new Error("Authentication failed");
@@ -43,9 +43,16 @@ serve(async (req) => {
     const userId = userData.user.id;
     console.log("User ID:", userId);
 
-    // Query subscriptions directly
-    console.log("Querying subscriptions...");
-    const { data: subscriptions, error: subError } = await supabaseClient
+    // Use service role key to bypass RLS for subscription query
+    const supabaseService = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } }
+    );
+
+    // Query subscriptions using service role
+    console.log("Querying subscriptions with service role...");
+    const { data: subscriptions, error: subError } = await supabaseService
       .from("user_subscriptions")
       .select("stripe_customer_id, status")
       .eq("profile_id", userId);
