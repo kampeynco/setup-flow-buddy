@@ -430,7 +430,7 @@ export default function OnboardingPostcardPreview() {
       {/* Preview Panel - Full Width */}
       <div className="relative flex flex-col" style={{ height: "600px" }}>
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 pr-10">
           <div className="flex items-center gap-4">
             <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
               <TabsList>
