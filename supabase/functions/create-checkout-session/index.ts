@@ -53,7 +53,8 @@ serve(async (req) => {
     console.log("=== STRIPE KEY DEBUG END ===");
     
     // If we get here, Stripe is working - continue with original logic
-    const { planId, cancelUrl } = await req.json();
+    const requestBody = await req.json();
+    const { planId, cancelUrl } = requestBody;
     
     // Get user authentication
     const authHeader = req.headers.get("Authorization")!;
