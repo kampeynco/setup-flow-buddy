@@ -430,20 +430,19 @@ export default function OnboardingPostcardPreview() {
       {/* Preview Panel - Full Width */}
       <div className="relative flex flex-col" style={{ height: "600px" }}>
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
-          {/* Left spacer */}
-          <div className="flex-1"></div>
-          
-          {/* Center content */}
-          <div className="flex items-center gap-4">
+        <div className="relative mb-4">
+          {/* Fixed positioned tabs */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
             <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
               <TabsList>
                 <TabsTrigger value="front">Front</TabsTrigger>
                 <TabsTrigger value="back">Back</TabsTrigger>
               </TabsList>
             </Tabs>
-            
-            {/* Contextual Controls */}
+          </div>
+          
+          {/* Fixed positioned controls - right side */}
+          <div className="absolute right-10 top-0 z-10">
             {tab === "front" ? (
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
@@ -481,50 +480,39 @@ export default function OnboardingPostcardPreview() {
                 </Select>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="default" size="sm">
-                      Edit Message
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Thank You Message</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <Textarea
-                        value={postcardSettings.messageText}
-                        onChange={(e) => {
-                          const words = e.target.value.split(/\s+/).filter(word => word.length > 0);
-                          if (words.length <= 100) {
-                            setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }));
-                          }
-                        }}
-                        placeholder="Enter your thank you message (100 words max)..."
-                        rows={4}
-                      />
-                      <div className="text-xs text-muted-foreground text-right">
-                        {postcardSettings.messageText.split(/\s+/).filter(word => word.length > 0).length}/100 words
-                      </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="default" size="sm">
+                    Edit Message
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Thank You Message</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <Textarea
+                      value={postcardSettings.messageText}
+                      onChange={(e) => {
+                        const words = e.target.value.split(/\s+/).filter(word => word.length > 0);
+                        if (words.length <= 100) {
+                          setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }));
+                        }
+                      }}
+                      placeholder="Enter your thank you message (100 words max)..."
+                      rows={4}
+                    />
+                    <div className="text-xs text-muted-foreground text-right">
+                      {postcardSettings.messageText.split(/\s+/).filter(word => word.length > 0).length}/100 words
                     </div>
-                  </DialogContent>
-                </Dialog>
-                {/* Invisible spacer to match front tab content width */}
-                <div className="invisible">
-                  <div className="flex gap-2">
-                    <div className="w-10 h-10"></div>
-                    <div className="w-24"></div>
                   </div>
-                  <div className="w-24"></div>
-                  <div className="w-24 h-8"></div>
-                </div>
-              </div>
+                </DialogContent>
+              </Dialog>
             )}
           </div>
           
-          {/* Right spacer */}
-          <div className="flex-1"></div>
+          {/* Spacer to push content down */}
+          <div className="h-12"></div>
         </div>
 
         {/* Preview area */}
