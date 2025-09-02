@@ -430,19 +430,16 @@ export default function OnboardingPostcardPreview() {
       {/* Preview Panel - Full Width */}
       <div className="relative flex flex-col" style={{ height: "600px" }}>
         {/* Controls */}
-        <div className="relative mb-4">
-          {/* Fixed positioned tabs */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 pr-10">
+          <div className="flex items-center gap-4">
             <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
               <TabsList>
                 <TabsTrigger value="front">Front</TabsTrigger>
                 <TabsTrigger value="back">Back</TabsTrigger>
               </TabsList>
             </Tabs>
-          </div>
-          
-          {/* Fixed positioned controls - right side */}
-          <div className="absolute right-10 top-0 z-10">
+            
+            {/* Contextual Controls */}
             {tab === "front" ? (
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
@@ -510,9 +507,6 @@ export default function OnboardingPostcardPreview() {
               </Dialog>
             )}
           </div>
-          
-          {/* Spacer to push content down */}
-          <div className="h-12"></div>
         </div>
 
         {/* Preview area */}
