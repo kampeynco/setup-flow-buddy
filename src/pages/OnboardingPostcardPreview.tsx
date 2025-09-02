@@ -30,13 +30,13 @@ function FrontCanvas({ backgroundImage, imagePosition, backgroundColor }: { back
     >
       {/* Trim size */}
       <div
-        className="absolute rounded-sm"
+        className="absolute"
         style={{ inset: trimInset }}
       />
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm overflow-hidden"
+        className="absolute overflow-hidden"
         style={{ 
           inset: safeInset,
           backgroundColor: backgroundColor || "#ffffff"
@@ -59,7 +59,7 @@ function FrontCanvas({ backgroundImage, imagePosition, backgroundColor }: { back
   );
 }
 
-function BackCanvas() {
+function BackCanvas({ messageText }: { messageText?: string }) {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
   const trimInset = 0.125 * INCH_PX;
@@ -89,15 +89,30 @@ function BackCanvas() {
     >
       {/* Trim size */}
       <div
-        className="absolute rounded-sm"
+        className="absolute"
         style={{ inset: trimInset }}
       />
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm bg-card"
+        className="absolute bg-card"
         style={{ inset: safeInset }}
       />
+
+      {/* Thank you message area (left side, avoiding mailing area) */}
+      <div
+        className="absolute p-3 text-foreground"
+        style={{ 
+          left: safeInset, 
+          top: safeInset, 
+          right: mailingLeft - 10, // Leave space before mailing area
+          bottom: safeInset + 40 // Leave space at bottom
+        }}
+      >
+        <div className="text-[10px] leading-relaxed">
+          {messageText || "Thank you for your generous donation! Your support makes our campaign possible."}
+        </div>
+      </div>
 
       {/* Mailing area (bottom-right) */}
       <div
@@ -388,10 +403,18 @@ export default function OnboardingPostcardPreview() {
                   <div className="space-y-4">
                     <Textarea
                       value={postcardSettings.messageText}
-                      onChange={(e) => setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }))}
-                      placeholder="Enter your thank you message..."
+                      onChange={(e) => {
+                        const words = e.target.value.split(/\s+/).filter(word => word.length > 0);
+                        if (words.length <= 250) {
+                          setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }));
+                        }
+                      }}
+                      placeholder="Enter your thank you message (250 words max)..."
                       rows={4}
                     />
+                    <div className="text-xs text-muted-foreground text-right">
+                      {postcardSettings.messageText.split(/\s+/).filter(word => word.length > 0).length}/250 words
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -416,7 +439,7 @@ export default function OnboardingPostcardPreview() {
               className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
               style={{ transform: scale }}
             >
-              <BackCanvas />
+              <BackCanvas messageText={postcardSettings.messageText} />
             </div>
           </div>
         </div>
