@@ -53,7 +53,7 @@ serve(async (req) => {
     console.log("=== STRIPE KEY DEBUG END ===");
     
     // If we get here, Stripe is working - continue with original logic
-    const { planId } = await req.json();
+    const { planId, cancelUrl } = await req.json();
     
     // Get user authentication
     const authHeader = req.headers.get("Authorization")!;
@@ -96,11 +96,12 @@ serve(async (req) => {
     }
 
     // Create checkout session
+    const defaultCancelUrl = `${req.headers.get("origin")}/dashboard?checkout=canceled`;
     let sessionConfig: any = {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/dashboard?checkout=canceled`,
+      cancel_url: cancelUrl || defaultCancelUrl,
     };
 
     if (planData.name === "Free") {

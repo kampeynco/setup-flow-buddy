@@ -85,7 +85,10 @@ export default function OnboardingBilling() {
       if (selectedPlan === "pro") {
         // Create Stripe checkout session for Pro plan
         const { data, error } = await supabase.functions.invoke('create-checkout-session', {
-          body: { planId: 2 } // Pro plan ID
+          body: { 
+            planId: 2, // Pro plan ID
+            cancelUrl: `${window.location.origin}/onboarding/step-3`
+          }
         });
 
         if (error) {
@@ -101,7 +104,10 @@ export default function OnboardingBilling() {
       } else {
         // Free plan - set up pay as you go with billing
         const { data, error } = await supabase.functions.invoke('create-checkout-session', {
-          body: { planId: 1 } // Free/Pay as you go plan ID
+          body: { 
+            planId: 1, // Free/Pay as you go plan ID
+            cancelUrl: `${window.location.origin}/onboarding/step-3`
+          }
         });
 
         if (error) {
