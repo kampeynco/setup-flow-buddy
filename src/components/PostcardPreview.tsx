@@ -170,7 +170,7 @@ export default function PostcardPreview({ senderDetails: propSenderDetails }: { 
     <div className="relative flex flex-col h-full">
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 pr-10">
         <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
           <TabsList>
             <TabsTrigger value="front">Front</TabsTrigger>
