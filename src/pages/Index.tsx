@@ -19,7 +19,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import SettingsDialog from "@/components/SettingsDialog";
 import { DonationsTable } from "@/components/DonationsTable";
 import { SubscriptionPill } from "@/components/SubscriptionPill";
-import { ManagePlanDialog } from "@/components/ManagePlanDialog";
+
 import { supabase } from "@/integrations/supabase/client";
 import { cleanupAuthState } from "@/lib/utils";
 
@@ -103,7 +103,8 @@ const Index = () => {
   const [loadingWebhook, setLoadingWebhook] = useState(true);
   const [fetchingPassword, setFetchingPassword] = useState(false);
 
-  // Address form state
+  // Billing state (for onboarding)
+  const [selectedPlan, setSelectedPlan] = useState("free");
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [committeeName, setCommitteeName] = useState("");
   const [street, setStreet] = useState("");
@@ -114,9 +115,6 @@ const Index = () => {
   const [savingAddress, setSavingAddress] = useState(false);
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
 
-  // Billing state
-  const [selectedPlan, setSelectedPlan] = useState("free");
-  const [billingDialogOpen, setBillingDialogOpen] = useState(false);
 
   // Session timeout state
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -125,6 +123,25 @@ const Index = () => {
   // User profile state
   const [userProfile, setUserProfile] = useState<{ email?: string; committee_name?: string } | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+
+  const handleManageBilling = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('customer-portal');
+      
+      if (error) {
+        console.error('Error opening customer portal:', error);
+        toast.error('Failed to open billing portal');
+        return;
+      }
+      
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error opening customer portal:', error);
+      toast.error('Failed to open billing portal');
+    }
+  };
 
   const handleSignOut = async () => {
     try {
@@ -499,7 +516,7 @@ const Index = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="z-50 bg-popover">
-                <DropdownMenuItem onSelect={() => setBillingDialogOpen(true)}>Manage Plan</DropdownMenuItem>
+                <DropdownMenuItem onSelect={handleManageBilling}>Manage Plan</DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => {
                   // Trigger the existing design dialog
                   const designButton = document.querySelector('[data-design-trigger]') as HTMLButtonElement;
@@ -520,7 +537,6 @@ const Index = () => {
       </header>
 
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
-      <ManagePlanDialog open={billingDialogOpen} onOpenChange={setBillingDialogOpen} />
 
       <main className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:pl-0 py-8 grid gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-[488px_1fr] md:justify-items-center lg:justify-items-stretch">
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
