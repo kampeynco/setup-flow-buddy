@@ -60,7 +60,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
     setSelectedPlan(planType);
   };
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (planType?: string) => {
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -69,7 +69,9 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
         return;
       }
 
-      if (selectedPlan === "pro") {
+      const targetPlan = planType || selectedPlan;
+
+      if (targetPlan === "pro") {
         const { data, error } = await supabase.functions.invoke('create-checkout-session', {
           body: { 
             planId: 2, // Pro plan ID
@@ -188,23 +190,18 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
             </div>
           </div>
 
-          {/* Plan Selection */}
+          {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Free Plan */}
-            <Card 
-              className={`cursor-pointer transition-all relative ${
-                currentPlan === "Free" 
-                  ? "ring-2 ring-primary border-primary bg-primary/5" 
-                  : selectedPlan === "free" 
-                    ? "ring-2 ring-primary border-primary" 
-                    : "hover:border-primary/50"
-              }`}
-              onClick={() => handlePlanSelect("free")}
-            >
+            {/* Pay as You Go Plan */}
+            <Card className={`transition-all relative ${
+              currentPlan === "Free" 
+                ? "ring-2 ring-green-500 border-green-500 bg-green-50 dark:bg-green-950/20" 
+                : "border-border hover:border-primary/50"
+            }`}>
               {currentPlan === "Free" && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                    Current Plan
+                  <span className="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    ✓ Active Plan
                   </span>
                 </div>
               )}
@@ -214,7 +211,9 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                     <Zap className="h-5 w-5 text-yellow-500" />
                     Pay as You Go
                   </CardTitle>
-                  <Badge variant="secondary">$0/month</Badge>
+                  <Badge variant={currentPlan === "Free" ? "default" : "secondary"}>
+                    $0/month
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -241,29 +240,42 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                       Email support
                     </li>
                   </ul>
+                  
+                  {currentPlan === "Free" ? (
+                    <div className="pt-4">
+                      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300 dark:bg-green-900 dark:text-green-200">
+                        Currently Active
+                      </Badge>
+                    </div>
+                  ) : (
+                    <div className="pt-4">
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => handleSubscribe()}
+                        disabled={loading}
+                      >
+                        {loading ? "Processing..." : "Switch to Pay as You Go"}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
 
             {/* Pro Plan */}
-            <Card 
-              className={`cursor-pointer transition-all relative ${
-                isCurrentPro 
-                  ? "ring-2 ring-primary border-primary bg-primary/5" 
-                  : selectedPlan === "pro" 
-                    ? "ring-2 ring-primary border-primary" 
-                    : "hover:border-primary/50 border-primary bg-primary/5"
-              }`}
-              onClick={() => handlePlanSelect("pro")}
-            >
-              {isCurrentPro && (
+            <Card className={`transition-all relative ${
+              isCurrentPro 
+                ? "ring-2 ring-purple-500 border-purple-500 bg-purple-50 dark:bg-purple-950/20" 
+                : "border-primary bg-primary/5 hover:border-primary/70"
+            }`}>
+              {isCurrentPro ? (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                    Current Plan
+                  <span className="bg-purple-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    ✓ Active Plan {isOnTrial && "(Trial)"}
                   </span>
                 </div>
-              )}
-              {!isCurrentPro && (
+              ) : (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
                     Most Popular
@@ -273,7 +285,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
               <CardHeader className="pt-6">
                 <div className="flex items-center justify-center">
                   <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5 text-primary" />
+                    <Crown className="h-5 w-5 text-purple-500" />
                     Pro Plan
                   </CardTitle>
                 </div>
@@ -306,29 +318,34 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                       Remove Thank Donors branding
                     </li>
                   </ul>
+                  
+                  {isCurrentPro ? (
+                    <div className="pt-4">
+                      <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900 dark:text-purple-200">
+                        Currently Active {isOnTrial && "- Trial"}
+                      </Badge>
+                    </div>
+                  ) : (
+                    <div className="pt-4">
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/90"
+                        onClick={() => handleSubscribe()}
+                        disabled={loading}
+                      >
+                        {loading 
+                          ? "Processing..." 
+                          : isOnTrial 
+                            ? "Upgrade to Pro" 
+                            : "Start 7-Day Pro Trial"
+                        }
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end pt-4">
-            {/* Only show upgrade/change buttons if not current plan */}
-            {!(currentPlan === "Free" && selectedPlan === "free") && !(isCurrentPro && selectedPlan === "pro") && (
-              <Button 
-                onClick={handleSubscribe}
-                disabled={loading}
-                className="min-w-32"
-              >
-                {loading 
-                  ? "Processing..." 
-                  : selectedPlan === "pro" 
-                    ? (isOnTrial ? "Upgrade Plan" : "Start 7-Day Pro Trial")
-                    : "Switch to Pay as You Go"
-                }
-              </Button>
-            )}
-          </div>
 
           {/* Note */}
           <div className="text-center text-sm text-muted-foreground">
