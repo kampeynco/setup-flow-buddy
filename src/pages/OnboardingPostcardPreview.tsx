@@ -24,8 +24,8 @@ function FrontCanvas({ backgroundImage, imagePosition, backgroundColor }: { back
 
   return (
     <div
-      className="relative"
-      style={{ width: bleedW, height: bleedH }}
+      className="relative origin-top"
+      style={{ width: bleedW, height: bleedH, transform: "scale(1.8)" }}
       aria-label="Front postcard technical preview"
     >
       {/* Trim size */}
@@ -83,8 +83,8 @@ function BackCanvas({ messageText }: { messageText?: string }) {
 
   return (
     <div
-      className="relative"
-      style={{ width: bleedW, height: bleedH }}
+      className="relative origin-top"
+      style={{ width: bleedW, height: bleedH, transform: "scale(1.8)" }}
       aria-label="Back postcard preview"
     >
       {/* Trim size */}

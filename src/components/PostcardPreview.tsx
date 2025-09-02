@@ -20,8 +20,8 @@ function FrontCanvas() {
 
   return (
     <div
-      className="relative"
-      style={{ width: bleedW, height: bleedH }}
+      className="relative origin-top"
+      style={{ width: bleedW, height: bleedH, transform: "scale(1.8)" }}
       aria-label="Front postcard technical preview"
     >
       {/* Corner label */}
@@ -71,8 +71,8 @@ function BackCanvas() {
 
   return (
     <div
-      className="relative"
-      style={{ width: bleedW, height: bleedH }}
+      className="relative origin-top"
+      style={{ width: bleedW, height: bleedH, transform: "scale(1.8)" }}
       aria-label="Back postcard technical preview"
     >
       {/* Corner label */}
