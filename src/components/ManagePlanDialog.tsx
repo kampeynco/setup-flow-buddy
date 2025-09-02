@@ -328,7 +328,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                     <div className="pt-4">
                       <Button 
                         className="w-full bg-primary hover:bg-primary/90"
-                        onClick={() => handleSubscribe()}
+                        onClick={() => handleSubscribe("pro")}
                         disabled={loading}
                       >
                         {loading 
