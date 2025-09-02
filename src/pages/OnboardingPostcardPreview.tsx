@@ -510,7 +510,7 @@ export default function OnboardingPostcardPreview() {
         </div>
 
         {/* Preview area */}
-        <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0 overflow-auto flex items-start justify-center">
+        <div className="mt-4 flex-1 min-h-0 overflow-auto flex items-start justify-center">
           {tab === "front" && (
             <FrontCanvas 
               backgroundImage={selectedImage} 
