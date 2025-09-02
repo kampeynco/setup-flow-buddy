@@ -228,7 +228,25 @@ export default function OnboardingPostcardPreview() {
             
             // Load saved image if exists
             if (template.frontpsc_background_image) {
-              setSelectedImage(template.frontpsc_background_image);
+              const imagePath = template.frontpsc_background_image;
+              
+              // If it's a file path (not a data URL), generate a signed URL
+              if (!imagePath.startsWith('data:') && !imagePath.startsWith('http')) {
+                try {
+                  const { data: signedUrlData, error: urlError } = await supabase.storage
+                    .from('templates')
+                    .createSignedUrl(imagePath, 60 * 60 * 24); // 24 hours expiration
+                    
+                  if (!urlError && signedUrlData) {
+                    setSelectedImage(signedUrlData.signedUrl);
+                  }
+                } catch (error) {
+                  console.error('Error generating signed URL for saved image:', error);
+                }
+              } else {
+                // It's already a full URL or data URL
+                setSelectedImage(imagePath);
+              }
             }
             
             // Load image position
@@ -281,12 +299,18 @@ export default function OnboardingPostcardPreview() {
             return;
           }
           
-          // Get public URL
-          const { data: { publicUrl } } = supabase.storage
+          // Get signed URL for private bucket
+          const { data: signedUrlData, error: urlError } = await supabase.storage
             .from('templates')
-            .getPublicUrl(fileName);
+            .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1 year expiration
             
-          imageUrl = publicUrl;
+          if (urlError) {
+            console.error('URL generation error:', urlError);
+            toast.error("Failed to generate image URL");
+            return;
+          }
+            
+          imageUrl = fileName; // Store file path, not signed URL
         } catch (uploadError) {
           console.error('Error uploading image:', uploadError);
           toast.error("Failed to upload image");
@@ -324,11 +348,12 @@ export default function OnboardingPostcardPreview() {
       if (existingTemplate) {
         // Delete old image if replacing with new one
         if (imageUrl && existingTemplate.frontpsc_background_image) {
-          const oldFileName = existingTemplate.frontpsc_background_image.split('/').pop();
-          if (oldFileName && !existingTemplate.frontpsc_background_image.startsWith('data:')) {
+          const oldImagePath = existingTemplate.frontpsc_background_image;
+          if (oldImagePath && !oldImagePath.startsWith('data:') && !oldImagePath.startsWith('http')) {
+            // It's a file path, use it directly
             await supabase.storage
               .from('templates')
-              .remove([`${user.id}/${oldFileName}`]);
+              .remove([oldImagePath]);
           }
         }
         
