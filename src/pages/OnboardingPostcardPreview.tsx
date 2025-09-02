@@ -402,46 +402,45 @@ export default function OnboardingPostcardPreview() {
         </Card>
 
         {/* Preview Panel */}
-        <div className="relative flex flex-col h-full">
-          {/* Controls */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4">
-            <h3 className="text-lg font-semibold">Preview</h3>
-            <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
-              <TabsList>
-                <TabsTrigger value="front">Front</TabsTrigger>
-                <TabsTrigger value="back">Back</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          {/* Preview area */}
-          <div className="rounded-md border bg-muted p-4 flex-1 min-h-0">
-            <div className="flex h-full w-full items-start justify-center overflow-hidden">
-              <div
-                className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
-                style={{ transform: scale }}
-              >
-                <FrontCanvas 
-                  backgroundColor={postcardSettings.backgroundColor}
-                  textColor={postcardSettings.textColor}
-                  messageText={postcardSettings.messageText}
-                  committeeName={senderInfo.committeeName}
-                  senderInfo={senderInfo}
-                />
+        <Card>
+          <CardContent className="p-6">
+            <div className="relative flex flex-col h-full">
+              {/* Controls */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+                <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
+                  <TabsList>
+                    <TabsTrigger value="front">Front</TabsTrigger>
+                    <TabsTrigger value="back">Back</TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
-              <div
-                className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
-                style={{ transform: scale }}
-              >
-                <BackCanvas />
+
+              {/* Preview area */}
+              <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
+                <div className="flex h-full w-full items-start justify-center overflow-hidden">
+                  <div
+                    className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
+                    style={{ transform: scale }}
+                  >
+                    <FrontCanvas 
+                      backgroundColor={postcardSettings.backgroundColor}
+                      textColor={postcardSettings.textColor}
+                      messageText={postcardSettings.messageText}
+                      committeeName={senderInfo.committeeName}
+                      senderInfo={senderInfo}
+                    />
+                  </div>
+                  <div
+                    className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
+                    style={{ transform: scale }}
+                  >
+                    <BackCanvas />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="mt-4 text-xs text-muted-foreground text-center">
-            This is a technical preview showing print dimensions and safe zones.
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="flex justify-end mt-8">
