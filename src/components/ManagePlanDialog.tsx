@@ -31,6 +31,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
   const currentPlan = subscription?.subscription_plans?.name || "Free";
   const isCurrentPro = currentPlan === "Pro";
   const isOnTrial = subscription?.trial_end && new Date(subscription.trial_end) > new Date();
+  const hasRealStripeCustomer = subscription?.stripe_customer_id && subscription.stripe_customer_id !== "temp_customer_id";
 
   useEffect(() => {
     if (open) {
@@ -184,7 +185,11 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                   </span>
                 </div>
               </div>
-              <Button variant="outline" onClick={handleManageSubscription} disabled={loading}>
+              <Button 
+                variant="outline" 
+                onClick={handleManageSubscription} 
+                disabled={loading || !hasRealStripeCustomer}
+              >
                 Manage Billing
               </Button>
             </div>
@@ -241,13 +246,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
                     </li>
                   </ul>
                   
-                  {currentPlan === "Free" ? (
-                    <div className="pt-4">
-                      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300 dark:bg-green-900 dark:text-green-200">
-                        Currently Active
-                      </Badge>
-                    </div>
-                  ) : (
+                  {currentPlan !== "Free" && (
                     <div className="pt-4">
                       <Button 
                         variant="outline" 
