@@ -511,16 +511,18 @@ export default function OnboardingPostcardPreview() {
 
         {/* Preview area */}
         <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0 overflow-auto">
-          {tab === "front" && (
-            <FrontCanvas 
-              backgroundImage={selectedImage} 
-              imagePosition={imagePosition}
-              backgroundColor={postcardSettings.backgroundColor}
-            />
-          )}
-          {tab === "back" && (
-            <BackCanvas messageText={postcardSettings.messageText} />
-          )}
+          <div className="flex h-full w-full items-start justify-center">
+            {tab === "front" && (
+              <FrontCanvas 
+                backgroundImage={selectedImage} 
+                imagePosition={imagePosition}
+                backgroundColor={postcardSettings.backgroundColor}
+              />
+            )}
+            {tab === "back" && (
+              <BackCanvas messageText={postcardSettings.messageText} />
+            )}
+          </div>
         </div>
       </div>
 
