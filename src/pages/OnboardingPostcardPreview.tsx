@@ -93,20 +93,49 @@ export default function OnboardingPostcardPreview() {
         return;
       }
 
-      // Save template
-      const { error: templateError } = await supabase
+      // Check if template already exists
+      const { data: existingTemplate, error: fetchError } = await supabase
         .from('templates')
-        .upsert({
-          profile_id: user.id,
-          template_name: 'Onboarding Default',
-          frontpsc_background_color: postcardSettings.backgroundColor,
-          frontpsc_text_color: postcardSettings.textColor,
-          frontpsc_background_text: postcardSettings.messageText,
-          frontpsc_bg_type: 'color'
-        });
+        .select('id')
+        .eq('profile_id', user.id)
+        .eq('template_name', 'Onboarding Default')
+        .single();
+
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        console.error('Error checking existing template:', fetchError);
+        toast.error("Failed to check existing template");
+        return;
+      }
+
+      const templateData = {
+        profile_id: user.id,
+        template_name: 'Onboarding Default',
+        frontpsc_background_color: postcardSettings.backgroundColor,
+        frontpsc_text_color: postcardSettings.textColor,
+        frontpsc_background_text: postcardSettings.messageText,
+        frontpsc_bg_type: 'color'
+      };
+
+      let templateError;
+      
+      if (existingTemplate) {
+        // Update existing template
+        const { error } = await supabase
+          .from('templates')
+          .update(templateData)
+          .eq('id', existingTemplate.id);
+        templateError = error;
+      } else {
+        // Insert new template
+        const { error } = await supabase
+          .from('templates')
+          .insert(templateData);
+        templateError = error;
+      }
 
       if (templateError) {
-        toast.error("Failed to save template");
+        console.error('Template save error:', templateError);
+        toast.error(`Failed to save template: ${templateError.message}`);
         return;
       }
 
@@ -117,7 +146,8 @@ export default function OnboardingPostcardPreview() {
         .eq('id', user.id);
 
       if (profileError) {
-        toast.error("Failed to update progress");
+        console.error('Profile update error:', profileError);
+        toast.error(`Failed to update progress: ${profileError.message}`);
         return;
       }
 
