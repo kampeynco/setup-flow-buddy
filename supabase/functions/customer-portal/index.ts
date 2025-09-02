@@ -7,19 +7,31 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Helper logging function
-const logStep = (step: string, details?: any) => {
-  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
-  console.log(`[CUSTOMER-PORTAL] ${step}${detailsStr}`);
-};
-
 serve(async (req) => {
+  console.log("=== CUSTOMER PORTAL FUNCTION START ===");
+  
   if (req.method === "OPTIONS") {
+    console.log("Handling OPTIONS request");
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    logStep("Function started");
+    console.log("Starting customer portal function");
+
+    // Check environment variables first
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
+
+    console.log("Environment check:", {
+      hasStripeKey: !!stripeKey,
+      hasSupabaseUrl: !!supabaseUrl,
+      hasSupabaseKey: !!supabaseKey
+    });
+
+    if (!stripeKey) {
+      throw new Error("STRIPE_SECRET_KEY is not set");
+    }
 
     // Get user authentication
     const authHeader = req.headers.get("Authorization");
@@ -27,78 +39,61 @@ serve(async (req) => {
       throw new Error("No authorization header provided");
     }
     
+    console.log("Auth header found");
     const token = authHeader.replace("Bearer ", "");
-    logStep("Auth header found");
     
-    const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
-    );
+    const supabaseClient = createClient(supabaseUrl!, supabaseKey!);
     
+    console.log("Getting user...");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError || !userData?.user) {
-      logStep("Authentication failed", { error: userError?.message });
+      console.error("Authentication failed:", userError);
       throw new Error("User not authenticated");
     }
     
     const user = userData.user;
-    logStep("User authenticated", { userId: user.id, email: user.email });
+    console.log("User authenticated:", { userId: user.id, email: user.email });
 
-    // Get user's subscription info - look for active subscriptions first
-    logStep("Querying user subscriptions");
+    // Get user's subscription info
+    console.log("Querying user subscriptions...");
     const { data: subscriptions, error: subError } = await supabaseClient
       .from("user_subscriptions")
       .select("stripe_customer_id, status")
-      .eq("profile_id", user.id)
-      .eq("status", "active");
+      .eq("profile_id", user.id);
+
+    console.log("Subscription query result:", { subscriptions, error: subError });
 
     if (subError) {
-      logStep("Subscription query error", { error: subError });
-      throw new Error("Error fetching subscription");
+      console.error("Subscription query error:", subError);
+      throw new Error("Error fetching subscription: " + subError.message);
     }
 
-    logStep("Subscription query result", { subscriptions });
-
-    // If no active subscription, try any subscription for this user
+    // Find any subscription with a stripe_customer_id
     let stripeCustomerId = null;
     if (subscriptions && subscriptions.length > 0) {
-      stripeCustomerId = subscriptions[0].stripe_customer_id;
-    } else {
-      logStep("No active subscription, checking for any subscription");
-      const { data: anySubscription, error: anySubError } = await supabaseClient
-        .from("user_subscriptions")
-        .select("stripe_customer_id")
-        .eq("profile_id", user.id)
-        .maybeSingle();
-
-      if (anySubError) {
-        logStep("Any subscription query error", { error: anySubError });
-        throw new Error("Error fetching subscription");
-      }
-
-      stripeCustomerId = anySubscription?.stripe_customer_id;
-      logStep("Any subscription result", { stripeCustomerId });
+      const activeSubscription = subscriptions.find(sub => sub.status === 'active');
+      stripeCustomerId = activeSubscription?.stripe_customer_id || subscriptions[0]?.stripe_customer_id;
     }
+
+    console.log("Stripe customer ID:", stripeCustomerId);
 
     if (!stripeCustomerId) {
-      logStep("No stripe customer ID found");
-      throw new Error("No customer record found");
+      throw new Error("No customer record found for this user");
     }
 
-    logStep("Found stripe customer ID", { stripeCustomerId });
+    console.log("Initializing Stripe...");
+    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2023-10-16",
-    });
-
-    logStep("Creating customer portal session");
-    // Create customer portal session
+    console.log("Creating customer portal session...");
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
       return_url: `${req.headers.get("origin")}/dashboard`,
     });
 
-    logStep("Portal session created", { sessionId: portalSession.id, url: portalSession.url });
+    console.log("Portal session created successfully:", { 
+      sessionId: portalSession.id, 
+      url: portalSession.url 
+    });
 
     return new Response(JSON.stringify({ url: portalSession.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -106,8 +101,9 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logStep("ERROR in customer-portal", { message: errorMessage });
-    console.error("Error creating customer portal session:", error);
+    console.error("ERROR in customer-portal:", errorMessage);
+    console.error("Full error:", error);
+    
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
