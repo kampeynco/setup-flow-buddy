@@ -1,7 +1,10 @@
 import { ReactNode } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import logoIcon from "@/assets/logo_icon.svg";
 
 interface OnboardingLayoutProps {
@@ -31,6 +34,18 @@ export function OnboardingLayout({
   showBackButton = true
 }: OnboardingLayoutProps) {
   const progressPercentage = (currentStep / totalSteps) * 100;
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Logged out successfully");
+      navigate("/auth");
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast.error("Failed to log out");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 to-primary/10">
@@ -42,8 +57,19 @@ export function OnboardingLayout({
               <img src={logoIcon} alt="Thank Donors" className="h-8 w-8" />
               <span className="font-semibold text-lg">Thank Donors</span>
             </div>
-            <div className="text-sm text-muted-foreground">
-              Step {currentStep} of {totalSteps}
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">
+                {Math.round(progressPercentage)}% complete
+              </span>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleLogout}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-4 w-4 mr-1" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -58,43 +84,6 @@ export function OnboardingLayout({
               <span className="text-muted-foreground">{Math.round(progressPercentage)}% complete</span>
             </div>
             <Progress value={progressPercentage} className="h-2" />
-          </div>
-        </div>
-      </div>
-
-      {/* Steps indicator */}
-      <div className="border-b bg-card/20">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center space-x-8">
-            {stepTitles.map((stepTitle, index) => {
-              const stepNumber = index + 1;
-              const isActive = stepNumber === currentStep;
-              const isCompleted = stepNumber < currentStep;
-              
-              return (
-                <div key={stepNumber} className="flex items-center">
-                  <div className="flex items-center space-x-2">
-                    <div className={`
-                      w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                      ${isCompleted 
-                        ? 'bg-primary text-primary-foreground' 
-                        : isActive 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-muted text-muted-foreground'
-                      }
-                    `}>
-                      {isCompleted ? '✓' : stepNumber}
-                    </div>
-                    <span className={`text-sm ${isActive ? 'font-medium' : 'text-muted-foreground'}`}>
-                      {stepTitle}
-                    </span>
-                  </div>
-                  {index < stepTitles.length - 1 && (
-                    <div className="w-8 h-px bg-border ml-4" />
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
