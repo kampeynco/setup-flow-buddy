@@ -512,22 +512,16 @@ export default function OnboardingPostcardPreview() {
         {/* Preview area */}
         <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0 overflow-auto">
           <div className="flex h-full w-full items-start justify-center">
-            <div
-              className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
-              style={{ transform: scale }}
-            >
+            {tab === "front" && (
               <FrontCanvas 
                 backgroundImage={selectedImage} 
                 imagePosition={imagePosition}
                 backgroundColor={postcardSettings.backgroundColor}
               />
-            </div>
-            <div
-              className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
-              style={{ transform: scale }}
-            >
+            )}
+            {tab === "back" && (
               <BackCanvas messageText={postcardSettings.messageText} />
-            </div>
+            )}
           </div>
         </div>
       </div>
