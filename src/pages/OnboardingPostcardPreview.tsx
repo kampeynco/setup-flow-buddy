@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
 
-function FrontCanvas() {
+function FrontCanvas({ backgroundImage, imagePosition }: { backgroundImage?: string | null; imagePosition?: string }) {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
   const trimInset = 0.125 * INCH_PX; // (9.25-9)/2 and (6.25-6)/2
@@ -29,7 +29,7 @@ function FrontCanvas() {
       aria-label="Front postcard technical preview"
     >
       {/* Corner label */}
-      <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground">Front</div>
+      <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground z-10">Front</div>
 
       {/* Trim size */}
       <div
@@ -39,10 +39,22 @@ function FrontCanvas() {
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm border border-background/80 bg-card"
+        className="absolute rounded-sm border border-background/80 bg-card overflow-hidden"
         style={{ inset: safeInset }}
-      />
-
+      >
+        {/* Background Image */}
+        {backgroundImage && (
+          <img
+            src={backgroundImage}
+            alt="Postcard background"
+            className={`absolute ${
+              imagePosition === "cover" 
+                ? "inset-0 w-full h-full object-cover" 
+                : "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[80%] max-h-[80%] object-contain"
+            }`}
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -397,7 +409,7 @@ export default function OnboardingPostcardPreview() {
               className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
               style={{ transform: scale }}
             >
-              <FrontCanvas />
+              <FrontCanvas backgroundImage={selectedImage} imagePosition={imagePosition} />
             </div>
             <div
               className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
