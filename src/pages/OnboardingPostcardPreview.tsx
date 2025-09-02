@@ -295,7 +295,7 @@ export default function OnboardingPostcardPreview() {
       description="See how your postcards will look and customize the message"
       onBack={handleBack}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="space-y-8">
         {/* Customization Panel */}
         <Card>
           <CardContent className="p-6">
@@ -373,40 +373,36 @@ export default function OnboardingPostcardPreview() {
           </CardContent>
         </Card>
 
-        {/* Preview Panel */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="relative flex flex-col h-full">
-              {/* Controls */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
-                <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
-                  <TabsList>
-                    <TabsTrigger value="front">Front</TabsTrigger>
-                    <TabsTrigger value="back">Back</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </div>
+        {/* Preview Panel - Full Width */}
+        <div className="relative flex flex-col h-full">
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
+            <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
+              <TabsList>
+                <TabsTrigger value="front">Front</TabsTrigger>
+                <TabsTrigger value="back">Back</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
 
-              {/* Preview area */}
-              <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
-                <div className="flex h-full w-full items-start justify-center overflow-hidden">
-                  <div
-                    className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
-                    style={{ transform: scale }}
-                  >
-                    <FrontCanvas />
-                  </div>
-                  <div
-                    className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
-                    style={{ transform: scale }}
-                  >
-                    <BackCanvas />
-                  </div>
-                </div>
+          {/* Preview area */}
+          <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
+            <div className="flex h-full w-full items-start justify-center overflow-hidden">
+              <div
+                className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
+                style={{ transform: scale }}
+              >
+                <FrontCanvas />
+              </div>
+              <div
+                className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
+                style={{ transform: scale }}
+              >
+                <BackCanvas />
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-end mt-8">
