@@ -59,7 +59,7 @@ function FrontCanvas({ backgroundImage, imagePosition, backgroundColor }: { back
   );
 }
 
-function BackCanvas({ messageText }: { messageText?: string }) {
+function BackCanvas({ messageText, senderDetails }: { messageText?: string; senderDetails?: { committee_name?: string; organization_name?: string; street_address?: string; city?: string; state?: string; postal_code?: string } }) {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
   const trimInset = 0.125 * INCH_PX;
@@ -121,9 +121,9 @@ function BackCanvas({ messageText }: { messageText?: string }) {
       >
         {/* Committee details (top-left, smaller) */}
         <div className="absolute top-2 left-2 text-[7px] leading-none text-muted-foreground text-left py-1 pr-2">
-          <div>Placeholder Committee</div>
-          <div>123 Main Street</div>
-          <div>City, ST 12345</div>
+          <div>{senderDetails?.committee_name || senderDetails?.organization_name || "Placeholder Committee"}</div>
+          <div>{senderDetails?.street_address || "123 Main Street"}</div>
+          <div>{senderDetails ? `${senderDetails.city || "City"}, ${senderDetails.state || "ST"} ${senderDetails.postal_code || "12345"}` : "City, ST 12345"}</div>
         </div>
         {/* Mailing barcode (above donor details, left-aligned, no overlap) */}
         <div className="absolute left-2 right-2 top-10">
@@ -519,7 +519,17 @@ export default function OnboardingPostcardPreview() {
             />
           )}
           {tab === "back" && (
-            <BackCanvas messageText={postcardSettings.messageText} />
+            <BackCanvas 
+              messageText={postcardSettings.messageText} 
+              senderDetails={{
+                committee_name: senderInfo.committeeName,
+                organization_name: senderInfo.committeeName, // Use committee name as fallback
+                street_address: senderInfo.streetAddress,
+                city: senderInfo.city,
+                state: senderInfo.state,
+                postal_code: senderInfo.postalCode
+              }}
+            />
           )}
         </div>
       </div>

@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
 
 
 
@@ -43,7 +44,7 @@ function FrontCanvas() {
   );
 }
 
-function BackCanvas() {
+function BackCanvas({ senderDetails }: { senderDetails?: { committee_name?: string; organization_name?: string; street_address?: string; city?: string; state?: string; postal_code?: string } }) {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
   const trimInset = 0.125 * INCH_PX;
@@ -97,9 +98,9 @@ function BackCanvas() {
 >
         {/* Committee details (top-left, smaller) */}
         <div className="absolute top-2 left-2 text-[7px] leading-none text-muted-foreground text-left py-1 pr-2">
-          <div>Placeholder Committee</div>
-          <div>123 Main Street</div>
-          <div>City, ST 12345</div>
+          <div>{senderDetails?.committee_name || senderDetails?.organization_name || "Placeholder Committee"}</div>
+          <div>{senderDetails?.street_address || "123 Main Street"}</div>
+          <div>{senderDetails ? `${senderDetails.city || "City"}, ${senderDetails.state || "ST"} ${senderDetails.postal_code || "12345"}` : "City, ST 12345"}</div>
         </div>
         {/* Mailing barcode (above donor details, left-aligned, no overlap) */}
         <div className="absolute left-2 right-2 top-10">
@@ -132,11 +133,38 @@ function BackCanvas() {
   );
 }
 
-export default function PostcardPreview() {
+export default function PostcardPreview({ senderDetails: propSenderDetails }: { senderDetails?: { committee_name?: string; organization_name?: string; street_address?: string; city?: string; state?: string; postal_code?: string } } = {}) {
   const [tab, setTab] = useState<"front" | "back">("front");
+  const [senderDetails, setSenderDetails] = useState(propSenderDetails);
   const zoom = 1.8; // 1.8x = 180%
 
   const scale = useMemo(() => `scale(${zoom})`, [zoom]);
+
+  useEffect(() => {
+    // Only fetch sender details if not provided as props
+    if (!propSenderDetails) {
+      const loadSenderDetails = async () => {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('committee_name, organization_name, street_address, city, state, postal_code')
+              .eq('id', user.id)
+              .single();
+
+            if (profile) {
+              setSenderDetails(profile);
+            }
+          }
+        } catch (error) {
+          console.error('Error loading sender details:', error);
+        }
+      };
+
+      loadSenderDetails();
+    }
+  }, [propSenderDetails]);
 
   return (
     <div className="relative flex flex-col h-full">
@@ -155,7 +183,7 @@ export default function PostcardPreview() {
       {/* Preview area */}
       <div className="mt-4 flex-1 min-h-0 flex items-start justify-center">
         {tab === "front" && <FrontCanvas />}
-        {tab === "back" && <BackCanvas />}
+        {tab === "back" && <BackCanvas senderDetails={senderDetails} />}
       </div>
 
     </div>
