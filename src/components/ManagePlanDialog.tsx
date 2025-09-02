@@ -312,14 +312,7 @@ export function ManagePlanDialog({ open, onOpenChange }: ManagePlanDialogProps) 
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-between pt-4">
-            <Button 
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-            >
-              {isCurrentPro ? "Cancel Plan" : "Cancel"}
-            </Button>
-            
+          <div className="flex justify-end pt-4">
             {/* Only show upgrade/change buttons if not current plan */}
             {!(currentPlan === "Free" && selectedPlan === "free") && !(isCurrentPro && selectedPlan === "pro") && (
               <Button 
