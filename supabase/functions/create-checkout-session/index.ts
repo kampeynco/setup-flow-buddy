@@ -157,6 +157,11 @@ serve(async (req) => {
           },
         ],
         mode: "subscription",
+        metadata: {
+          userId: user.id,
+          planId: planId.toString(),
+          planType: "pro_subscription"
+        },
         subscription_data: {
           trial_period_days: 7,
           metadata: { userId: user.id, planId: planId.toString() }
