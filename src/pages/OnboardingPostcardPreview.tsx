@@ -109,7 +109,7 @@ function BackCanvas({ messageText }: { messageText?: string }) {
           bottom: safeInset + 40 // Leave space at bottom
         }}
       >
-        <div className="text-[10px] leading-relaxed">
+        <div className="text-xs leading-tight">
           {messageText || "Thank you for your generous donation! Your support makes our campaign possible."}
         </div>
       </div>
