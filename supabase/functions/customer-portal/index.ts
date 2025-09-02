@@ -61,7 +61,11 @@ serve(async (req) => {
       .select("stripe_customer_id, status")
       .eq("profile_id", user.id);
 
-    console.log("Subscription query result:", { subscriptions, error: subError });
+    console.log("Subscription query result:", { 
+      subscriptions, 
+      error: subError,
+      subscriptionCount: subscriptions?.length || 0
+    });
 
     if (subError) {
       console.error("Subscription query error:", subError);
@@ -71,8 +75,19 @@ serve(async (req) => {
     // Find any subscription with a stripe_customer_id
     let stripeCustomerId = null;
     if (subscriptions && subscriptions.length > 0) {
+      console.log("All subscriptions found:", subscriptions.map(sub => ({
+        status: sub.status,
+        stripe_customer_id: sub.stripe_customer_id,
+        hasCustomerId: !!sub.stripe_customer_id
+      })));
+      
       const activeSubscription = subscriptions.find(sub => sub.status === 'active');
+      console.log("Active subscription:", activeSubscription);
+      
       stripeCustomerId = activeSubscription?.stripe_customer_id || subscriptions[0]?.stripe_customer_id;
+      console.log("Selected stripe_customer_id:", stripeCustomerId);
+    } else {
+      console.log("No subscriptions found for user");
     }
 
     console.log("Stripe customer ID:", stripeCustomerId);
