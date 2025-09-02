@@ -8,118 +8,95 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  console.log("=== CUSTOMER PORTAL FUNCTION START ===");
+  console.log("=== CUSTOMER PORTAL START ===");
   
   if (req.method === "OPTIONS") {
-    console.log("Handling OPTIONS request");
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log("Starting customer portal function");
-
-    // Check environment variables first
+    // Check environment variables
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
-
-    console.log("Environment check:", {
-      hasStripeKey: !!stripeKey,
-      hasSupabaseUrl: !!supabaseUrl,
-      hasSupabaseKey: !!supabaseKey
-    });
-
     if (!stripeKey) {
-      throw new Error("STRIPE_SECRET_KEY is not set");
+      throw new Error("STRIPE_SECRET_KEY not configured");
     }
 
     // Get user authentication
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error("No authorization header provided");
+      throw new Error("No authorization header");
     }
     
-    console.log("Auth header found");
     const token = authHeader.replace("Bearer ", "");
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? ""
+    );
     
-    const supabaseClient = createClient(supabaseUrl!, supabaseKey!);
-    
-    console.log("Getting user...");
+    console.log("Authenticating user...");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError || !userData?.user) {
-      console.error("Authentication failed:", userError);
-      throw new Error("User not authenticated");
+      console.error("Auth failed:", userError);
+      throw new Error("Authentication failed");
     }
     
-    const user = userData.user;
-    console.log("User authenticated:", { userId: user.id, email: user.email });
+    const userId = userData.user.id;
+    console.log("User ID:", userId);
 
-    // Get user's subscription info
-    console.log("Querying user subscriptions...");
+    // Query subscriptions directly
+    console.log("Querying subscriptions...");
     const { data: subscriptions, error: subError } = await supabaseClient
       .from("user_subscriptions")
       .select("stripe_customer_id, status")
-      .eq("profile_id", user.id);
-
-    console.log("Subscription query result:", { 
-      subscriptions, 
-      error: subError,
-      subscriptionCount: subscriptions?.length || 0
-    });
+      .eq("profile_id", userId);
 
     if (subError) {
-      console.error("Subscription query error:", subError);
-      throw new Error("Error fetching subscription: " + subError.message);
+      console.error("Subscription query failed:", subError);
+      throw new Error("Failed to query subscriptions: " + subError.message);
     }
 
-    // Find any subscription with a stripe_customer_id
+    console.log("Found subscriptions:", subscriptions?.length || 0);
+    console.log("Subscription data:", subscriptions);
+
+    if (!subscriptions || subscriptions.length === 0) {
+      throw new Error("No subscriptions found for user");
+    }
+
+    // Get the stripe_customer_id from any subscription
     let stripeCustomerId = null;
-    if (subscriptions && subscriptions.length > 0) {
-      console.log("All subscriptions found:", subscriptions.map(sub => ({
-        status: sub.status,
-        stripe_customer_id: sub.stripe_customer_id,
-        hasCustomerId: !!sub.stripe_customer_id
-      })));
-      
-      const activeSubscription = subscriptions.find(sub => sub.status === 'active');
-      console.log("Active subscription:", activeSubscription);
-      
-      stripeCustomerId = activeSubscription?.stripe_customer_id || subscriptions[0]?.stripe_customer_id;
-      console.log("Selected stripe_customer_id:", stripeCustomerId);
-    } else {
-      console.log("No subscriptions found for user");
+    for (const sub of subscriptions) {
+      if (sub.stripe_customer_id) {
+        stripeCustomerId = sub.stripe_customer_id;
+        console.log("Using stripe_customer_id:", stripeCustomerId);
+        break;
+      }
     }
-
-    console.log("Stripe customer ID:", stripeCustomerId);
 
     if (!stripeCustomerId) {
-      throw new Error("No customer record found for this user");
+      console.log("No stripe_customer_id found in any subscription");
+      throw new Error("No Stripe customer ID found");
     }
 
-    console.log("Initializing Stripe...");
+    // Create Stripe portal session
+    console.log("Creating Stripe portal session...");
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
-
-    console.log("Creating customer portal session...");
+    
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
       return_url: `${req.headers.get("origin")}/dashboard`,
     });
 
-    console.log("Portal session created successfully:", { 
-      sessionId: portalSession.id, 
-      url: portalSession.url 
-    });
-
+    console.log("Portal session created successfully");
     return new Response(JSON.stringify({ url: portalSession.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
+
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("ERROR in customer-portal:", errorMessage);
-    console.error("Full error:", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Customer portal error:", message);
     
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    return new Response(JSON.stringify({ error: message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
