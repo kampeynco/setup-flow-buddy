@@ -13,76 +13,81 @@ serve(async (req) => {
   }
 
   try {
-    console.log("=== CREATE CHECKOUT SESSION START ===");
+    console.log("=== FUNCTION START ===");
+    
+    // Test basic functionality first
     console.log("Request method:", req.method);
-    console.log("Request URL:", req.url);
+    console.log("Request headers:", Object.fromEntries(req.headers.entries()));
     
-    console.log("=== STRIPE KEY DEBUG START ===");
-    
-    // First, let's check all environment variables
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
-    
-    console.log("Environment check:");
-    console.log("- STRIPE_SECRET_KEY exists:", !!stripeKey);
-    console.log("- STRIPE_SECRET_KEY length:", stripeKey?.length || 0);
-    console.log("- STRIPE_SECRET_KEY first 15 chars:", stripeKey?.substring(0, 15) || "undefined");
-    console.log("- SUPABASE_URL exists:", !!supabaseUrl);
-    console.log("- SUPABASE_ANON_KEY exists:", !!supabaseKey);
-    
-    if (!stripeKey) {
-      console.error("STRIPE_SECRET_KEY is null or undefined");
-      throw new Error("STRIPE_SECRET_KEY not found in environment");
-    }
-    
-    // Test Stripe initialization
-    console.log("Initializing Stripe with key...");
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2023-10-16",
-    });
-    
-    console.log("Stripe initialized successfully");
-    
-    // Test a simple Stripe API call
-    console.log("Testing Stripe API with key...");
+    let requestBody;
     try {
-      const testCustomers = await stripe.customers.list({ limit: 1 });
-      console.log("Stripe API test successful, found", testCustomers.data.length, "customers");
-    } catch (stripeError) {
-      console.error("Stripe API test failed:", stripeError.message);
-      throw new Error(`Stripe API error: ${stripeError.message}`);
+      requestBody = await req.json();
+      console.log("Request body parsed successfully:", JSON.stringify(requestBody));
+    } catch (parseError) {
+      console.error("JSON parsing error:", parseError.message);
+      throw new Error(`Invalid JSON in request body: ${parseError.message}`);
     }
     
-    console.log("=== STRIPE KEY DEBUG END ===");
-    
-    // Parse request body
-    console.log("Parsing request body...");
-    const requestBody = await req.json();
-    console.log("Request body received:", JSON.stringify(requestBody));
     const { planId, cancelUrl } = requestBody;
     
     if (!planId) {
       throw new Error("planId is required");
     }
     
+    console.log("planId:", planId);
+    console.log("cancelUrl:", cancelUrl);
+    
+    // Check environment variables
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
+    
+    console.log("Environment variables:");
+    console.log("- STRIPE_SECRET_KEY exists:", !!stripeKey);
+    console.log("- SUPABASE_URL exists:", !!supabaseUrl);
+    console.log("- SUPABASE_ANON_KEY exists:", !!supabaseKey);
+    
+    if (!stripeKey) {
+      throw new Error("STRIPE_SECRET_KEY not found in environment");
+    }
+    
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error("Supabase environment variables missing");
+    }
+    
+    // Test Stripe initialization
+    console.log("Initializing Stripe...");
+    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+    console.log("Stripe initialized successfully");
+    
+    // Simple test
+    console.log("Testing Stripe API...");
+    const testCustomers = await stripe.customers.list({ limit: 1 });
+    console.log("Stripe API test successful");
+    
     // Get user authentication
-    const authHeader = req.headers.get("Authorization")!;
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      throw new Error("No authorization header provided");
+    }
+    
+    console.log("Auth header exists");
     const token = authHeader.replace("Bearer ", "");
     
-    const supabaseClient = createClient(
-      supabaseUrl ?? "",
-      supabaseKey ?? ""
-    );
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
     
+    console.log("Getting user...");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError || !userData?.user?.email) {
+      console.error("User authentication error:", userError);
       throw new Error("User not authenticated");
     }
     
+    console.log("User authenticated:", userData.user.email);
     const user = userData.user;
     
     // Get subscription plan details
+    console.log("Getting plan data for planId:", planId);
     const { data: planData, error: planError } = await supabaseClient
       .from("subscription_plans")
       .select("*")
@@ -98,12 +103,18 @@ serve(async (req) => {
       console.error("No plan found for ID:", planId);
       throw new Error("Invalid plan selected");
     }
+    
+    console.log("Plan found:", planData.name);
 
     // Check if customer exists
+    console.log("Checking for existing customer...");
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     let customerId;
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
+      console.log("Found existing customer:", customerId);
+    } else {
+      console.log("No existing customer found");
     }
 
     // Create checkout session
@@ -158,14 +169,21 @@ serve(async (req) => {
       };
     }
 
+    console.log("Creating Stripe checkout session...");
     const session = await stripe.checkout.sessions.create(sessionConfig);
+    console.log("Checkout session created successfully:", session.id);
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
-    console.error("Error creating checkout session:", error);
+    console.error("=== ERROR ===");
+    console.error("Error type:", error.constructor.name);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+    console.error("=== END ERROR ===");
+    
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
