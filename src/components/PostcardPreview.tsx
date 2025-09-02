@@ -155,8 +155,16 @@ export default function PostcardPreview() {
       {/* Preview area */}
       <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
         <div className="flex h-full w-full items-start justify-center overflow-hidden">
-          {tab === "front" && <FrontCanvas />}
-          {tab === "back" && <BackCanvas />}
+          {tab === "front" && (
+            <div style={{ transform: scale }} className="origin-top">
+              <FrontCanvas />
+            </div>
+          )}
+          {tab === "back" && (
+            <div style={{ transform: scale }} className="origin-top">
+              <BackCanvas />
+            </div>
+          )}
         </div>
         
       </div>
