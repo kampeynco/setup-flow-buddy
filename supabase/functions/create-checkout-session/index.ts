@@ -15,17 +15,14 @@ serve(async (req) => {
   try {
     console.log("=== FUNCTION START ===");
     
-    // Test basic functionality first
-    console.log("Request method:", req.method);
-    console.log("Request headers:", Object.fromEntries(req.headers.entries()));
-    
+    // Parse request body
     let requestBody;
     try {
       requestBody = await req.json();
-      console.log("Request body parsed successfully:", JSON.stringify(requestBody));
+      console.log("Request body:", JSON.stringify(requestBody));
     } catch (parseError) {
-      console.error("JSON parsing error:", parseError.message);
-      throw new Error(`Invalid JSON in request body: ${parseError.message}`);
+      console.error("JSON parse error:", parseError.message);
+      throw new Error(`Invalid JSON: ${parseError.message}`);
     }
     
     const { planId, cancelUrl } = requestBody;
@@ -34,60 +31,58 @@ serve(async (req) => {
       throw new Error("planId is required");
     }
     
-    console.log("planId:", planId);
-    console.log("cancelUrl:", cancelUrl);
+    console.log("planId:", planId, "cancelUrl:", cancelUrl);
     
     // Check environment variables
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
     
-    console.log("Environment variables:");
+    console.log("Environment check:");
     console.log("- STRIPE_SECRET_KEY exists:", !!stripeKey);
     console.log("- SUPABASE_URL exists:", !!supabaseUrl);
     console.log("- SUPABASE_ANON_KEY exists:", !!supabaseKey);
     
-    if (!stripeKey) {
-      throw new Error("STRIPE_SECRET_KEY not found in environment");
+    if (!stripeKey || !supabaseUrl || !supabaseKey) {
+      throw new Error("Missing environment variables");
     }
     
-    if (!supabaseUrl || !supabaseKey) {
-      throw new Error("Supabase environment variables missing");
-    }
-    
-    // Test Stripe initialization
+    // Initialize Stripe
     console.log("Initializing Stripe...");
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
-    console.log("Stripe initialized successfully");
+    console.log("Stripe initialized");
     
-    // Simple test
+    // Test Stripe API
     console.log("Testing Stripe API...");
-    const testCustomers = await stripe.customers.list({ limit: 1 });
-    console.log("Stripe API test successful");
+    const customers = await stripe.customers.list({ limit: 1 });
+    console.log("Stripe test successful");
     
     // Get user authentication
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error("No authorization header provided");
+      throw new Error("No authorization header");
     }
     
-    console.log("Auth header exists");
     const token = authHeader.replace("Bearer ", "");
+    console.log("Auth header found");
     
+    // Initialize Supabase client
     const supabaseClient = createClient(supabaseUrl, supabaseKey);
+    console.log("Supabase client created");
     
+    // Get user
     console.log("Getting user...");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError || !userData?.user?.email) {
-      console.error("User authentication error:", userError);
+      console.error("User error:", userError);
       throw new Error("User not authenticated");
     }
     
-    console.log("User authenticated:", userData.user.email);
     const user = userData.user;
+    console.log("User authenticated:", user.email);
     
-    // Get subscription plan details
-    console.log("Getting plan data for planId:", planId);
+    // Get plan data
+    console.log("Getting plan data...");
     const { data: planData, error: planError } = await supabaseClient
       .from("subscription_plans")
       .select("*")
@@ -95,39 +90,40 @@ serve(async (req) => {
       .maybeSingle();
       
     if (planError) {
-      console.error("Plan query error:", planError);
-      throw new Error("Error fetching plan details");
+      console.error("Plan error:", planError);
+      throw new Error("Plan query failed");
     }
     
     if (!planData) {
-      console.error("No plan found for ID:", planId);
-      throw new Error("Invalid plan selected");
+      throw new Error("Plan not found");
     }
     
     console.log("Plan found:", planData.name);
-
-    // Check if customer exists
+    
+    // Check for existing Stripe customer
     console.log("Checking for existing customer...");
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    const existingCustomers = await stripe.customers.list({ email: user.email, limit: 1 });
     let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
+    if (existingCustomers.data.length > 0) {
+      customerId = existingCustomers.data[0].id;
       console.log("Found existing customer:", customerId);
     } else {
       console.log("No existing customer found");
     }
-
+    
     // Create checkout session
-    const defaultCancelUrl = `${req.headers.get("origin")}/dashboard?checkout=canceled`;
+    console.log("Creating checkout session...");
+    const origin = req.headers.get("origin") || "https://example.com";
+    const defaultCancelUrl = `${origin}/dashboard?checkout=canceled`;
+    
     let sessionConfig: any = {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || defaultCancelUrl,
     };
-
+    
     if (planData.name === "Free") {
-      // For Pay as You Go plan, create $50 initial charge
       sessionConfig = {
         ...sessionConfig,
         line_items: [
@@ -138,7 +134,7 @@ serve(async (req) => {
                 name: "Pay as You Go - Initial Account Balance",
                 description: "$50 credit added to your account balance"
               },
-              unit_amount: 5000, // $50.00 in cents
+              unit_amount: 5000,
             },
             quantity: 1,
           },
@@ -152,7 +148,6 @@ serve(async (req) => {
         }
       };
     } else {
-      // For Pro plan, create subscription with 7-day trial
       sessionConfig = {
         ...sessionConfig,
         line_items: [
@@ -168,23 +163,27 @@ serve(async (req) => {
         },
       };
     }
-
-    console.log("Creating Stripe checkout session...");
+    
+    console.log("Session config ready, creating session...");
     const session = await stripe.checkout.sessions.create(sessionConfig);
-    console.log("Checkout session created successfully:", session.id);
-
+    console.log("Session created successfully:", session.id);
+    
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
+    
   } catch (error) {
-    console.error("=== ERROR ===");
-    console.error("Error type:", error.constructor.name);
+    console.error("=== ERROR CAUGHT ===");
+    console.error("Error name:", error.name);
     console.error("Error message:", error.message);
     console.error("Error stack:", error.stack);
     console.error("=== END ERROR ===");
     
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      type: error.name 
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
