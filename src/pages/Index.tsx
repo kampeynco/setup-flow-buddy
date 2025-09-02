@@ -19,6 +19,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import SettingsDialog from "@/components/SettingsDialog";
 import { DonationsTable } from "@/components/DonationsTable";
 import { SubscriptionPill } from "@/components/SubscriptionPill";
+import { ManagePlanDialog } from "@/components/ManagePlanDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { cleanupAuthState } from "@/lib/utils";
 
@@ -498,6 +499,13 @@ const Index = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="z-50 bg-popover">
+                <DropdownMenuItem onSelect={() => setBillingDialogOpen(true)}>Manage Plan</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => {
+                  // Trigger the existing design dialog
+                  const designButton = document.querySelector('[data-design-trigger]') as HTMLButtonElement;
+                  if (designButton) designButton.click();
+                }}>Design Card</DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={handleSignOut}>Log out</DropdownMenuItem>
@@ -512,6 +520,7 @@ const Index = () => {
       </header>
 
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <ManagePlanDialog open={billingDialogOpen} onOpenChange={setBillingDialogOpen} />
 
       <main className="mx-auto max-w-[1024px] px-4 sm:px-6 lg:pl-0 py-8 grid gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-[488px_1fr] md:justify-items-center lg:justify-items-stretch">
         <aside className="bg-transparent md:max-w-[488px] md:mx-auto lg:mx-0">
@@ -527,9 +536,9 @@ const Index = () => {
                     <p className="font-medium">Design Postcard</p>
                     <div className="mt-3 flex gap-3">
                       {/* Design Card Button */}
-                      <Dialog>
+                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button size="sm">Design</Button>
+                          <Button size="sm" data-design-trigger>Design</Button>
                         </DialogTrigger>
                      <DialogContent className="sm:max-w-[720px] sm:h-[640px] flex flex-col p-0">
                           <DialogHeader className="flex-shrink-0 px-6 py-4 border-b">
