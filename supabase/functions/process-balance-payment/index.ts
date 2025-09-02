@@ -129,13 +129,16 @@ async function handlePayAsYouGoPayment(supabaseClient: any, userId: string, sess
     console.log(`Creating subscription for Free plan: ${planData.name}`);
     const { error: subscriptionError } = await supabaseClient
       .from("user_subscriptions")
-      .insert({
+      .upsert({
         profile_id: userId,
         plan_id: planData.id,
         status: "active",
         stripe_customer_id: session.customer,
         current_period_start: new Date().toISOString(),
         current_period_end: null // Pay as you go doesn't have periods
+      }, { 
+        onConflict: 'profile_id',
+        ignoreDuplicates: false 
       });
     
     if (subscriptionError) {
@@ -167,7 +170,7 @@ async function handleProSubscription(supabaseClient: any, userId: string, sessio
     
     const { error: subscriptionError } = await supabaseClient
       .from("user_subscriptions")
-      .insert({
+      .upsert({
         profile_id: userId,
         plan_id: planData.id,
         status: "active",
@@ -176,6 +179,9 @@ async function handleProSubscription(supabaseClient: any, userId: string, sessio
         current_period_start: new Date(stripeSubscription.current_period_start * 1000).toISOString(),
         current_period_end: new Date(stripeSubscription.current_period_end * 1000).toISOString(),
         trial_end: stripeSubscription.trial_end ? new Date(stripeSubscription.trial_end * 1000).toISOString() : null
+      }, { 
+        onConflict: 'profile_id',
+        ignoreDuplicates: false 
       });
     
     if (subscriptionError) {
