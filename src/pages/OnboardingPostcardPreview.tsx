@@ -143,8 +143,8 @@ function BackCanvas({ messageText, senderDetails }: { messageText?: string; send
         </div>
         {/* Postage indicia (top-right inside mailing area) */}
         <div
-          className="absolute top-2 right-2 border border-black bg-transparent px-2 py-1 text-[7px] leading-none text-foreground/80 flex items-center justify-center text-center"
-          style={{ width: 0.9375 * INCH_PX, height: 0.75 * INCH_PX }}
+          className="absolute top-2 right-2 border-black bg-transparent px-2 py-1 text-[7px] leading-none text-foreground/80 flex items-center justify-center text-center"
+          style={{ width: 0.9375 * INCH_PX, height: 0.75 * INCH_PX, borderWidth: '0.5px' }}
         >
           Postage Indicia
         </div>
