@@ -297,7 +297,7 @@ export default function OnboardingPostcardPreview() {
       onBack={handleBack}
     >
       {/* Preview Panel - Full Width */}
-      <div className="relative flex flex-col h-full">
+      <div className="relative flex flex-col" style={{ height: "600px" }}>
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pr-10">
           <div className="flex items-center gap-4">
@@ -358,8 +358,8 @@ export default function OnboardingPostcardPreview() {
         </div>
 
         {/* Preview area */}
-        <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
-          <div className="flex h-full w-full items-start justify-center overflow-hidden">
+        <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0 overflow-auto">
+          <div className="flex h-full w-full items-start justify-center">
             <div
               className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
               style={{ transform: scale }}
