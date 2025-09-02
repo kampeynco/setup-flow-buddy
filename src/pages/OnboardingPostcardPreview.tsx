@@ -369,8 +369,8 @@ export default function OnboardingPostcardPreview() {
                     className="w-24"
                   />
                 </div>
-                <Button variant="outline" size="sm" onClick={handleImageUpload}>
-                  {selectedImage ? "Change Image" : "Upload"}
+                <Button variant="default" size="sm" onClick={handleImageUpload}>
+                  {selectedImage ? "Change Image" : "Upload Image"}
                 </Button>
                 <input
                   ref={fileInputRef}
@@ -392,8 +392,8 @@ export default function OnboardingPostcardPreview() {
             ) : (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    Thank You Message
+                  <Button variant="default" size="sm">
+                    Edit Message
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
@@ -405,15 +405,15 @@ export default function OnboardingPostcardPreview() {
                       value={postcardSettings.messageText}
                       onChange={(e) => {
                         const words = e.target.value.split(/\s+/).filter(word => word.length > 0);
-                        if (words.length <= 250) {
+                        if (words.length <= 100) {
                           setPostcardSettings(prev => ({ ...prev, messageText: e.target.value }));
                         }
                       }}
-                      placeholder="Enter your thank you message (250 words max)..."
+                      placeholder="Enter your thank you message (100 words max)..."
                       rows={4}
                     />
                     <div className="text-xs text-muted-foreground text-right">
-                      {postcardSettings.messageText.split(/\s+/).filter(word => word.length > 0).length}/250 words
+                      {postcardSettings.messageText.split(/\s+/).filter(word => word.length > 0).length}/100 words
                     </div>
                   </div>
                 </DialogContent>
