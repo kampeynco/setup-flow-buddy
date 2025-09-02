@@ -153,7 +153,7 @@ export default function PostcardPreview() {
       </div>
 
       {/* Preview area */}
-      <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0">
+      <div className="mt-4 rounded-md border bg-muted p-4 flex-1 min-h-0 flex items-start justify-center">
         {tab === "front" && <FrontCanvas />}
         {tab === "back" && <BackCanvas />}
       </div>
