@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
 
-function FrontCanvas({ backgroundImage, imagePosition }: { backgroundImage?: string | null; imagePosition?: string }) {
+function FrontCanvas({ backgroundImage, imagePosition, backgroundColor }: { backgroundImage?: string | null; imagePosition?: string; backgroundColor?: string }) {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
   const trimInset = 0.125 * INCH_PX; // (9.25-9)/2 and (6.25-6)/2
@@ -28,19 +28,19 @@ function FrontCanvas({ backgroundImage, imagePosition }: { backgroundImage?: str
       style={{ width: bleedW, height: bleedH }}
       aria-label="Front postcard technical preview"
     >
-      {/* Corner label */}
-      <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground z-10">Front</div>
-
       {/* Trim size */}
       <div
-        className="absolute rounded-sm border border-foreground/10"
+        className="absolute rounded-sm"
         style={{ inset: trimInset }}
       />
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm border border-background/80 bg-card overflow-hidden"
-        style={{ inset: safeInset }}
+        className="absolute rounded-sm overflow-hidden"
+        style={{ 
+          inset: safeInset,
+          backgroundColor: backgroundColor || "#ffffff"
+        }}
       >
         {/* Background Image */}
         {backgroundImage && (
@@ -87,18 +87,15 @@ function BackCanvas() {
       style={{ width: bleedW, height: bleedH }}
       aria-label="Back postcard preview"
     >
-      {/* Corner label */}
-      <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground">Back</div>
-
       {/* Trim size */}
       <div
-        className="absolute rounded-sm border border-foreground/10"
+        className="absolute rounded-sm"
         style={{ inset: trimInset }}
       />
 
       {/* Safe zone */}
       <div
-        className="absolute rounded-sm border border-background/80 bg-card"
+        className="absolute rounded-sm bg-card"
         style={{ inset: safeInset }}
       />
 
@@ -409,7 +406,11 @@ export default function OnboardingPostcardPreview() {
               className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
               style={{ transform: scale }}
             >
-              <FrontCanvas backgroundImage={selectedImage} imagePosition={imagePosition} />
+              <FrontCanvas 
+                backgroundImage={selectedImage} 
+                imagePosition={imagePosition}
+                backgroundColor={postcardSettings.backgroundColor}
+              />
             </div>
             <div
               className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
