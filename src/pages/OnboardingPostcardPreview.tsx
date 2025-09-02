@@ -13,24 +13,18 @@ import { cn } from "@/lib/utils";
 
 const INCH_PX = 40; // base scale: 40px per inch (scales via zoom)
 
-function FrontCanvas({ backgroundColor, textColor, messageText, committeeName, senderInfo }: {
-  backgroundColor: string;
-  textColor: string;
-  messageText: string;
-  committeeName: string;
-  senderInfo: any;
-}) {
+function FrontCanvas() {
   const bleedW = 9.25 * INCH_PX;
   const bleedH = 6.25 * INCH_PX;
-  const trimInset = 0.125 * INCH_PX;
-  const safeInsetFromTrim = 0.0625 * INCH_PX;
+  const trimInset = 0.125 * INCH_PX; // (9.25-9)/2 and (6.25-6)/2
+  const safeInsetFromTrim = 0.0625 * INCH_PX; // (9-8.875)/2 and (6-5.875)/2
   const safeInset = trimInset + safeInsetFromTrim;
 
   return (
     <div
       className="relative"
       style={{ width: bleedW, height: bleedH }}
-      aria-label="Front postcard preview"
+      aria-label="Front postcard technical preview"
     >
       {/* Corner label */}
       <div className="absolute left-2 top-2 text-xs font-medium text-muted-foreground">Front</div>
@@ -41,34 +35,12 @@ function FrontCanvas({ backgroundColor, textColor, messageText, committeeName, s
         style={{ inset: trimInset }}
       />
 
-      {/* Safe zone with content */}
+      {/* Safe zone */}
       <div
-        className="absolute rounded-sm border border-background/80 flex items-center justify-center p-4"
-        style={{ 
-          inset: safeInset, 
-          backgroundColor, 
-          color: textColor 
-        }}
-      >
-        <div className="text-center">
-          <div className="text-lg font-semibold mb-2">
-            {committeeName || "Your Committee Name"}
-          </div>
-          <div className="text-sm mb-4">
-            {messageText}
-          </div>
-          <div className="text-xs opacity-75">
-            {senderInfo.streetAddress && (
-              <div>{senderInfo.streetAddress}</div>
-            )}
-            {(senderInfo.city || senderInfo.state || senderInfo.postalCode) && (
-              <div>
-                {senderInfo.city}{senderInfo.city && senderInfo.state ? ', ' : ''}{senderInfo.state} {senderInfo.postalCode}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+        className="absolute rounded-sm border border-background/80 bg-card"
+        style={{ inset: safeInset }}
+      />
+
     </div>
   );
 }
@@ -422,13 +394,7 @@ export default function OnboardingPostcardPreview() {
                     className={cn("origin-top animate-fade-in", tab === "front" ? "" : "hidden")}
                     style={{ transform: scale }}
                   >
-                    <FrontCanvas 
-                      backgroundColor={postcardSettings.backgroundColor}
-                      textColor={postcardSettings.textColor}
-                      messageText={postcardSettings.messageText}
-                      committeeName={senderInfo.committeeName}
-                      senderInfo={senderInfo}
-                    />
+                    <FrontCanvas />
                   </div>
                   <div
                     className={cn("origin-top animate-fade-in", tab === "back" ? "" : "hidden")}
