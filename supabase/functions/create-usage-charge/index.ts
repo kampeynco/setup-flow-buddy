@@ -122,13 +122,16 @@ serve(async (req) => {
           postcard_id: postcardId
         });
 
-      // Record usage charge (no Stripe invoice for balance deduction)
+      // Record usage charge for Free plan (billed immediately via balance deduction)
       await supabase.from("usage_charges").insert({
         profile_id: profileId,
         postcard_id: postcardId,
         amount: chargeAmount,
         stripe_invoice_item_id: null,
-        plan_type: planType
+        plan_type: planType,
+        billed_at: new Date().toISOString(), // Mark as billed immediately for Free plan
+        billing_cycle_start: null,
+        billing_cycle_end: null,
       });
 
       // Mark postcard as billed
@@ -174,17 +177,30 @@ serve(async (req) => {
       });
     } 
     
-    // For Pro users, continue with Stripe invoice billing
+    // For Pro users, continue with monthly billing approach
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
 
-    // Create invoice item for usage charge
+    // Get billing cycle dates for Pro subscriptions
+    let billingCycleStart = null;
+    let billingCycleEnd = null;
+    
+    if (subscription.stripe_subscription_id) {
+      const stripeSubscription = await stripe.subscriptions.retrieve(subscription.stripe_subscription_id);
+      billingCycleStart = new Date(stripeSubscription.current_period_start * 1000).toISOString();
+      billingCycleEnd = new Date(stripeSubscription.current_period_end * 1000).toISOString();
+    }
+
+    // For Pro subscribers, just create invoice item (don't finalize invoice yet)
+    // Monthly billing will collect all usage charges and create a single invoice
+    console.log('Creating Stripe invoice item for Pro subscription (monthly billing)');
+    
     const invoiceItem = await stripe.invoiceItems.create({
       customer: subscription.stripe_customer_id,
-      amount: Math.round(chargeAmount * 100), // Convert to cents for Stripe
-      currency: "usd",
-      description: `Postcard mailing - ${subscription.plan.name} plan`,
+      amount: Math.round(chargeAmount * 100), // Convert to cents
+      currency: 'usd',
+      description: `Postcard mailing fee - ${postcardData.donation.donor_name || 'Donor'}`,
       metadata: {
         postcardId: postcardId,
         planType: planType,
@@ -192,23 +208,18 @@ serve(async (req) => {
       }
     });
 
-    // Create invoice and finalize it immediately for usage charges
-    const invoice = await stripe.invoices.create({
-      customer: subscription.stripe_customer_id,
-      auto_advance: true,
-      collection_method: "charge_automatically",
-      description: `Usage charges for ${new Date().toLocaleDateString()}`,
-    });
+    console.log('Invoice item created for monthly billing:', invoiceItem.id);
 
-    await stripe.invoices.finalizeInvoice(invoice.id);
-
-    // Record the usage charge in our database
+    // Record the usage charge in our database (marked as unbilled for monthly processing)
     await supabase.from("usage_charges").insert({
       profile_id: profileId,
       postcard_id: postcardId,
       amount: chargeAmount,
+      plan_type: planType,
       stripe_invoice_item_id: invoiceItem.id,
-      plan_type: planType
+      billing_cycle_start: billingCycleStart,
+      billing_cycle_end: billingCycleEnd,
+      billed_at: null, // Leave null for monthly billing
     });
 
     // Mark postcard as billed
@@ -225,8 +236,9 @@ serve(async (req) => {
     return new Response(JSON.stringify({ 
       success: true,
       amount: chargeAmount,
-      payment_method: "stripe_invoice",
-      invoiceItemId: invoiceItem.id
+      payment_method: "monthly_billing",
+      invoiceItemId: invoiceItem.id,
+      billing_cycle_end: billingCycleEnd
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

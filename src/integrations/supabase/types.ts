@@ -679,10 +679,14 @@ export type Database = {
       usage_charges: {
         Row: {
           amount: number
+          billed_at: string | null
+          billing_cycle_end: string | null
+          billing_cycle_start: string | null
           charged_at: string
           created_at: string
           currency: string | null
           id: string
+          invoice_id: string | null
           plan_type: string
           postcard_id: string
           profile_id: string
@@ -691,10 +695,14 @@ export type Database = {
         }
         Insert: {
           amount: number
+          billed_at?: string | null
+          billing_cycle_end?: string | null
+          billing_cycle_start?: string | null
           charged_at?: string
           created_at?: string
           currency?: string | null
           id?: string
+          invoice_id?: string | null
           plan_type: string
           postcard_id: string
           profile_id: string
@@ -703,10 +711,14 @@ export type Database = {
         }
         Update: {
           amount?: number
+          billed_at?: string | null
+          billing_cycle_end?: string | null
+          billing_cycle_start?: string | null
           charged_at?: string
           created_at?: string
           currency?: string | null
           id?: string
+          invoice_id?: string | null
           plan_type?: string
           postcard_id?: string
           profile_id?: string

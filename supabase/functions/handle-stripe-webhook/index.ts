@@ -83,6 +83,20 @@ serve(async (req) => {
               trial_end: trialEnd,
             })
             .eq("stripe_subscription_id", subscription.id);
+
+          // Trigger monthly usage billing for Pro subscriptions at period end
+          const periodEndTime = subscription.current_period_end * 1000;
+          const now = Date.now();
+          const isNearPeriodEnd = (periodEndTime - now) < (24 * 60 * 60 * 1000); // Within 24 hours
+          
+          if (isNearPeriodEnd && subscription.status === 'active') {
+            console.log("Triggering monthly usage billing for subscription period end");
+            try {
+              await supabase.functions.invoke('process-monthly-usage-billing');
+            } catch (billingError) {
+              console.error("Error triggering monthly usage billing:", billingError);
+            }
+          }
         }
         break;
       }
