@@ -65,7 +65,8 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Error processing balance payment:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
@@ -81,7 +82,7 @@ async function handlePayAsYouGoPayment(supabaseClient: any, userId: string, sess
     .from("account_balances")
     .select("*")
     .eq("profile_id", userId)
-    .single();
+    .maybeSingle();
 
   let newBalance;
   if (existingBalance) {
@@ -123,9 +124,11 @@ async function handlePayAsYouGoPayment(supabaseClient: any, userId: string, sess
     .from("subscription_plans")
     .select("*")
     .eq("id", planId || 1) // Default to Free plan (id: 1) if no planId
-    .single();
+    .maybeSingle();
 
-  if (planData) {
+  if (!planData) {
+    console.warn("Plan not found, skipping subscription creation");
+  } else {
     console.log(`Creating subscription for Free plan: ${planData.name}`);
     const { error: subscriptionError } = await supabaseClient
       .from("user_subscriptions")
@@ -163,7 +166,11 @@ async function handleProSubscription(supabaseClient: any, userId: string, sessio
     .from("subscription_plans")
     .select("*")
     .eq("id", planId || 2) // Default to Pro plan (id: 2) if no planId
-    .single();
+    .maybeSingle();
+
+  if (!planData) {
+    throw new Error("Subscription plan not found");
+  }
 
   // Get subscription details from Stripe
   const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {

@@ -102,7 +102,8 @@ serve(async (req) => {
 
   } catch (error) {
     console.error("Error managing account balance:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
@@ -116,15 +117,25 @@ async function initiateAutoTopUp(userId: string, supabaseClient: any, stripe: St
       .from("user_subscriptions")
       .select("stripe_customer_id")
       .eq("profile_id", userId)
-      .single();
+      .maybeSingle();
 
     if (!subscription?.stripe_customer_id) {
       console.error("No Stripe customer ID found for user", userId);
       return;
     }
 
-    // Get customer's default payment method
-    const customer = await stripe.customers.retrieve(subscription.stripe_customer_id);
+    // Get customer's default payment method - handle deleted customers
+    let customer;
+    try {
+      customer = await stripe.customers.retrieve(subscription.stripe_customer_id);
+      if (customer.deleted) {
+        console.error("Stripe customer has been deleted", subscription.stripe_customer_id);
+        return;
+      }
+    } catch (stripeError) {
+      console.error("Failed to retrieve Stripe customer", subscription.stripe_customer_id, stripeError);
+      return;
+    }
     
     if (!customer.invoice_settings?.default_payment_method) {
       console.error("No default payment method for customer", subscription.stripe_customer_id);

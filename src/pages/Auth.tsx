@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { cleanupAuthState } from "@/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 import logoIcon from "@/assets/logo_icon_white.svg";
+import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
+import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 
 function useSEO({ title, description }: { title: string; description: string }) {
   useEffect(() => {
@@ -348,7 +350,14 @@ export default function Auth() {
             )}
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
-              By continuing, you agree to our <Link to="#" className="underline underline-offset-4">Terms</Link> and <Link to="#" className="underline underline-offset-4">Privacy Policy</Link>.
+              By continuing, you agree to our{" "}
+              <TermsOfServiceDialog>
+                <button type="button" className="underline underline-offset-4 hover:text-foreground">Terms</button>
+              </TermsOfServiceDialog>
+              {" "}and{" "}
+              <PrivacyPolicyDialog>
+                <button type="button" className="underline underline-offset-4 hover:text-foreground">Privacy Policy</button>
+              </PrivacyPolicyDialog>.
             </div>
           </CardContent>
         </Card>

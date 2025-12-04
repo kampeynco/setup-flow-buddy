@@ -832,10 +832,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_user_count: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      get_user_count: { Args: never; Returns: number }
     }
     Enums: {
       template_status: "active" | "inactive"

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -209,7 +209,7 @@ const Index = () => {
   };
 
   // Session timeout management
-  const startSessionTimeout = () => {
+  const startSessionTimeout = useCallback(() => {
     // Clear existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -220,23 +220,19 @@ const Index = () => {
       toast.info("Session expired due to inactivity");
       handleSignOut();
     }, SESSION_TIMEOUT);
-  };
+  }, []);
 
-  const resetSessionTimeout = () => {
+  const resetSessionTimeout = useCallback(() => {
     startSessionTimeout();
-  };
+  }, [startSessionTimeout]);
 
   // Activity event listeners to reset timeout
   useEffect(() => {
     const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-    
-    const resetTimeout = () => {
-      resetSessionTimeout();
-    };
 
     // Add event listeners
     events.forEach(event => {
-      document.addEventListener(event, resetTimeout, true);
+      document.addEventListener(event, resetSessionTimeout, true);
     });
 
     // Start initial timeout
@@ -245,7 +241,7 @@ const Index = () => {
     return () => {
       // Clean up event listeners
       events.forEach(event => {
-        document.removeEventListener(event, resetTimeout, true);
+        document.removeEventListener(event, resetSessionTimeout, true);
       });
       
       // Clear timeout
@@ -253,7 +249,7 @@ const Index = () => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [startSessionTimeout, resetSessionTimeout]);
 
   // Load user profile on mount
   useEffect(() => {
@@ -532,7 +528,12 @@ const Index = () => {
             <SubscriptionPill />
           </div>
 
-          <Button className="bg-card text-primary hover:bg-card/90">Get Free Month</Button>
+          <Button 
+            className="bg-card text-primary hover:bg-card/90"
+            onClick={() => toast.info("Referral program coming soon!")}
+          >
+            Get Free Month
+          </Button>
         </div>
       </header>
 
