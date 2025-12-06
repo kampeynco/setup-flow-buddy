@@ -544,6 +544,7 @@ export type Database = {
         Row: {
           backpsc_canvas_direction: string | null
           backpsc_html: string | null
+          backpsc_message_template: string | null
           created_at: string
           frontpsc_background_color: string | null
           frontpsc_background_image: string | null
@@ -562,6 +563,7 @@ export type Database = {
         Insert: {
           backpsc_canvas_direction?: string | null
           backpsc_html?: string | null
+          backpsc_message_template?: string | null
           created_at?: string
           frontpsc_background_color?: string | null
           frontpsc_background_image?: string | null
@@ -580,6 +582,7 @@ export type Database = {
         Update: {
           backpsc_canvas_direction?: string | null
           backpsc_html?: string | null
+          backpsc_message_template?: string | null
           created_at?: string
           frontpsc_background_color?: string | null
           frontpsc_background_image?: string | null
