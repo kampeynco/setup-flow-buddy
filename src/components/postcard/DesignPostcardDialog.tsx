@@ -197,13 +197,13 @@ export function DesignPostcardDialog({
                   <div>
                     <FrontDesigner backgroundImage={backgroundImage} backgroundColor={backgroundColor} imagePosition={imagePosition} onImageChange={setBackgroundImage} onBackgroundColorChange={setBackgroundColor} onImagePositionChange={setImagePosition} />
                   </div>
-                </div> : <div className="grid lg:grid-cols-2 gap-6">
+                </div> : <div className="grid lg:grid-cols-2 gap-6 h-full">
                   {/* Left: Back Preview */}
                   
                   
                   {/* Right: Message Builder */}
-                  <div>
-                    <MessageBuilder value={messageTemplate} onChange={setMessageTemplate} maxLength={500} />
+                  <div className="h-full">
+                    <MessageBuilder value={messageTemplate} onChange={setMessageTemplate} maxLength={500} className="h-full" />
                   </div>
                 </div>}
             </div>}
