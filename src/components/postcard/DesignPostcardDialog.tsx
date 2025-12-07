@@ -199,15 +199,7 @@ export function DesignPostcardDialog({
                   </div>
                 </div> : <div className="grid lg:grid-cols-2 gap-6">
                   {/* Left: Back Preview */}
-                  <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-muted-foreground">Preview</h3>
-                    <div className="overflow-auto rounded-lg border border-border bg-muted/20 p-4">
-                      <BackPreview messageTemplate={messageTemplate} senderDetails={senderDetails} />
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Variables will be replaced with actual donor/sender data when printed
-                    </p>
-                  </div>
+                  
                   
                   {/* Right: Message Builder */}
                   <div>
