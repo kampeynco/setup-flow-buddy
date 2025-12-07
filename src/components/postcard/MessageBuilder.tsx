@@ -68,54 +68,57 @@ export function MessageBuilder({
 
   return (
     <div className={className}>
-      <div className="space-y-4">
-        {/* Recipient Variables */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-muted-foreground">Recipient Variables</Label>
-          <div className="flex flex-wrap gap-2">
-            {RECIPIENT_VARIABLES.map((v) => (
-              <VariableChip
-                key={v.variable}
-                variable={v.variable}
-                label={v.label}
-                onClick={handleVariableClick}
-                variant="recipient"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Sender Variables */}
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-muted-foreground">Sender Variables</Label>
-          <div className="flex flex-wrap gap-2">
-            {SENDER_VARIABLES.map((v) => (
-              <VariableChip
-                key={v.variable}
-                variable={v.variable}
-                label={v.label}
-                onClick={handleVariableClick}
-                variant="sender"
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Message Textarea */}
+      <div className="grid grid-cols-2 gap-6">
+        {/* Left: Message Textarea */}
         <div className="space-y-2">
           <Label className="text-sm font-medium">Message</Label>
           <Textarea
             ref={textareaRef}
             value={value}
             onChange={handleTextChange}
-            placeholder="Write your thank you message. Click the variables above to insert them at the cursor position..."
-            rows={8}
+            placeholder="Write your thank you message. Click the variables on the right to insert them at the cursor position..."
+            rows={12}
             className="font-mono text-sm resize-none"
           />
           <div className="flex justify-end">
             <span className="text-xs text-muted-foreground">
               {value.length}/{maxLength} characters
             </span>
+          </div>
+        </div>
+
+        {/* Right: Variables */}
+        <div className="space-y-4">
+          {/* Recipient Variables */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-muted-foreground">Recipient Variables</Label>
+            <div className="flex flex-wrap gap-2">
+              {RECIPIENT_VARIABLES.map((v) => (
+                <VariableChip
+                  key={v.variable}
+                  variable={v.variable}
+                  label={v.label}
+                  onClick={handleVariableClick}
+                  variant="recipient"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Sender Variables */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-muted-foreground">Sender Variables</Label>
+            <div className="flex flex-wrap gap-2">
+              {SENDER_VARIABLES.map((v) => (
+                <VariableChip
+                  key={v.variable}
+                  variable={v.variable}
+                  label={v.label}
+                  onClick={handleVariableClick}
+                  variant="sender"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
