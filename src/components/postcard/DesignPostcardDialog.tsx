@@ -213,62 +213,69 @@ export function DesignPostcardDialog({ currentUserId }: DesignPostcardDialogProp
               <p className="text-muted-foreground">Loading template...</p>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* Left Column: Editor */}
-              <div className="space-y-4">
-                <Tabs value={tab} onValueChange={(v) => setTab(v as "front" | "back")}>
-                  <TabsList className="w-full">
-                    <TabsTrigger value="front" className="flex-1">Front Design</TabsTrigger>
-                    <TabsTrigger value="back" className="flex-1">Back Message</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+            <div className="space-y-4">
+              <Tabs value={tab} onValueChange={(v) => setTab(v as "front" | "back")}>
+                <TabsList className="w-full">
+                  <TabsTrigger value="front" className="flex-1">Front Design</TabsTrigger>
+                  <TabsTrigger value="back" className="flex-1">Back Message</TabsTrigger>
+                </TabsList>
+              </Tabs>
 
-                {tab === "front" ? (
-                  <FrontDesigner
-                    backgroundImage={backgroundImage}
-                    backgroundColor={backgroundColor}
-                    imagePosition={imagePosition}
-                    onImageChange={setBackgroundImage}
-                    onBackgroundColorChange={setBackgroundColor}
-                    onImagePositionChange={setImagePosition}
-                  />
-                ) : (
-                  <MessageBuilder
-                    value={messageTemplate}
-                    onChange={setMessageTemplate}
-                    maxLength={500}
-                  />
-                )}
-              </div>
-
-              {/* Right Column: Preview */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium text-muted-foreground">
-                  {tab === "front" ? "Front Preview" : "Back Preview"}
-                </h3>
-                
-                <div className="overflow-auto rounded-lg border border-border bg-muted/20 p-4" style={{ minHeight: 300 }}>
-                  {tab === "front" ? (
-                    <FrontPreview
+              {tab === "front" ? (
+                <div className="grid lg:grid-cols-2 gap-6">
+                  {/* Left: Front Preview */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-muted-foreground">Preview</h3>
+                    <div className="overflow-auto rounded-lg border border-border bg-muted/20 p-4">
+                      <FrontPreview
+                        backgroundImage={backgroundImage}
+                        backgroundColor={backgroundColor}
+                        imagePosition={imagePosition}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Recommended: 1875 × 1275 pixels (6.25" × 4.25" at 300 DPI)
+                    </p>
+                  </div>
+                  
+                  {/* Right: Front Fields */}
+                  <div>
+                    <FrontDesigner
                       backgroundImage={backgroundImage}
                       backgroundColor={backgroundColor}
                       imagePosition={imagePosition}
+                      onImageChange={setBackgroundImage}
+                      onBackgroundColorChange={setBackgroundColor}
+                      onImagePositionChange={setImagePosition}
                     />
-                  ) : (
-                    <BackPreview
-                      messageTemplate={messageTemplate}
-                      senderDetails={senderDetails}
-                    />
-                  )}
+                  </div>
                 </div>
-                
-                <p className="text-xs text-muted-foreground">
-                  {tab === "front" 
-                    ? "Recommended: 1875 × 1275 pixels (6.25\" × 4.25\" at 300 DPI)"
-                    : "Variables will be replaced with actual donor/sender data when printed"
-                  }
-                </p>
-              </div>
+              ) : (
+                <div className="grid lg:grid-cols-2 gap-6">
+                  {/* Left: Back Preview */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-muted-foreground">Preview</h3>
+                    <div className="overflow-auto rounded-lg border border-border bg-muted/20 p-4">
+                      <BackPreview
+                        messageTemplate={messageTemplate}
+                        senderDetails={senderDetails}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Variables will be replaced with actual donor/sender data when printed
+                    </p>
+                  </div>
+                  
+                  {/* Right: Message Builder */}
+                  <div>
+                    <MessageBuilder
+                      value={messageTemplate}
+                      onChange={setMessageTemplate}
+                      maxLength={500}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
